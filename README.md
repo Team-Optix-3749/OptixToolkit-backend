@@ -1,2 +1,2 @@
 # OptixToolkit-backend
-🗄 A backend for OptixToolkit.
+🗄 The backend for OptixToolkit.
