@@ -7,7 +7,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 	if (req.body === undefined || req.body.trackingId === undefined) {
 		res.send(
 			JSON.stringify({
-				err: 'Invalid request: please specify trackingId AND courierName!',
+				err: 'Invalid request: please specify trackingId!',
 			})
 		)
 		return
