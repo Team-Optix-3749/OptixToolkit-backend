@@ -22,12 +22,21 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 	const courier = tracker.courier(
 		tracker.COURIER[`${courier_name}`.toUpperCase()].CODE
 	)
+	console.log(courier)
 
-	let result
-	courier.trace(tracking_id, function (err, res) {
-		result = res
+	let done = false
+	courier.trace(tracking_id, function (err, result) {
+		if (!err) {
+			res.send(JSON.stringify(result))
+			done = true
+		}
+		res.send(JSON.stringify(err))
 	})
-
-	console.log(result)
-	res.send(result)
+	if (!done) {
+		res.send(
+			JSON.stringify({
+				error: 'Oh no! There was an error!',
+			})
+		)
+	}
 }
