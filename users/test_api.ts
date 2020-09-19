@@ -1,6 +1,8 @@
 import firebase from '@firebase/app';
 import '@firebase/auth';
 import fetch from 'node-fetch';
+import { config } from 'dotenv'
+config()
 
 firebase.initializeApp({
   apiKey: "AIzaSyBywkBF8HlaLDTgvPM2bxCGXaBuhs8__7I",
@@ -13,8 +15,8 @@ firebase.initializeApp({
   measurementId: "G-0M4XPGFFXM"
 })
 
-const email = 'SUM OF THAT THAT UNAME'
-const password = 'SUM OF THAT PASSWORD'
+const email = process.env.EMAIL
+const password = process.env.PASSWORD
 
 async function main() {
   const { user } = await firebase.auth().signInWithEmailAndPassword(email, password)
