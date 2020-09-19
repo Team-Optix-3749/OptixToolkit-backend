@@ -24,14 +24,19 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 	let done = false
 	courier.trace(trackingId, (err, result) => {
 		if (!err) {
-			res.send(JSON.stringify(result))
+			res.send(
+				JSON.stringify({
+					status: 'success',
+					data: result,
+				})
+			)
 			done = true
 		}
-		res.send(JSON.stringify(err))
 	})
 	if (!done) {
 		res.send(
 			JSON.stringify({
+				status: 'fail',
 				error: 'Oh no! There was an error!',
 			})
 		)
