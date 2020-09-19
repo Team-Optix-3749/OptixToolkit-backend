@@ -1,5 +1,0 @@
-{
-  "env": {
-    "MONGO_URL": "mongodb+srv://team3749:Campillo3749!@cluster0.x0mkh.azure.mongodb.net/OptixTools?retryWrites=true&w=majority"
-  }
-}
