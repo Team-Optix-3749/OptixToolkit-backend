@@ -1,12 +1,10 @@
 import { NowRequest, NowResponse } from '@vercel/node'
 import * as tracker from 'delivery-tracker'
 
+const fetch = require('node-fetch')
+
 module.exports = async (req: NowRequest, res: NowResponse) => {
-	if (
-		req.body === undefined ||
-		req.body.trackingId === undefined ||
-		req.body.courierName === undefined
-	) {
+	if (req.body === undefined || req.body.trackingId === undefined) {
 		res.send(
 			JSON.stringify({
 				err: 'Invalid request: please specify trackingId AND courierName!',
@@ -15,9 +13,15 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		return
 	}
 
-	const { trackingId, courierName } = req.body
+	const fetcher = await fetch(
+		`https://shipit-api.herokuapp.com/api/guess/${req.body.trackingId}`
+	)
+
+	const courierName = await fetcher.json()
+
+	const { trackingId } = req.body
 	const courier = tracker.courier(
-		tracker.COURIER[`${courierName}`.toUpperCase()].CODE
+		tracker.COURIER[`${courierName[0]}`.toUpperCase()].CODE
 	)
 
 	courier.trace(trackingId, (err, result) => {

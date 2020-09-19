@@ -23,6 +23,7 @@
 		"express": "^4.17.1",
 		"firebase-admin": "^9.2.0",
 		"mongoose": "^5.10.5",
+		"node-fetch": "^2.6.1",
 		"ts-node": "^9.0.0"
 	},
 	"devDependencies": {
