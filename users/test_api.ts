@@ -22,8 +22,27 @@ async function main() {
 	const { user } = await firebase
 		.auth()
 		.signInWithEmailAndPassword(email, password)
-	const id_token = await user.getIdToken()
-	const res = await fetch('http://localhost:3000/api/get', {
+  const id_token = await user.getIdToken()
+  
+  console.log("SENDING REQUEST")
+
+  const res2 = await fetch('http://localhost:3000/api/tools/add_tool', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json',
+			Accept: 'application/json',
+			'Accept-Charset': 'utf-8',
+		},
+		body: JSON.stringify({
+      auth: id_token,
+      name: 'a_cool_tool',
+      count: 10
+		}),
+  })
+  
+  console.log(res2)
+
+	const res = await fetch('http://localhost:3000/api/tools/get_tools', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
