@@ -26,7 +26,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 				JSON.stringify(
 					{
 						status: 'success',
-						data: result.status.toLowerCase(),
+						data: result.status,
 					},
 					null,
 					2
