@@ -1,5 +1,6 @@
 import { Tool, tools } from './models'
 import express, {} from 'express'
+import { NowRequest, NowResponse } from '@vercel/node'
 
 const app = express()
 
@@ -17,7 +18,10 @@ app.get('/tracking/:id', async (req, res) => {
   res.send('RESPONSE HERE')
 })
 
-app.listen(process.env.PORT || 3000)
+module.exports = async (req: NowRequest, res: NowResponse) => {
+  const tools_collection = await tools.find()
+  res.send(tools_collection)
+}
 
 
 /*
