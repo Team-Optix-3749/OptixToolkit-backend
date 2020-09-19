@@ -1,9 +1,20 @@
 import { Tool, tools } from './models'
+import express, {} from 'express'
 
-async function getTools () {
+const app = express()
+
+app.get('/get', async (req, res) => {
   const tools_collection = await tools.find()
-  return tools_collection
-}
+  res.send(tools_collection)
+})
+
+
+app.listen(process.env.PORT || 3000)
+
+
+/*
+
+FOR USE LATER
 
 async function addTool (tool: Tool) {
   return tools.create(tool)
@@ -12,10 +23,4 @@ async function addTool (tool: Tool) {
 async function removeTool() {
 
 }
-
-async function main () {
-  await addTool({name: 'Saw', count: 3})
-  console.log(await getTools())
-}
-
-main()
+*/
