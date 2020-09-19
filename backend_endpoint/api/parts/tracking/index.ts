@@ -9,8 +9,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 	) {
 		res.send(
 			JSON.stringify({
-				err:
-					'Invalid request: please specify tracking_id AND courier_name!',
+				err: 'Invalid request: please specify trackingId AND courierName!',
 			})
 		)
 		return
@@ -21,24 +20,25 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		tracker.COURIER[`${courierName}`.toUpperCase()].CODE
 	)
 
-	let done = false
 	courier.trace(trackingId, (err, result) => {
 		if (!err) {
 			res.send(
-				JSON.stringify({
-					status: 'success',
-					data: result,
-				})
+				JSON.stringify(
+					{
+						status: 'success',
+						data: result.status.toLowerCase(),
+					},
+					null,
+					2
+				)
 			)
-			done = true
+			return
 		}
-	})
-	if (!done) {
 		res.send(
 			JSON.stringify({
 				status: 'fail',
-				error: 'Oh no! There was an error!',
+				data: err,
 			})
 		)
-	}
+	})
 }
