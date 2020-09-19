@@ -16,3 +16,4 @@ rules:
    import/no-unresolved: 0
    import/extensions: 0
    eslint/indent: 0
+   import/prefer-default-export: 0
