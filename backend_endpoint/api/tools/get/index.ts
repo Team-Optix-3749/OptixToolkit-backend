@@ -2,7 +2,7 @@ import { Tool, tools } from '../../utils/models'
 import { NowRequest, NowResponse } from '@vercel/node'
 import { request } from 'express'
 import * as admin from 'firebase-admin';
-const serviceAccount = require('../secrets/firebaseServiceKey.json')
+const serviceAccount = require('../../secrets/firebaseServiceKey.json')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
