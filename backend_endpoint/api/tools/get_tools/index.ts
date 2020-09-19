@@ -22,16 +22,3 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 
 	res.status(200).json({ toolsRes })
 }
-
-/*
-
-FOR USE LATER
-
-async function addTool (tool: Tool) {
-  return tools.create(tool)
-}
-
-async function removeTool() {
-
-}
-*/
