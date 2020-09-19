@@ -1,0 +1,14 @@
+{
+  "name": "backend_endpoint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "npm install --prefix backend_endpoint",
+    "start": "cd backend_endpoint && ts-node server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
