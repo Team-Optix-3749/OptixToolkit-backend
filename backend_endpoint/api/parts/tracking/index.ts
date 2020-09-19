@@ -1,14 +1,12 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-
-const tracker = require('delivery-tracker')
+import * as tracker from 'delivery-tracker'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
 	if (
 		req.body === undefined ||
-		req.body.tracking_id === undefined ||
-		req.body.courier_name === undefined
+		req.body.trackingId === undefined ||
+		req.body.courierName === undefined
 	) {
-		console.log(req.body)
 		res.send(
 			JSON.stringify({
 				err:
@@ -18,14 +16,13 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		return
 	}
 
-	const { tracking_id, courier_name } = req.body
+	const { trackingId, courierName } = req.body
 	const courier = tracker.courier(
-		tracker.COURIER[`${courier_name}`.toUpperCase()].CODE
+		tracker.COURIER[`${courierName}`.toUpperCase()].CODE
 	)
-	console.log(courier)
 
 	let done = false
-	courier.trace(tracking_id, function (err, result) {
+	courier.trace(trackingId, (err, result) => {
 		if (!err) {
 			res.send(JSON.stringify(result))
 			done = true

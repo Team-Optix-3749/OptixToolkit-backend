@@ -1,4 +1,6 @@
 import { config } from 'dotenv'
+
 config()
 
-export const MONGO_URL = process.env.MONGO_URL
+const { MONGO_URL } = process.env
+export default MONGO_URL
