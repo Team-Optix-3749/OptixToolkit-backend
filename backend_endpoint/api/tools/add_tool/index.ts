@@ -1,22 +1,12 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import * as admin from 'firebase-admin'
 import { tools } from '../../utils/models'
-
-const serviceAccount = require('../../secrets/firebaseServiceKey.json')
-
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
-})
+import authorize from '../../utils/authorize'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
-	try {
-		const { auth } = req.body
-		const user = await admin.auth().verifyIdToken(auth)
-		if (!user.admin) throw new Error('Invalid user!')
-	} catch (e) {
-		res.status(400).json({ err: 'Unauthorized request!' })
-		return
-	}
+	if (!await authorize(req.body.auth)) {
+    res.status(400).json({ err: 'Unauthorized request!' })
+    return
+  }
 
 	try {
     if (req.body.name === undefined || req.body.count === undefined || typeof(req.body.name) !== "string" || typeof(req.body.count) !== "number") throw new Error('Bad params')
@@ -26,7 +16,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
       count: req.body.count
     })
     console.log("tool created")
-    res.status(200).json({err: 'none'})
+    res.status(200).json({ err: false })
   }
   catch (e) {
     console.log(e)

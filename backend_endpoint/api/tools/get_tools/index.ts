@@ -1,24 +1,15 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import * as admin from 'firebase-admin'
 import { tools } from '../../utils/models'
+import authorize from '../../utils/authorize'
 
 const serviceAccount = require('../../secrets/firebaseServiceKey.json')
 
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
-})
-
 module.exports = async (req: NowRequest, res: NowResponse) => {
-	try {
-		const { auth } = req.body
-		const user = await admin.auth().verifyIdToken(auth)
-		if (!user.member) throw new Error('Invalid user!')
-	} catch (e) {
-		res.status(400).json({ err: 'Unauthorized request!' })
-		return
-	}
-
-	const toolsRes = await tools.find()
-
-	res.status(200).json({ toolsRes })
+  if (await authorize(req.body.auth)) {
+    const toolsRes = await tools.find()
+	  res.status(200).json({ tools: toolsRes, err: false })
+  }
+	else {
+    res.status(400).json({ err: 'Unauthorized request!' })
+  }
 }
