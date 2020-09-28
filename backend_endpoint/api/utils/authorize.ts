@@ -11,9 +11,7 @@ interface options {
 }
 
 export default async function authorize(token: string, options: options = { admin: false }) {
-  console.log(token)
   if (token == undefined) return false
-  console.log("function continued")
   try {
     const user = await admin.auth().verifyIdToken(token)
     if (!user.member) throw new Error('Invalid user!')
