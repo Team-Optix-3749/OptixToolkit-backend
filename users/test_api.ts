@@ -53,7 +53,7 @@ async function main() {
 			auth: id_token,
 		}),
 	})
-	console.log(await res.json())
+	//console.log(await res.json())
 }
 
 main()
