@@ -26,7 +26,7 @@ async function main() {
   
   console.log("SENDING REQUEST")
 
-  const res2 = await fetch('http://localhost:3000/api/parts/add', {
+  await fetch('http://localhost:3000/api/parts/add', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
@@ -36,7 +36,7 @@ async function main() {
 		body: JSON.stringify({
       auth: id_token,
       uid: user.uid,
-      name: 'a_cool_part',
+      name: 'a_cool_part_2',
       link: 'https://aaditgupta.tech',
       trackingNumber: 'LZ661737688US',
       description:'cool part',

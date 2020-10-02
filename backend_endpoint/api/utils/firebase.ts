@@ -10,7 +10,7 @@ interface options {
   admin: boolean
 }
 
-export default async function authorize(token: string, options: options = { admin: false }) {
+export async function authorize(token: string, options: options = { admin: false }) {
   if (token == undefined) return false
   try {
     const user = await admin.auth().verifyIdToken(token)
@@ -20,5 +20,17 @@ export default async function authorize(token: string, options: options = { admi
   }
   catch (e) {
     return false
+  }
+}
+
+export async function getDisplayName(uid: string) {
+  if (uid === undefined) {
+    return 'None'
+  }
+  try {
+    return (await admin.auth().getUser(uid)).displayName
+  }
+  catch (e) {
+    return 'None'
   }
 }

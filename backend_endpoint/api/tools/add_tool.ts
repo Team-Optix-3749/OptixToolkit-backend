@@ -1,9 +1,9 @@
 import { NowRequest, NowResponse } from '@vercel/node'
 import { tools, Tool } from '../utils/models'
-import authorize from '../utils/authorize'
+import { authorize } from '../utils/firebase'
 
 function validateTool (body: any): body is Tool {
-  return typeof(body.name) === "string" && typeof(body.link) === "string"
+  return typeof(body.name) === "string" && typeof(body.count) === "number"
 }
 
 module.exports = async (req: NowRequest, res: NowResponse) => {

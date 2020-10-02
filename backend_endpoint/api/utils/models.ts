@@ -8,14 +8,13 @@ mongoose.connect(MONGO_URL, {
 
 /* Tools */
 
-interface ToolDoc extends Document {
+export interface Tool {
 	name: string
 	count: number
 }
 
-export interface Tool {
-	name: string
-	count: number
+interface ToolDoc extends Document, Tool {
+
 }
 
 const ToolSchema: Schema = new Schema({
@@ -27,15 +26,6 @@ export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)
 
 /* Parts */
 
-interface PartDoc extends Document {
-  uid: string
-  name: string
-  link: string
-  trackingNumber: string
-  description: string
-  priority: number
-}
-
 export interface Part {
 	uid: string
   name: string
@@ -43,6 +33,14 @@ export interface Part {
   trackingNumber: string
   description: string
   priority: number
+}
+
+interface PartDoc extends Document, Part {
+
+}
+
+export interface FullPart extends Part {
+  displayName: string
 }
 
 const PartSchema: Schema = new Schema({
