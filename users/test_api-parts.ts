@@ -35,6 +35,7 @@ async function main() {
 		},
 		body: JSON.stringify({
       auth: id_token,
+      uid: user.uid,
       name: 'a_cool_part',
       link: 'https://aaditgupta.tech',
       trackingNumber: 'LZ661737688US',
@@ -42,6 +43,21 @@ async function main() {
       priority: 3
 		}),
   })
+
+
+	const res = await fetch('http://localhost:3000/api/parts/get', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json',
+			Accept: 'application/json',
+			'Accept-Charset': 'utf-8',
+		},
+		body: JSON.stringify({
+			auth: id_token,
+		}),
+	})
+
+  console.log(await res.json())
   
 }
 

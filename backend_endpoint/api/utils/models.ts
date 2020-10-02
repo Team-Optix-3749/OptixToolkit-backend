@@ -28,6 +28,7 @@ export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)
 /* Parts */
 
 interface PartDoc extends Document {
+  uid: string
   name: string
   link: string
   trackingNumber: string
@@ -36,7 +37,8 @@ interface PartDoc extends Document {
 }
 
 export interface Part {
-	name: string
+	uid: string
+  name: string
   link: string
   trackingNumber: string
   description: string
@@ -44,7 +46,8 @@ export interface Part {
 }
 
 const PartSchema: Schema = new Schema({
-	name: { type: String, required: true },
+	uid: { type: String, required: true },
+  name: { type: String, required: true },
   link: { type: String, required: true },
   trackingNumber: { type: String, required: true },
   description: { type: String, required: true },
