@@ -36,7 +36,7 @@ async function main() {
 		body: JSON.stringify({
       auth: id_token,
       uid: user.uid,
-      name: 'a_cool_part_2',
+      name: 'rohans_part',
       link: 'https://aaditgupta.tech',
       trackingNumber: 'LZ661737688US',
       description:'cool part',

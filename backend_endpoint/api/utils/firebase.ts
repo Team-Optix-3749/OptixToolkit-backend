@@ -23,14 +23,23 @@ export async function authorize(token: string, options: options = { admin: false
   }
 }
 
-export async function getDisplayName(uid: string) {
+export async function appendDisplayName(uid: string, object: any) {
   if (uid === undefined) {
-    return 'None'
+    return {
+      ...object,
+      displayName: 'None'
+    }
   }
   try {
-    return (await admin.auth().getUser(uid)).displayName
+    return { 
+      ...object,
+      displayName: (await admin.auth().getUser(uid)).displayName 
+    }
   }
   catch (e) {
-    return 'None'
+    return {
+      ...object,
+      displayName: 'None'
+    }
   }
 }
