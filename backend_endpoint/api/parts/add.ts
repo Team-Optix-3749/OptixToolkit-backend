@@ -7,6 +7,11 @@ function validatePart (body: any): body is Part {
 }
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
+  if (req.body === undefined) {
+    res.status(400).json({ err: 'No Body!' })
+    return
+  }
+
 	if (!await authorize(req.body.auth, { admin: true })) {
     res.status(400).json({ err: 'Unauthorized request!' })
     return

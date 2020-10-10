@@ -3,6 +3,11 @@ import { FullPart, parts, Part } from '../utils/models'
 import { authorize, appendDisplayName } from '../utils/firebase'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
+  if (req.body === undefined) {
+    res.status(400).json({ err: 'No Body!' })
+    return
+  }
+
   if (await authorize(req.body.auth)) {
     const result = await parts.find()
     const partsArr: FullPart[] = await Promise.all(result.map(part => appendDisplayName(part.uid,part.toObject())))
