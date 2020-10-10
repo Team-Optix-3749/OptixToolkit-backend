@@ -30,7 +30,10 @@ export interface Part {
 	uid: string
   name: string
   link: string
-  trackingNumber: string
+  trackingInfo: {
+    trackingId: string,
+    carrier: string
+  }, 
   description: string
   priority: number
 }
@@ -47,7 +50,10 @@ const PartSchema: Schema = new Schema({
 	uid: { type: String, required: true },
   name: { type: String, required: true },
   link: { type: String, required: true },
-  trackingNumber: { type: String, required: true },
+  trackingInfo: {
+    trackingId: { type: String, required: true },
+    carrier: { type: String, required: true }
+  },
   description: { type: String, required: true },
   priority: { type: Number, required: true }
 })

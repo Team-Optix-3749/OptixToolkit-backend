@@ -26,7 +26,7 @@ async function main() {
   
   console.log("SENDING REQUEST")
 
-  await fetch('http://localhost:3000/api/parts/add', {
+  /*await fetch('http://localhost:3000/api/parts/add', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
@@ -37,12 +37,15 @@ async function main() {
       auth: id_token,
       uid: user.uid,
       name: 'rohans_part',
-      link: 'https://aaditgupta.tech',
-      trackingNumber: 'LZ661737688US',
+      link: 'https://rohanj.dev',
+      trackingInfo: {
+        trackingId: 'LZ661737688US',
+        carrier: 'USPS'
+      },
       description:'cool part',
       priority: 3
 		}),
-  })
+  })*/
 
 
 	const res = await fetch('http://localhost:3000/api/parts/get', {
@@ -57,8 +60,9 @@ async function main() {
 		}),
 	})
 
-  console.log(await res.json())
-  
+  const json = await res.json()
+  console.log(json)
+  console.log(json.parts[0].trackingInfo)
 }
 
 main()
