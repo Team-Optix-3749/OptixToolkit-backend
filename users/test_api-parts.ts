@@ -17,6 +17,7 @@ firebase.initializeApp({
 
 const email = process.env.EMAIL
 const password = process.env.PASSWORD
+const SERVER_URL = process.env.SERVER_URL
 
 async function main() {
 	const { user } = await firebase
@@ -26,7 +27,7 @@ async function main() {
   
   console.log("SENDING REQUEST")
 
-  /*await fetch('http://localhost:3000/api/parts/add', {
+  /*await fetch(SERVER_URL+'parts/add', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
@@ -48,7 +49,7 @@ async function main() {
   })*/
 
 
-	const res = await fetch('http://localhost:3000/api/parts/get', {
+	const res = await fetch(SERVER_URL+'parts/get', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
