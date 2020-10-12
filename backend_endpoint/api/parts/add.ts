@@ -18,8 +18,9 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
   }
 
 	try {
+    console.log("REQ BODY BELOW")
+    console.log(req.body) 
     if (!validatePart(req.body)) {
-      console.log(req.body) 
       throw new Error('Bad params') 
     }
     await parts.create(req.body)
