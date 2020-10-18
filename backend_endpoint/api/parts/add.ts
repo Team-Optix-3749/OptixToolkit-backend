@@ -1,6 +1,7 @@
 import { NowRequest, NowResponse } from '@vercel/node'
 import { parts, Part } from '../utils/models'
 import { authorize } from '../utils/firebase'
+import { trackPackage } from '../utils/tracking'
 
 function validatePart (body: any): body is Part {
   return typeof(body.uid) === "string" && typeof(body.name) === "string" && typeof(body.link) === "string" && typeof(body.trackingInfo.trackingId) === "string" && typeof(body.trackingInfo.carrier) === "string" &&  typeof(body.description) === "string" && typeof(body.priority) === "number"
@@ -19,15 +20,15 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 
 	try {
     console.log("REQ BODY BELOW")
-    console.log(req.body) 
+    console.log(req.body)
     if (!validatePart(req.body)) {
       throw new Error('Bad params') 
     }
+    await trackPackage(req.body.trackingInfo.trackingId,req.body.trackingInfo.carrier)
     await parts.create(req.body)
     res.status(200).json({ err: false })
   }
   catch (e) {
-    console.log(e)
-    res.status(400).json({ err: 'Bad Params!' })
+    res.status(400).json({ err: e.message })
   }
 }

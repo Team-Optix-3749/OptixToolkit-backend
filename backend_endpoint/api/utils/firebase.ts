@@ -23,7 +23,9 @@ export async function authorize(token: string, options: options = { admin: false
   }
 }
 
-export async function appendDisplayName(uid: string, object: any) {
+export async function appendDisplayName(uid: string, object_promise: Promise<any>) {
+  const object = await object_promise
+
   if (uid === undefined) {
     return {
       ...object,

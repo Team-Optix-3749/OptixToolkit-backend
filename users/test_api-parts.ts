@@ -27,7 +27,7 @@ async function main() {
   
   console.log("SENDING REQUEST")
 
-  /*await fetch(SERVER_URL+'parts/add', {
+  await fetch(SERVER_URL+'parts/add', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
@@ -40,13 +40,13 @@ async function main() {
       name: 'rohans_part',
       link: 'https://rohanj.dev',
       trackingInfo: {
-        trackingId: 'LZ661737688US',
-        carrier: 'USPS'
+        trackingId: '1Z9A99V11255465700',
+        carrier: 'UPS'
       },
       description:'cool part',
       priority: 3
 		}),
-  })*/
+  })
 
 
 	const res = await fetch(SERVER_URL+'parts/get', {

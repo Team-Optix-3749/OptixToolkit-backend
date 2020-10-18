@@ -6,34 +6,37 @@ config()
 const key = process.env.KEY
 const api = new Easypost(key);
 
-async function createTracker (trackingId: string, carrier: string): Promise<{ id: string, status: string }> {
+export async function trackPackage (trackingId: string, carrier: string): Promise<string> {
   const tracker = new api.Tracker({
     tracking_code: trackingId,
     carrier: carrier,
   });
 
   try {
-    const { id, status } = (await tracker.save())
-    return {
-      id,
-      status
-    }
+    const { status } = (await tracker.save())
+    if (!status) throw new Error("No status")
+    return status
   }
   catch (e) {
     throw new Error("Bad Tracking Id")
   }
 }
 
-async function getTracker (trackingNumber: string): Promise<{ tracking_code: string, carrier: string, status: string }> {
+
+export async function appendTrackingInfo (object_promise: Promise<any>, trackingId: string, carrier: string) {
+  const object = await object_promise
+
   try {
-    const { tracking_code, carrier, status } = await api.Tracker.retrieve(trackingNumber)
+    const status = await trackPackage(trackingId,carrier)
     return {
-      tracking_code,
-      carrier,
+      ...object,
       status
     }
   }
   catch (e) {
-    throw new Error("Bad Tracking Number")
+    return {
+      ...object,
+      status: 'Not Availible'
+    }
   }
 }
