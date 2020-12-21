@@ -57,7 +57,7 @@ async function createMember(email: string, name: string) {
 
 	await admin
 		.auth()
-		.setCustomUserClaims(user.uid, { admin: true, member: true })
+		.setCustomUserClaims(user.uid, { member: true })
 
 	return firebase.auth().sendPasswordResetEmail(email)
 }
