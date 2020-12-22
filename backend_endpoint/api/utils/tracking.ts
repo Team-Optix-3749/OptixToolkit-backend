@@ -34,6 +34,7 @@ export async function appendTrackingInfo (object_promise: Promise<any>, tracking
     }
   }
   catch (e) {
+    console.log(e)
     return {
       ...object,
       status: 'Not Availible'
