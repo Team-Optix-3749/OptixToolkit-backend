@@ -108,3 +108,5 @@ firebaseServiceKey.json
 .vercel
 
 test_api.ts
+
+users.csv
