@@ -18,6 +18,7 @@ export async function trackPackage (trackingId: string, carrier: string): Promis
     return status
   }
   catch (e) {
+    console.log(e)
     throw new Error("Bad Tracking Id")
   }
 }
