@@ -10,7 +10,10 @@ mongoose.connect(MONGO_URL, {
 
 export interface Tool {
 	name: string
-	count: number
+  category: string
+  status: string
+  reservations: string[]
+  user: String
 }
 
 interface ToolDoc extends Document, Tool {
@@ -18,8 +21,11 @@ interface ToolDoc extends Document, Tool {
 }
 
 const ToolSchema: Schema = new Schema({
-	name: { type: String, required: true },
-	count: { type: Number, required: true },
+  name: { type: String, required: true },
+  category: { type: String, required: true },
+  reservations: { type: [String], required: true },
+  status: { type: String, required: true },
+  user: { type: String, required: true }
 })
 
 export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)

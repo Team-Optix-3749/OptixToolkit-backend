@@ -35,12 +35,26 @@ async function main() {
 		},
 		body: JSON.stringify({
       auth: id_token,
-      name: 'a_cool_tool',
-      count: 10
+      name: 'Sample Tool 1',
+      category: 'Sample Tool'
+		}),
+  })
+
+  const res3 = await fetch('http://localhost:3000/api/tools/add_tool', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json',
+			Accept: 'application/json',
+			'Accept-Charset': 'utf-8',
+		},
+		body: JSON.stringify({
+      auth: id_token,
+      name: 'Sample Tool 2',
+      category: 'Sample Tool'
 		}),
   })
   
-  console.log(res2)
+  console.log(await res2.json(), await res3.json())
 
 	const res = await fetch('http://localhost:3000/api/tools/get_tools', {
 		method: 'post',
@@ -53,7 +67,35 @@ async function main() {
 			auth: id_token,
 		}),
 	})
-	console.log(await res.json())
+  console.log(await res.json())
+  
+  const res5 = await fetch('http://localhost:3000/api/tools/get_category', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json',
+			Accept: 'application/json',
+			'Accept-Charset': 'utf-8',
+		},
+		body: JSON.stringify({
+      auth: id_token,
+      category: 'Sample Tool'
+		}),
+	})
+  console.log(await res5.json())
+  
+  const res6 = await fetch('http://localhost:3000/api/tools/get_tool', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json',
+			Accept: 'application/json',
+			'Accept-Charset': 'utf-8',
+		},
+		body: JSON.stringify({
+      auth: id_token,
+      name: 'Sample Tool 2'
+		}),
+	})
+	console.log(await res6.json())
 }
 
 main()

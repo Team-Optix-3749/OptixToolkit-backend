@@ -3,7 +3,7 @@ import { tools, Tool } from '../utils/models'
 import { authorize } from '../utils/firebase'
 
 function validateTool (body: any): body is Tool {
-  return typeof(body.name) === "string" && typeof(body.count) === "number"
+  return typeof(body.name) === "string" && typeof(body.category) === "string"
 }
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
@@ -16,7 +16,10 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
     if (!validateTool(req.body)) throw new Error('Bad params')
     await tools.create({
       name: req.body.name,
-      count: req.body.count
+      category: req.body.category,
+      reservations: [],
+      user: "null",
+      status: "notInUse",
     })
     res.status(200).json({ err: false })
   }
