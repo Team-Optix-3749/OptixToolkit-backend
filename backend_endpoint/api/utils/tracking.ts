@@ -22,23 +22,3 @@ export async function trackPackage (trackingId: string, carrier: string): Promis
     throw new Error("Bad Tracking Id")
   }
 }
-
-
-export async function appendTrackingInfo (object_promise: Promise<any>, trackingId: string, carrier: string) {
-  const object = await object_promise
-
-  try {
-    const status = await trackPackage(trackingId,carrier)
-    return {
-      ...object,
-      status
-    }
-  }
-  catch (e) {
-    console.log(e)
-    return {
-      ...object,
-      status: 'Not Availible'
-    }
-  }
-}

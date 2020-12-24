@@ -38,10 +38,11 @@ export interface Part {
   link: string
   trackingInfo: {
     trackingId: string,
-    carrier: string
+    carrier: string,
   }, 
   description: string
-  priority: number
+  priority: number,
+  status: string
 }
 
 interface PartDoc extends Document, Part {
@@ -58,10 +59,11 @@ const PartSchema: Schema = new Schema({
   link: { type: String, required: true },
   trackingInfo: {
     trackingId: { type: String, required: true },
-    carrier: { type: String, required: true }
+    carrier: { type: String, required: true },
   },
   description: { type: String, required: true },
-  priority: { type: Number, required: true }
+  priority: { type: Number, required: true },
+  status: { type: String, required: true }
 })
 
 export const parts = mongoose.model<PartDoc>('parts', PartSchema)

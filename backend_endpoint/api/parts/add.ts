@@ -24,7 +24,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
     if (!validatePart(req.body)) {
       throw new Error('Bad params') 
     }
-    await trackPackage(req.body.trackingInfo.trackingId,req.body.trackingInfo.carrier)
+    req.body.status = await trackPackage(req.body.trackingInfo.trackingId,req.body.trackingInfo.carrier)
     await parts.create(req.body)
     res.status(200).json({ err: false })
   }

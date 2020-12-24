@@ -1,7 +1,6 @@
 import { NowRequest, NowResponse } from '@vercel/node'
 import { FullPart, parts, Part } from '../utils/models'
 import { authorize, appendDisplayName } from '../utils/firebase'
-import { appendTrackingInfo } from '../utils/tracking'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
   if (req.body === undefined) {
@@ -13,11 +12,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
     const result = await parts.find()
     const partsArr: FullPart[] = await Promise.all(
       result.map(part => 
-        appendTrackingInfo(
-          appendDisplayName(part.uid,part.toObject()),
-          part.trackingInfo.trackingId,
-          part.trackingInfo.carrier
-        )
+        appendDisplayName(part.uid,part.toObject()),
       )
     )
 
