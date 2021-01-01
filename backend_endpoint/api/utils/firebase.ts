@@ -16,7 +16,7 @@ export async function authorize(token: string, options: options = { admin: false
     const user = await admin.auth().verifyIdToken(token)
     if (!user.member) throw new Error('Invalid user!')
     if (!user.admin && options.admin) throw new Error('User not Admin!')
-    return true
+    return user
   }
   catch (e) {
     return false
