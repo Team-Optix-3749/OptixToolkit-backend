@@ -1,6 +1,6 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import { WEBHOOK_SECRET } from '../../utils/config'
-import { parts, Part } from '../../utils/models'
+import { WEBHOOK_SECRET } from '../../utils/utils'
+import { parts, Part } from '../../utils/utils'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
   const { secret } = req.query

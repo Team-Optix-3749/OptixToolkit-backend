@@ -1,7 +1,7 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import { parts, Part } from '../utils/models'
-import { authorize } from '../utils/firebase'
-import { trackPackage } from '../utils/tracking'
+import { parts, Part } from '../utils/utils'
+import { authorize } from '../utils/utils'
+import { trackPackage } from '../utils/utils'
 
 function validatePart (body: any): body is Part {
   return typeof(body.uid) === "string" && typeof(body.name) === "string" && typeof(body.link) === "string" && typeof(body.trackingInfo.trackingId) === "string" && typeof(body.trackingInfo.carrier) === "string" &&  typeof(body.description) === "string" && typeof(body.priority) === "number"
