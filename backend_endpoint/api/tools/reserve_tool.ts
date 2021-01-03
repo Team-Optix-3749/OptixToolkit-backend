@@ -9,12 +9,12 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		const { uid } = user
 
 		if (tool.status == 'outOfService') {
-			res.status(400).json({ err: 'Tool is broken!' })
+			res.status(400).json({ err: 'This tool is broken!' })
 			return
 		}
 
     if (tool.reservations.includes(uid)) {
-      res.status(400).json({ err: 'You have already reserved this tool' })
+      res.status(400).json({ err: 'You have already reserved this tool!' })
       return
     }
 
