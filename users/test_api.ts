@@ -26,7 +26,7 @@ async function main() {
   
   console.log("SENDING REQUEST")
 
-  const res2 = await fetch('http://localhost:3000/api/tools/add_tool', {
+  /*const res2 = await fetch('http://localhost:3000/api/tools/add_tool', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
@@ -95,7 +95,25 @@ async function main() {
       name: 'Sample Tool 2'
 		}),
 	})
-	console.log(await res6.json())
+  console.log(await res6.json())*/
+  
+  try {
+    const res6 = await fetch('http://localhost:3000/api/tools/get_tools', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json',
+			Accept: 'application/json',
+			'Accept-Charset': 'utf-8',
+		},
+		body: JSON.stringify({
+      auth: id_token,
+		}),
+	})
+	console.log((await res6.json()).tools.map(thing => thing.reservations))
+  }
+  catch (e) {
+    console.log(e)
+  }
 }
 
 main()

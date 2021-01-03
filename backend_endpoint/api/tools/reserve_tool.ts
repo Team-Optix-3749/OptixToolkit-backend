@@ -20,13 +20,9 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 
     await tools.update(
       { name: req.body.toolname },
-      { $push: { reservations: uid } }
+      { $push: { reservations: uid }, status: 'reserved' }
     )
-		
-	tool.status = 'reserve'
-
-	await tool.save()
-		
+		      
     res.status(200).json({ err: false })
   }
 	else {

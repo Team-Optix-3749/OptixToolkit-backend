@@ -62,6 +62,16 @@ export async function appendDisplayName(
 	}
 }
 
+export async function getDisplayName(uid: string) {
+  if (uid === undefined) return 'None'
+  try {
+    return (await admin.auth().getUser(uid)).displayName
+  }
+  catch {
+    return uid
+  }
+}
+
 //Models
 
 import mongoose, { Schema, Document } from 'mongoose'
