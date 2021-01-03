@@ -14,7 +14,16 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		}
 
     if (tool.reservations.includes(uid)) {
-      res.status(400).json({ err: 'You have already reserved this tool!' })
+      await tools.update(
+				{ name: req.body.toolname },
+				{ $pull: { reservations: uid } }
+		)
+		 
+		if (tool.reservations.length === 0) {
+			tool.status = 'notInUse'
+
+			await tool.save()
+		}
       return
     }
 
