@@ -14,16 +14,19 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		}
 
     if (tool.reservations.includes(uid)) {
-      await tools.update(
-				{ name: req.body.toolname },
-				{ $pull: { reservations: uid } }
-		)
-		 
-		if (tool.reservations.length === 0) {
-			tool.status = 'notInUse'
-
-			await tool.save()
-		}
+      if (tool.reservations.length <= 1) {
+        await tools.update(
+          { name: req.body.toolname },
+          { $pull: { reservations: uid }, status: 'notInUse' }
+        ) 
+      }
+      else {
+        await tools.update(
+          { name: req.body.toolname },
+          { $pull: { reservations: uid } }
+        ) 
+      }
+      res.status(200).json({ err: false })
       return
     }
 
