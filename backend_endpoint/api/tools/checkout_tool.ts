@@ -9,12 +9,12 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		const { uid } = user
 
 		if (tool.status == 'outOfService') {
-			res.status(400).json({ err: 'Tool is broken!' })
+			res.status(400).json({ err: 'This tool is broken!' })
 			return
 		}
 
 		if (tool.reservations[0] !== uid) {
-			res.status(400).json({ err: 'Not First!' })
+			res.status(400).json({ err: 'You are not first in line!' })
 			return
 		}
 
