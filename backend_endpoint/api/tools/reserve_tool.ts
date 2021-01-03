@@ -14,7 +14,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		}
 
     if (tool.reservations.includes(uid)) {
-      res.status(400).json({ err: 'You have already reserved tool' })
+      res.status(400).json({ err: 'You have already reserved this tool' })
       return
     }
 
