@@ -9,7 +9,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		const { uid } = user
 
 		if (tool.status !== 'inUse' || tool.reservations[0] !== uid) {
-			res.status(400).json({ err: 'You are using this tool!' })
+			res.status(400).json({ err: 'You are not using this tool!' })
 			return
 		}
 
