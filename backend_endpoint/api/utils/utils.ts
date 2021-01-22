@@ -12,14 +12,12 @@ export const { MONGO_URL, WEBHOOK_SECRET } = process.env
 
 import * as admin from 'firebase-admin'
 
-const serviceAccount = require('../secrets/firebaseServiceKey.json')
-
 admin.initializeApp({
 	credential: admin.credential.cert({
-		projectId: process.env.FIREBASE_PROJECT_ID, 
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
-	})
+		projectId: process.env.FIREBASE_PROJECT_ID,
+		clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+		privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+	}),
 })
 
 interface options {
@@ -67,13 +65,12 @@ export async function appendDisplayName(
 }
 
 export async function getDisplayName(uid: string) {
-  if (uid === undefined) return 'None'
-  try {
-    return (await admin.auth().getUser(uid)).displayName
-  }
-  catch {
-    return uid
-  }
+	if (uid === undefined) return 'None'
+	try {
+		return (await admin.auth().getUser(uid)).displayName
+	} catch {
+		return uid
+	}
 }
 
 //Models
