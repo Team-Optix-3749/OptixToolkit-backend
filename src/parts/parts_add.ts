@@ -15,7 +15,7 @@ function validatePart(body: any): body is Part {
 	)
 }
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
+export default async function parts_add(req: NowRequest, res: NowResponse) {
 	if (req.body === undefined) {
 		res.status(400).json({ err: 'No Body!' })
 		return

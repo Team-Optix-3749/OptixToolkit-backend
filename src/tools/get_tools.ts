@@ -2,7 +2,7 @@ import { NowRequest, NowResponse } from '@vercel/node'
 import { Tool, tools } from '../utils/models'
 import { getDisplayName, authorize } from '../utils/firebase'
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
+export default async function get_tools(req: NowRequest, res: NowResponse) {
 	if (await authorize(req.body.auth)) {
 		let toolsRes = await tools.find()
 		let newToolsRes: Tool[] = []

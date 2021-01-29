@@ -2,7 +2,7 @@ import { NowRequest, NowResponse } from '@vercel/node'
 import { authorize } from '../utils/firebase'
 import { tools } from '../utils/models'
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
+export default async function get_category(req: NowRequest, res: NowResponse) {
 	if (await authorize(req.body.auth)) {
 		if (typeof req.body.category !== 'string') {
 			res.status(400).json({ err: 'Bad Params!' })

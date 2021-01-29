@@ -2,7 +2,10 @@ import { NowRequest, NowResponse } from '@vercel/node'
 import { authorize } from '../utils/firebase'
 import { tools } from '../utils/models'
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
+export default async function change_tool_status(
+	req: NowRequest,
+	res: NowResponse
+) {
 	if (await authorize(req.body.auth, { admin: true })) {
 		const tool = await tools.findOne({ name: req.body.toolname })
 
