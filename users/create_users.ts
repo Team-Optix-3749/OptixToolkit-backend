@@ -57,43 +57,47 @@ async function createMember(email: string, name: string) {
 		})
 	}
 
-	await admin
-		.auth()
-		.setCustomUserClaims(user.uid, { member: true })
+	await admin.auth().setCustomUserClaims(user.uid, { member: true })
 
 	return firebase.auth().sendPasswordResetEmail(email)
 }
 
 const newline = /\r?\n/
-const csv = fs.readFileSync(path.join(__dirname,'users.csv'), { encoding: 'utf-8' }).toString().split(newline)
+const csv = fs
+	.readFileSync(path.join(__dirname, 'users.csv'), { encoding: 'utf-8' })
+	.toString()
+	.split(newline)
 
 const promises = []
 
 for (const row of csv) {
-  if (row.split(',').length < 3) continue
-  const [ name, email, status ] = row.split(',')
+	if (row.split(',').length < 3) continue
+	const [name, email, status] = row.split(',')
 
-  if (status.toLowerCase() == 'admin') {
-    const promise = createAdmin(email, name).then(() => {
-      console.log(`${name} created successfully as Admin`)
-    }).catch((e) => {
-      console.error(`Error occured for ${name} as Admin: ${e.message}`)
-    })
-    promises.push(promise)
-  }
-  else {
-    const promise = createMember(email, name).then(() => {
-      console.log(`${name} created successfully as Member`)
-    }).catch((e) => {
-      console.error(`Error occured for ${name} as Member: ${e.message}`)
-    })
-    promises.push(promise)
-  }
+	if (status.toLowerCase() == 'admin') {
+		const promise = createAdmin(email, name)
+			.then(() => {
+				console.log(`${name} created successfully as Admin`)
+			})
+			.catch((e) => {
+				console.error(`Error occured for ${name} as Admin: ${e.message}`)
+			})
+		promises.push(promise)
+	} else {
+		const promise = createMember(email, name)
+			.then(() => {
+				console.log(`${name} created successfully as Member`)
+			})
+			.catch((e) => {
+				console.error(`Error occured for ${name} as Member: ${e.message}`)
+			})
+		promises.push(promise)
+	}
 }
 
 Promise.all(promises).finally(() => {
-  console.log("Completing program...")
-  process.exit(0)
+	console.log('Completing program...')
+	process.exit(0)
 })
 /*createAdmin('admin@team3749.org', 'Admin').then(() => {
 	console.log('job finished')

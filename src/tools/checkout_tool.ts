@@ -1,6 +1,6 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import { authorize } from '../../../src/utils'
-import { tools } from '../../../src/utils'
+import { authorize } from '../utils/firebase'
+import { tools } from '../utils/models'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
 	const user = await authorize(req.body.auth)
