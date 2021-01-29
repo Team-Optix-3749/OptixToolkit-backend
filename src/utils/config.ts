@@ -1,6 +1,6 @@
-import { config } from 'dotenv'
-
-config()
+if (process.env.VERCEL_ENV !== 'production' && process.env.VERCEL_ENV !== 'preview') {
+	require("dotenv").config()	
+}
 
 console.log(process.env.MONGO_URL, process.env.WEBHOOK_SECRET)
 
