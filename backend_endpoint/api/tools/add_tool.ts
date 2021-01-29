@@ -1,6 +1,6 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import { tools, Tool } from '../utils/utils'
-import { authorize } from '../utils/utils'
+import { tools, Tool } from '../../../src/utils'
+import { authorize } from '../../../src/utils'
 
 function validateTool(body: any): body is Tool {
 	return typeof body.name === 'string' && typeof body.category === 'string'

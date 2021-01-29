@@ -1,6 +1,6 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import { authorize } from '../utils/utils'
-import { tools } from '../utils/utils'
+import { authorize } from '../../../src/utils'
+import { tools } from '../../../src/utils'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
 	if (await authorize(req.body.auth, { admin: true })) {

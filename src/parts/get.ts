@@ -1,6 +1,6 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import { FullPart, parts, Part } from '../utils/utils'
-import { authorize, appendDisplayName } from '../utils/utils'
+import { FullPart, parts, Part } from '../utils/models'
+import { authorize, appendDisplayName } from '../utils/firebase'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
 	if (req.body === undefined) {

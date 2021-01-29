@@ -1,6 +1,6 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import { authorize } from '../utils/utils'
-import { tools } from '../utils/utils'
+import { authorize } from '../../../src/utils'
+import { tools } from '../../../src/utils'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
 	const user = await authorize(req.body.auth)
@@ -18,13 +18,13 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
         await tools.update(
           { name: req.body.toolname },
           { $pull: { reservations: uid }, status: 'notInUse' }
-        ) 
+        )
       }
       else {
         await tools.update(
           { name: req.body.toolname },
           { $pull: { reservations: uid } }
-        ) 
+        )
       }
       res.status(200).json({ err: false })
       return
@@ -34,7 +34,7 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
       { name: req.body.toolname },
       { $push: { reservations: uid }, status: 'reserved' }
     )
-		      
+
     res.status(200).json({ err: false })
   }
 	else {
