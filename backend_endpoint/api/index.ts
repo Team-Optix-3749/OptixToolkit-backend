@@ -1,6 +1,7 @@
 import { NowRequest, NowResponse } from '@vercel/node'
 import parts_add from '../../src/parts/parts_add'
 import parts_get from '../../src/parts/parts_get'
+import parts_remove from '../../src/parts/parts_remove'
 import add_tool from '../../src/tools/add_tool'
 import change_tool_status from '../../src/tools/change_tool_status'
 import checkout_tool from '../../src/tools/checkout_tool'
@@ -17,6 +18,9 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 			break
 		case 'parts-add':
 			parts_add(req, res)
+			break
+		case 'parts-remove':
+			parts_remove(req, res)
 			break
 		case 'add-tool':
 			add_tool(req, res)
