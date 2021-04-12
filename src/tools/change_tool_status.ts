@@ -9,7 +9,7 @@ export default async function change_tool_status(
 	if (await authorize(req.body.auth, { admin: true })) {
 		const tool = await tools.findOne({ name: req.body.toolname })
 
-		tool.status = 'outOfService'
+		tool.status = req.body.newtoolstatus
 
 		await tool.save()
 
