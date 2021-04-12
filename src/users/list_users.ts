@@ -3,7 +3,7 @@ import { authorize, listUsers } from '../utils/firebase'
 
 
 
-export default async function remove_user(req: NowRequest, res: NowResponse) {
+export default async function list_users(req: NowRequest, res: NowResponse) {
 	if (!(await authorize(req.body.auth, { admin: true }))) {
 		res.status(400).json({ err: 'Unauthorized request!' })
 		return

@@ -10,6 +10,8 @@ import get_tool from '../../src/tools/get_tool'
 import get_tools from '../../src/tools/get_tools'
 import reserve_tool from '../../src/tools/reserve_tool'
 import return_tool from '../../src/tools/return_tool'
+import remove_user from '../../src/users/remove_user'
+import list_users from '../../src/users/list_users'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
 	switch (req.body.endpoint) {
@@ -25,6 +27,12 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 		case 'add-tool':
 			add_tool(req, res)
 			break
+    case 'remove-user':
+      remove_user(req,res)
+      break
+    case 'list-users':
+      list_users(req,res)
+      break
 		case 'change-tool-status':
 			change_tool_status(req, res)
 			break
