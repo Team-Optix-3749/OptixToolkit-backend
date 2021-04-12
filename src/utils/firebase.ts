@@ -27,6 +27,14 @@ export async function authorize(
 	}
 }
 
+export async function removeUser(uid: string) {
+  return admin.auth().deleteUser(uid)
+}
+
+export async function listUsers() {
+  return admin.auth().listUsers()
+}
+
 export async function appendDisplayName(uid: string, object: any) {
 	if (uid === undefined) {
 		return {
