@@ -9,7 +9,7 @@ export async function trackPackage(
 ): Promise<string> {
 	const tracker = new api.Tracker({
 		tracking_code: trackingId,
-		// carrier: carrier,
+		carrier: carrier,
 	})
 
 	try {
