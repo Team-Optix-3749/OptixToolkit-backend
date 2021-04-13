@@ -15,7 +15,7 @@ export default async function remove_reservation(req: NowRequest, res: NowRespon
   try {
     await tools.updateOne(
       { name: req.body.toolname },
-      { $push: { reservations: req.body.uid } }
+      { $pull: { reservations: req.body.uid } }
     )
   }
   catch (e) {
