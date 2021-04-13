@@ -10,6 +10,7 @@ import get_category from '../../src/tools/get_category'
 import get_tool from '../../src/tools/get_tool'
 import get_tools from '../../src/tools/get_tools'
 import reserve_tool from '../../src/tools/reserve_tool'
+import remove_reservation from '../../src/tools/remove_reservation'
 import return_tool from '../../src/tools/return_tool'
 import remove_user from '../../src/users/remove_user'
 import list_users from '../../src/users/list_users'
@@ -31,6 +32,9 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
     case 'remove-tool':
       remove_tool(req, res)
       break
+    case 'remove-reservation':
+        remove_reservation(req, res)
+        break
     case 'remove-user':
       remove_user(req,res)
       break
