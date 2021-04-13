@@ -8,7 +8,7 @@ export default async function remove_reservation(req: NowRequest, res: NowRespon
 		return
 	}
 
-  if (typeof(req.body?.toolame) !== "string" && typeof(req.body?.uid) !== "string") {
+  if (typeof(req.body.toolame) !== "string" && typeof(req.body.uid) !== "string") {
     res.status(400).json({ err: 'Bad Params!' })
   }
 
