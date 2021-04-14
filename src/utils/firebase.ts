@@ -1,11 +1,25 @@
 import * as admin from 'firebase-admin'
 
+import firebase from '@firebase/app'
+import '@firebase/auth'
+
 admin.initializeApp({
 	credential: admin.credential.cert({
 		projectId: process.env.FIREBASE_PROJECT_ID,
 		clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
 		privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
 	}),
+})
+
+firebase.initializeApp({
+	apiKey: 'AIzaSyBywkBF8HlaLDTgvPM2bxCGXaBuhs8__7I',
+	authDomain: 'optixtoolkit.firebaseapp.com',
+	databaseURL: 'https://optixtoolkit.firebaseio.com',
+	projectId: 'optixtoolkit',
+	storageBucket: 'optixtoolkit.appspot.com',
+	messagingSenderId: '227710522821',
+	appId: '1:227710522821:web:8992302e340bb9c1b767ac',
+	measurementId: 'G-0M4XPGFFXM',
 })
 
 interface options {
@@ -62,4 +76,29 @@ export async function getDisplayName(uid: string) {
 	} catch {
 		return uid
 	}
+}
+
+export async function addUser(name: string, email: string, isAdmin: boolean) {
+  let user: admin.auth.UserRecord
+	try {
+		user = await admin.auth().createUser({
+			email: email,
+			displayName: name,
+		})
+	} catch (e) {
+		user = await admin.auth().getUserByEmail(email)
+		await admin.auth().updateUser(user.uid, {
+			email: user.email,
+			displayName: name,
+		})
+	}
+
+	if (isAdmin) {
+    await admin.auth().setCustomUserClaims(user.uid, { admin: true, member: true })
+  }
+  else {
+    await admin.auth().setCustomUserClaims(user.uid, { member: true })
+  }
+
+	return firebase.auth().sendPasswordResetEmail(email)
 }
