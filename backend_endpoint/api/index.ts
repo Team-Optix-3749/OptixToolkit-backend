@@ -14,6 +14,7 @@ import remove_reservation from '../../src/tools/remove_reservation'
 import return_tool from '../../src/tools/return_tool'
 import remove_user from '../../src/users/remove_user'
 import list_users from '../../src/users/list_users'
+import create_user from '../../src/users/create_user'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
 	switch (req.body.endpoint) {
@@ -40,6 +41,9 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
       break
     case 'list-users':
       list_users(req,res)
+      break
+    case 'create-user':
+      create_user(req,res)
       break
 		case 'change-tool-status':
 			change_tool_status(req, res)
