@@ -7,4 +7,4 @@ if (
 
 console.log(process.env.MONGO_URL, process.env.WEBHOOK_SECRET)
 
-export const { MONGO_URL, WEBHOOK_SECRET } = process.env
+export const { MONGO_URL, WEBHOOK_SECRET, SENDGRID_KEY } = process.env
