@@ -15,6 +15,7 @@ import return_tool from '../../src/tools/return_tool'
 import remove_user from '../../src/users/remove_user'
 import list_users from '../../src/users/list_users'
 import create_user from '../../src/users/create_user'
+import reimbursement from '../../src/parts/reimbursement'
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
 	switch (req.body.endpoint) {
@@ -65,6 +66,9 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 			break
 		case 'return-tool':
 			return_tool(req, res)
+			break
+		case 'reimbursement':
+			reimbursement(req,res)
 			break
 		default:
 			res.status(400).json({ err: 'endpoint doesnt exist!!' })
