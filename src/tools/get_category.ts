@@ -1,8 +1,8 @@
-import { NowRequest, NowResponse } from '@vercel/node'
+import { Request, Response } from 'express'
 import { authorize } from '../utils/firebase'
 import { tools } from '../utils/models'
 
-export default async function get_category(req: NowRequest, res: NowResponse) {
+export default async function get_category(req: Request, res: Response) {
 	if (await authorize(req.body.auth)) {
 		if (typeof req.body.category !== 'string') {
 			res.status(400).json({ err: 'Bad Params!' })

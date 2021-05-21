@@ -1,8 +1,8 @@
-import { NowRequest, NowResponse } from '@vercel/node'
+import { Request, Response } from 'express'
 import { authorize } from '../utils/firebase'
 import { tools } from '../utils/models'
 
-export default async function checkout_tool(req: NowRequest, res: NowResponse) {
+export default async function checkout_tool(req: Request, res: Response) {
 	const user = await authorize(req.body.auth)
 	if (user) {
 		const tool = await tools.findOne({ name: req.body.toolname })

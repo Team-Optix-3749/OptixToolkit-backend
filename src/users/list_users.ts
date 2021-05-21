@@ -1,9 +1,9 @@
-import { NowRequest, NowResponse } from '@vercel/node'
+import { Request, Response } from 'express'
 import { authorize, listUsers } from '../utils/firebase'
 
 
 
-export default async function list_users(req: NowRequest, res: NowResponse) {
+export default async function list_users(req: Request, res: Response) {
 	if (!(await authorize(req.body.auth, { admin: true }))) {
 		res.status(400).json({ err: 'Unauthorized request!' })
 		return

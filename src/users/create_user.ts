@@ -1,8 +1,8 @@
-import { NowRequest, NowResponse } from '@vercel/node'
+import { Request, Response } from 'express'
 import { addUser, authorize } from '../utils/firebase'
 
 
-export default async function add_tool(req: NowRequest, res: NowResponse) {
+export default async function add_tool(req: Request, res: Response) {
   if (!req.body) {
     res.status(400).json({ err: 'Bad Params!' })
     return

@@ -1,9 +1,9 @@
-import { NowRequest, NowResponse } from '@vercel/node'
+import { Request, Response } from 'express'
 import { parts, Part } from '../utils/models'
 import { authorize } from '../utils/firebase'
 import { trackPackage } from '../utils/tracking'
 
-export default async function parts_remove(req: NowRequest, res: NowResponse) {
+export default async function parts_remove(req: Request, res: Response) {
 	if (req.body === undefined) {
 		res.status(400).json({ err: 'No Body!' })
 		return

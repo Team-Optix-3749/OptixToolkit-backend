@@ -1,10 +1,10 @@
-import { NowRequest, NowResponse } from '@vercel/node'
+import { Request, Response } from 'express'
 import { authorize, removeUser } from '../utils/firebase'
 import { parts, tools } from '../utils/models'
 
 
 
-export default async function remove_user(req: NowRequest, res: NowResponse) {
+export default async function remove_user(req: Request, res: Response) {
 	if (!(await authorize(req.body.auth, { admin: true }))) {
 		res.status(400).json({ err: 'Unauthorized request!' })
 		return
