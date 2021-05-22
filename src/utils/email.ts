@@ -2,7 +2,7 @@
 const sg = require('@sendgrid/mail')
 import { SENDGRID_KEY } from './config'
 
-sg.setApiKey("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")
+sg.setApiKey(SENDGRID_KEY)
 
 export interface ReimbursementBody {
   personName: string;
