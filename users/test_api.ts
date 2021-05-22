@@ -19,6 +19,7 @@ const email = process.env.EMAIL
 const password = process.env.PASSWORD
 
 async function main() {
+  try {
 	const { user } = await firebase
 		.auth()
 		.signInWithEmailAndPassword(email, password)
@@ -97,8 +98,8 @@ async function main() {
 	})
   console.log(await res6.json())*/
 
-	try {
-		const res6 = await fetch('http://localhost:3000/api/tools/get_tools', {
+
+		const res6 = await fetch('https://optixtoolkit-backend-production-eklh.up.railway.app/', {
 			method: 'post',
 			headers: {
 				'Content-type': 'application/json',
@@ -106,10 +107,11 @@ async function main() {
 				'Accept-Charset': 'utf-8',
 			},
 			body: JSON.stringify({
+        endpoint: 'parts-get',
 				auth: id_token,
 			}),
 		})
-		console.log((await res6.json()).tools.map((thing) => thing.reservations))
+		console.log((await res6.json()))
 	} catch (e) {
 		console.log(e)
 	}
