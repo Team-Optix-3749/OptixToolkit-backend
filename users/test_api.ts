@@ -22,11 +22,11 @@ async function main() {
 	const { user } = await firebase
 		.auth()
 		.signInWithEmailAndPassword(email, password)
-  const id_token = await user.getIdToken()
-  
-  console.log("SENDING REQUEST")
+	const id_token = await user.getIdToken()
 
-  /*const res2 = await fetch('http://localhost:3000/api/tools/add_tool', {
+	console.log('SENDING REQUEST')
+
+	/*const res2 = await fetch('http://localhost:3000/api/tools/add_tool', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
@@ -53,7 +53,7 @@ async function main() {
       category: 'Sample Tool'
 		}),
   })
-  
+
   console.log(await res2.json(), await res3.json())
 
 	const res = await fetch('http://localhost:3000/api/tools/get_tools', {
@@ -68,7 +68,7 @@ async function main() {
 		}),
 	})
   console.log(await res.json())
-  
+
   const res5 = await fetch('http://localhost:3000/api/tools/get_category', {
 		method: 'post',
 		headers: {
@@ -82,7 +82,7 @@ async function main() {
 		}),
 	})
   console.log(await res5.json())
-  
+
   const res6 = await fetch('http://localhost:3000/api/tools/get_tool', {
 		method: 'post',
 		headers: {
@@ -96,24 +96,23 @@ async function main() {
 		}),
 	})
   console.log(await res6.json())*/
-  
-  try {
-    const res6 = await fetch('http://localhost:3000/api/tools/get_tools', {
-		method: 'post',
-		headers: {
-			'Content-type': 'application/json',
-			Accept: 'application/json',
-			'Accept-Charset': 'utf-8',
-		},
-		body: JSON.stringify({
-      auth: id_token,
-		}),
-	})
-	console.log((await res6.json()).tools.map(thing => thing.reservations))
-  }
-  catch (e) {
-    console.log(e)
-  }
+
+	try {
+		const res6 = await fetch('http://localhost:3000/api/tools/get_tools', {
+			method: 'post',
+			headers: {
+				'Content-type': 'application/json',
+				Accept: 'application/json',
+				'Accept-Charset': 'utf-8',
+			},
+			body: JSON.stringify({
+				auth: id_token,
+			}),
+		})
+		console.log((await res6.json()).tools.map((thing) => thing.reservations))
+	} catch (e) {
+		console.log(e)
+	}
 }
 
 main()

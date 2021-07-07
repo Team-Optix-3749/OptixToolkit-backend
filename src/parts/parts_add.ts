@@ -1,7 +1,7 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import { parts, Part } from '../utils/utils'
-import { authorize } from '../utils/utils'
-import { trackPackage } from '../utils/utils'
+import { parts, Part } from '../utils/models'
+import { authorize } from '../utils/firebase'
+import { trackPackage } from '../utils/tracking'
 
 function validatePart(body: any): body is Part {
 	return (
@@ -15,7 +15,7 @@ function validatePart(body: any): body is Part {
 	)
 }
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
+export default async function parts_add(req: NowRequest, res: NowResponse) {
 	if (req.body === undefined) {
 		res.status(400).json({ err: 'No Body!' })
 		return

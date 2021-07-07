@@ -23,11 +23,11 @@ async function main() {
 	const { user } = await firebase
 		.auth()
 		.signInWithEmailAndPassword(email, password)
-  const id_token = await user.getIdToken()
-  
-  console.log("SENDING REQUEST")
+	const id_token = await user.getIdToken()
 
-  await fetch(SERVER_URL+'parts/add', {
+	console.log('SENDING REQUEST')
+
+	await fetch(SERVER_URL + 'parts/add', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
@@ -35,21 +35,20 @@ async function main() {
 			'Accept-Charset': 'utf-8',
 		},
 		body: JSON.stringify({
-      auth: id_token,
-      uid: user.uid,
-      name: 'rohans_part',
-      link: 'https://rohanj.dev',
-      trackingInfo: {
-        trackingId: '1Z9A99V11255465700',
-        carrier: 'UPS'
-      },
-      description:'cool part',
-      priority: 3
+			auth: id_token,
+			uid: user.uid,
+			name: 'rohans_part',
+			link: 'https://rohanj.dev',
+			trackingInfo: {
+				trackingId: '1Z9A99V11255465700',
+				carrier: 'UPS',
+			},
+			description: 'cool part',
+			priority: 3,
 		}),
-  })
+	})
 
-
-	const res = await fetch(SERVER_URL+'parts/get', {
+	const res = await fetch(SERVER_URL + 'parts/get', {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json',
@@ -61,9 +60,9 @@ async function main() {
 		}),
 	})
 
-  const json = await res.json()
-  console.log(json)
-  console.log(json.parts[0].trackingInfo)
+	const json = await res.json()
+	console.log(json)
+	console.log(json.parts[0].trackingInfo)
 }
 
 main()
