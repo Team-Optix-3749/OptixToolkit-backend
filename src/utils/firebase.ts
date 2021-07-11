@@ -24,18 +24,19 @@ firebase.initializeApp({
 })
 
 interface options {
-	admin: boolean
+	type: 'admin' | 'certified' | 'user'
 }
 
 export async function authorize(
 	token: string,
-	options: options = { admin: false }
+	options: options = { type: 'user' }
 ) {
 	if (token == undefined) return false
 	try {
 		const user = await admin.auth().verifyIdToken(token)
 		if (!user.member) throw new Error('Invalid user!')
-		if (!user.admin && options.admin) throw new Error('User not Admin!')
+		if (!user.admin && options.type == 'admin') throw new Error('User not Admin!')
+    if (!user.certified && options.type == 'certified') throw new Error('User not Certified!')
 		return user
 	} catch (e) {
 		return false

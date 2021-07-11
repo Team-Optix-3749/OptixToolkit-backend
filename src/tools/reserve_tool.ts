@@ -3,7 +3,13 @@ import { authorize } from '../utils/firebase'
 import { tools } from '../utils/models'
 
 export default async function reserve_tool(req: Request, res: Response) {
-	const user = await authorize(req.body.auth)
+  let user
+	try {
+    user = await authorize(req.body.auth, { type: 'certified' })
+  }
+  catch (e) {
+    res.status(400).json({ err: 'User not certified!' })
+  }
 	if (user) {
 		const tool = await tools.findOne({ name: req.body.toolname })
 		const { uid } = user

@@ -8,7 +8,7 @@ export default async function add_tool(req: Request, res: Response) {
     return
   }
  
-	if (!(await authorize(req.body.auth, { admin: true }))) {
+	if (!(await authorize(req.body.auth, { type: 'admin' }))) {
 		res.status(400).json({ err: 'Unauthorized request!' })
 		return
 	}

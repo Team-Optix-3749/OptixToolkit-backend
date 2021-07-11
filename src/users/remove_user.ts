@@ -5,7 +5,7 @@ import { parts, tools } from '../utils/models'
 
 
 export default async function remove_user(req: Request, res: Response) {
-	if (!(await authorize(req.body.auth, { admin: true }))) {
+	if (!(await authorize(req.body.auth, { type: 'admin' }))) {
 		res.status(400).json({ err: 'Unauthorized request!' })
 		return
 	}

@@ -7,7 +7,7 @@ function validateTool(body: any): body is Tool {
 }
 
 export default async function add_tool(req: Request, res: Response) {
-	if (!(await authorize(req.body.auth, { admin: true }))) {
+	if (!(await authorize(req.body.auth, { type: 'admin' }))) {
 		res.status(400).json({ err: 'Unauthorized request!' })
 		return
 	}
