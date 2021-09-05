@@ -6,7 +6,7 @@ export default async function change_tool_status(
 	req: Request,
 	res: Response
 ) {
-	if (await authorize(req.body.auth, { admin: true })) {
+	if (await authorize(req.body.auth, { type: 'admin' })) {
 		const tool = await tools.findOne({ name: req.body.toolname })
 
 		tool.status = req.body.newtoolstatus
