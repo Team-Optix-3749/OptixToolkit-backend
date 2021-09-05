@@ -104,3 +104,7 @@ export async function addUser(name: string, email: string, isAdmin: boolean) {
 
 	return firebase.auth().sendPasswordResetEmail(email)
 }
+
+export async function certifyUser (uid: string) {
+  admin.auth().setCustomUserClaims(uid, { certified: true })
+}
