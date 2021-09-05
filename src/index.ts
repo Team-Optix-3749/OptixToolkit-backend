@@ -15,6 +15,7 @@ import return_tool from './tools/return_tool'
 import remove_user from './users/remove_user'
 import list_users from './users/list_users'
 import create_user from './users/create_user'
+import certify_user from './users/certify_user'
 import reimbursement from './parts/reimbursement'
 import parts_webhook from './parts/parts-webhook'
 import { PORT, WEBHOOK_SECRET } from './utils/config'
@@ -53,6 +54,8 @@ app.all('/', (req: Request, res: Response) => {
     case 'create-user':
       create_user(req,res)
       break
+    case 'certify-user':
+      certify_user(req,res)
 		case 'change-tool-status':
 			change_tool_status(req, res)
 			break
