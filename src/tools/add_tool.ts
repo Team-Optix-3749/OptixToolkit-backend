@@ -1,13 +1,13 @@
-import { NowRequest, NowResponse } from '@vercel/node'
-import { tools, Tool } from '../utils/utils'
-import { authorize } from '../utils/utils'
+import { Request, Response } from 'express'
+import { tools, Tool } from '../utils/models'
+import { authorize } from '../utils/firebase'
 
 function validateTool(body: any): body is Tool {
 	return typeof body.name === 'string' && typeof body.category === 'string'
 }
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
-	if (!(await authorize(req.body.auth, { admin: true }))) {
+export default async function add_tool(req: Request, res: Response) {
+	if (!(await authorize(req.body.auth, { type: 'admin' }))) {
 		res.status(400).json({ err: 'Unauthorized request!' })
 		return
 	}

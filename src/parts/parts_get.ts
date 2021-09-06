@@ -1,8 +1,8 @@
-import { NowRequest, NowResponse } from '@vercel/node'
-import { FullPart, parts, Part } from '../utils/utils'
-import { authorize, appendDisplayName } from '../utils/utils'
+import { Request, Response } from 'express'
+import { FullPart, parts, Part } from '../utils/models'
+import { authorize, appendDisplayName } from '../utils/firebase'
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
+export default async function parts_get(req: Request, res: Response) {
 	if (req.body === undefined) {
 		res.status(400).json({ err: 'No Body!' })
 		return

@@ -1,15 +1,11 @@
-import { NowRequest, NowResponse } from '@vercel/node'
-import { WEBHOOK_SECRET } from '../../utils/utils'
-import { parts, Part } from '../../utils/utils'
+import { Request, Response } from 'express'
+import { WEBHOOK_SECRET } from '../utils/config'
+import { parts, Part } from '../utils/models'
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
-	const { secret } = req.query
+export default async function (req: Request, res: Response) {
 	if (
-		secret !== WEBHOOK_SECRET ||
 		req.body.description !== 'tracker.updated'
 	) {
-		console.log(secret)
-		console.log(secret === WEBHOOK_SECRET)
 		console.log('died at first part')
 		res.status(200).json({ aight: 'cool' })
 		return

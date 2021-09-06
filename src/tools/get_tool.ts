@@ -1,8 +1,8 @@
-import { NowRequest, NowResponse } from '@vercel/node'
-import { tools } from '../utils/utils'
-import { authorize } from '../utils/utils'
+import { Request, Response } from 'express'
+import { authorize } from '../utils/firebase'
+import { tools } from '../utils/models'
 
-module.exports = async (req: NowRequest, res: NowResponse) => {
+export default async function get_tool(req: Request, res: Response) {
 	if (await authorize(req.body.auth)) {
 		if (typeof req.body.name !== 'string') {
 			res.status(400).json({ err: 'Bad Params!' })
