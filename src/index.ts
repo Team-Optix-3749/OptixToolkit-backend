@@ -39,23 +39,21 @@ app.all('/', (req: Request, res: Response) => {
 		case 'add-tool':
 			add_tool(req, res)
 			break
-    case 'remove-tool':
-      remove_tool(req, res)
-      break
-    case 'remove-reservation':
-        remove_reservation(req, res)
-        break
-    case 'remove-user':
-      remove_user(req,res)
-      break
-    case 'list-users':
-      list_users(req,res)
-      break
-    case 'create-user':
-      create_user(req,res)
-      break
-    case 'certify-user':
-      certify_user(req,res)
+		case 'remove-tool':
+			remove_tool(req, res)
+			break
+		case 'remove-reservation':
+			remove_reservation(req, res)
+			break
+		case 'remove-user':
+			remove_user(req, res)
+			break
+		case 'list-users':
+			list_users(req, res)
+			break
+		case 'create-user':
+			create_user(req, res)
+			break
 		case 'change-tool-status':
 			change_tool_status(req, res)
 			break
@@ -78,7 +76,10 @@ app.all('/', (req: Request, res: Response) => {
 			return_tool(req, res)
 			break
 		case 'reimbursement':
-			reimbursement(req,res)
+			reimbursement(req, res)
+			break
+		case 'certify-user':
+			certify_user(req, res)
 			break
 		default:
 			res.status(400).json({ err: 'endpoint doesnt exist!!' })
@@ -88,5 +89,5 @@ app.all('/', (req: Request, res: Response) => {
 app.get(`/${WEBHOOK_SECRET}`, parts_webhook)
 
 app.listen(PORT, () => {
-  console.log("Server Started!!")
+	console.log('Server Started!!')
 })
