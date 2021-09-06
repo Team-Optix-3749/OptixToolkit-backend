@@ -106,5 +106,5 @@ export async function addUser(name: string, email: string, isAdmin: boolean) {
 }
 
 export async function certifyUser (uid: string) {
-  admin.auth().setCustomUserClaims(uid, { certified: true })
+  await admin.auth().setCustomUserClaims(uid, { certified: true })
 }
