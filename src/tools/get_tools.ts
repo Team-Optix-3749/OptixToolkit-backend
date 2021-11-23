@@ -12,6 +12,7 @@ export default async function get_tools(req: Request, res: Response) {
 			let promises: Promise<string>[] = []
 			tool.reservations.forEach((uid) => promises.push(getDisplayName(uid)))
 			allpromises.concat(promises)
+			(tool as any).reservations_uid = tool.reservations
 			tool.reservations = await Promise.all(promises)
 			newToolsRes.push(tool)
 		})
