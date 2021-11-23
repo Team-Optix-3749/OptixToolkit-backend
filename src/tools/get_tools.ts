@@ -8,8 +8,8 @@ function genPromise (uid: string, dNamePro: Promise<any>) {
 
 export default async function get_tools(req: Request, res: Response) {
 	if (await authorize(req.body.auth)) {
-		let toolsRes = await tools.find()
-		let newToolsRes: Tool[] = []
+		let toolsRes = (await tools.find()) as any[]
+		let newToolsRes: any[] = []
 		let allpromises: Promise<any>[] = []
 		let done = 0
 		toolsRes.forEach(async (tool) => {
@@ -31,13 +31,13 @@ export default async function get_tools(req: Request, res: Response) {
 				res2.push(i.uid)
 			}
       	tool.reservations = res;
-			(tool as any).reservations_uid = res2
+			tool.reservations_uid = res2
 			newToolsRes.push(tool)
 		})
 		await Promise.all(allpromises)
 		setTimeout(
 			() => res.status(200).json({ tools: newToolsRes, err: false }),
-			500
+			750
 		)
 	} else {
 		res.status(400).json({ err: 'Unauthorized request!' })
