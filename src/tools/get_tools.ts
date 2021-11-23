@@ -25,7 +25,7 @@ export default async function get_tools(req: Request, res: Response) {
 			allpromises.concat(promises)
 			const cool = await Promise.all(promises)
 			tool.reservations = []
-			(tool as any).reservations_uid = []
+			(tool as any).reservations_uid = [] as string[]
 			for (var i of cool) {
 				tool.reservations.push(i.dName)
 				(tool as any).reservations_uid.push(i.uid)
