@@ -10,7 +10,14 @@ export default async function get_tools(req: Request, res: Response) {
 		let done = 0
 		toolsRes.forEach(async (tool) => {
 			let promises: Promise<any>[] = []
-			tool.reservations.forEach((uid) => promises.push({uid: uid, dName: getDisplayName(uid)}))
+			tool.reservations.forEach(
+				(uid) => promises.push(
+					{
+						uid: uid, 
+						dName: (await getDisplayName(uid))
+					}
+				)
+			)
 			allpromises.concat(promises)
 			const cool = await Promise.all(promises)
 			tool.reservations = []
