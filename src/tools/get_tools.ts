@@ -2,6 +2,10 @@ import { Request, Response } from 'express'
 import { Tool, tools } from '../utils/models'
 import { getDisplayName, authorize } from '../utils/firebase'
 
+function genPromise (uid: string, dNamePro: Promise<any>) {
+	return dNamePro.then(dName => ({uid, dName}))
+}
+
 export default async function get_tools(req: Request, res: Response) {
 	if (await authorize(req.body.auth)) {
 		let toolsRes = await tools.find()
@@ -12,10 +16,10 @@ export default async function get_tools(req: Request, res: Response) {
 			let promises: Promise<any>[] = []
 			tool.reservations.forEach(
 				(uid) => promises.push(
-					{
-						uid: uid, 
-						dName: (await getDisplayName(uid))
-					}
+					genPromise(
+						uid, 
+						getDisplayName(uid)
+					)
 				)
 			)
 			allpromises.concat(promises)
