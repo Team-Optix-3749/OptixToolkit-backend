@@ -28,7 +28,7 @@ export default async function get_tools(req: Request, res: Response) {
 			(tool as any).reservations_uid = []
 			for (var i of cool) {
 				tool.reservations.push(i.dName)
-				(tool as any).reservations_uid.push(i.uid))
+				(tool as any).reservations_uid.push(i.uid)
 			}
 			newToolsRes.push(tool)
 		})
