@@ -30,8 +30,8 @@ export default async function get_tools(req: Request, res: Response) {
 				res.push(i.dName)
 				res2.push(i.uid)
 			}
-      	tool.reservations = res;
-			tool.reservations_uid = res2
+      	tool.reservations_uid = res;
+			tool.reservations = res2
 			newToolsRes.push(tool)
 		})
 		await Promise.all(allpromises)
