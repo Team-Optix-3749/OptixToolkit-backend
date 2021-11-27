@@ -24,14 +24,15 @@ export default async function get_tools(req: Request, res: Response) {
 			)
 			allpromises.concat(promises)
 			const cool = await Promise.all(promises)
-			let res = [] as string[]
-      	let res2 = [] as string[]
-			for (var i of cool) {
-				res.push(i.dName)
-				res2.push(i.uid)
-			}
-      	tool.reservations_uid = res;
-			tool.reservations = res2
+			//let res = [] as string[]
+      	//let res2 = [] as string[]
+			//for (var i of cool) {
+				//res.push(i.dName)
+				//res2.push(i.uid)
+			//}
+			tool.reservations = cool;
+      	//tool.reservations_uid = res;
+			//tool.reservations = res2
 			newToolsRes.push(tool)
 		})
 		await Promise.all(allpromises)
