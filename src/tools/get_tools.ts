@@ -32,6 +32,7 @@ export default async function get_tools(req: Request, res: Response) {
 				//res2.push(i.uid)
 			//}
 			tool.reservations = cool;
+			console.log(cool)
 			console.log(tool.reservations)
       	//tool.reservations_uid = res;
 			//tool.reservations = res2
