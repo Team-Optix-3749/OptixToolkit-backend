@@ -8,12 +8,14 @@ mongoose.connect(MONGO_URL, {
 
 /* Settings */
 export interface Setting {
+  key: string
   value: string | null
 }
 
 interface SettingDoc extends Document, Setting {}
 
 const SettingSchema: Schema = new Schema({
+  key: { type: String, required: true },
   value: { type: String, required: true, nullable: true }
 })
 
