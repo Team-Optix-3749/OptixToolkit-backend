@@ -6,6 +6,19 @@ mongoose.connect(MONGO_URL, {
 	useUnifiedTopology: true,
 })
 
+/* Settings */
+export interface Setting {
+  value: string | null
+}
+
+interface SettingDoc extends Document, Setting {}
+
+const SettingSchema: Schema = new Schema({
+  value: { type: String, required: true, nullable: true }
+})
+
+export const settings = mongoose.model<SettingDoc>('settings', SettingSchema)
+
 /* Users */
 export interface User {
   uid: string
