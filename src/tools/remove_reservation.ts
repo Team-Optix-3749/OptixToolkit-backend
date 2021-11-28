@@ -21,8 +21,8 @@ export default async function remove_reservation(req: Request, res: Response) {
 	 const theTool = await tools.findOne({name: req.body.toolname})
 	 
 	 if (theTool?.reservations?.length === 0) {
-	 	theTool.status = ''
-		await theTool.save('notInUse')
+	 	theTool.status = 'notInUse'
+		await theTool.save()
 	 }
   }
   catch (e) {
