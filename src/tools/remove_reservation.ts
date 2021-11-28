@@ -17,6 +17,13 @@ export default async function remove_reservation(req: Request, res: Response) {
       { name: req.body.toolname },
       { $pull: { reservations: req.body.uid } }
     )
+	  
+	 const theTool = await tools.findOne({name: req.body.toolname})
+	 
+	 if (theTool?.reservations?.length === 0) {
+	 	theTool.status = ''
+		await theTool.save('notInUse')
+	 }
   }
   catch (e) {
     res.status(400).json({err: e.message})
