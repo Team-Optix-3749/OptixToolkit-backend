@@ -18,6 +18,8 @@ import create_user from './users/create_user'
 import certify_user from './users/certify_user'
 import reimbursement from './parts/reimbursement'
 import parts_webhook from './parts/parts-webhook'
+import check_in from './hours/check_in'
+import check_out from './hours/check_out'
 import { PORT, WEBHOOK_SECRET } from './utils/config'
 
 const app = express()
@@ -81,6 +83,12 @@ app.all('/', (req: Request, res: Response) => {
 		case 'certify-user':
 			certify_user(req, res)
 			break
+    case 'check-out':
+      check_out(req, res)
+      break
+    case 'check-in':
+      check_in(req, res)
+      break
 		default:
 			res.status(400).json({ err: 'endpoint doesnt exist!!' })
 	}
