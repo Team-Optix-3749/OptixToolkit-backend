@@ -6,6 +6,23 @@ mongoose.connect(MONGO_URL, {
 	useUnifiedTopology: true,
 })
 
+/* Users */
+export interface User {
+  uid: string
+  seconds: number
+  lastCheckIn: number | null
+}
+
+interface UserDoc extends Document, User {}
+
+const UserSchema: Schema = new Schema({
+  uid: { type: String, required: true },
+  seconds: { type: Number, required: true },
+  lastCheckIn: { type: Number, required: true, nullable: true }
+})
+
+export const users = mongoose.model<UserDoc>('users', UserSchema)
+
 /* Tools */
 
 export interface Tool {
