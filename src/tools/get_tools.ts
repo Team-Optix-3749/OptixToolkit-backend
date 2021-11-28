@@ -31,12 +31,13 @@ export default async function get_tools(req: Request, res: Response) {
 				//res.push(i.dName)
 				//res2.push(i.uid)
 			//}
-			tool.reservations = cool;
+			let tool2: any = JSON.parse(JSON.stringify(tool))
+			tool2.reservations = cool;
 			console.log(cool)
-			console.log(tool.reservations)
+			console.log(tool2.reservations)
       	//tool.reservations_uid = res;
 			//tool.reservations = res2
-			newToolsRes.push(tool)
+			newToolsRes.push(tool2)
 		})
 		await Promise.all(allpromises)
 		setTimeout(
