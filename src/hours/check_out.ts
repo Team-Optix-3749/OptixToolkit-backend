@@ -16,7 +16,7 @@ export default async function check_out(req: Request, res: Response) {
     return
   }
 
-  const userDoc = await user.findOne({ uid: user.uid })
+  const userDoc = await users.findOne({ uid: user.uid })
 
   if (userDoc.lastCheckIn === null) {
     res.status(400).json({ err: "You haven't checked in" })
