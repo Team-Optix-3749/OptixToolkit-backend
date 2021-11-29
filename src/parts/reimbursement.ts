@@ -3,7 +3,7 @@ import { ReimbursementBody, sendEmail } from '../utils/email'
 import { authorize } from '../utils/firebase'
 
 function validateBody(body: any): body is ReimbursementBody {
-  return typeof(body.personName) === "string" && typeof(body.partName) === "string" && typeof(body.partLink) === "string" && typeof(body.mailingAddress) === "string" && typeof(body.pictureLink) === "string"
+  return typeof(body.personName) === "string" && typeof(body.checkAddressedTo) === "string" && typeof(body.partName) === "string" && typeof(body.partLink) === "string" && typeof(body.mailingAddress) === "string" && typeof(body.pictureLink) === "string"
 }
 
 export default async function reimbursement (req: Request, res: Response) {

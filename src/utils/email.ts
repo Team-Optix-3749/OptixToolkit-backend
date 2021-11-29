@@ -10,6 +10,7 @@ export interface ReimbursementBody {
   partLink: string;
   mailingAddress: string;
   pictureLink: string;
+  checkAddressedTo: string;
 }
 
 export async function sendEmail (info: ReimbursementBody) {
@@ -17,10 +18,10 @@ export async function sendEmail (info: ReimbursementBody) {
     to: 'dnhsteam3749@gmail.com', 
     from: {
       name: 'Automatic Reimbursements',
-      email: 'dnhsteam3749@gmail.com'
+      email: 'team3749devs@gmail.com'
     },
     subject: 'Automatic Reimbursement Form',
-    html: `part name: ${info.partName}, part link: ${info.partLink}, reciept: ${info.pictureLink}, person: ${info.personName}, address: ${info.mailingAddress}`,
+    html: `Part Name: ${info.partName}, Part Link: ${info.partLink}, Reciept: ${info.pictureLink}, Team Member: ${info.personName}, Address: ${info.mailingAddress}, Recipient Name: ${info.checkAddressedTo}`,
   }
 
   try {
