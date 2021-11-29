@@ -19,6 +19,8 @@ export default async function check_in(req: Request, res: Response) {
   const userDoc = users.findOne({ uid: user.uid })
 
   userDoc.lastCheckIn = Date.now()
+	
+  await userDoc.save()
 
   try {
     res.status(200).json({ err: false })
