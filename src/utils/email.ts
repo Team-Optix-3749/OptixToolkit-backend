@@ -20,7 +20,7 @@ export async function sendEmail (info: ReimbursementBody) {
       email: 'team3749devs@gmail.com'
     },
     subject: 'Automatic Reimbursement Form',
-    html: `Part Name: ${info.partName}\nPart Link: ${info.partLink}\nReciept: ${info.pictureLink}\nTeam Member: ${info.personName}\nAddress: ${info.mailingAddress}`,
+    html: `Part Name: ${info.partName}, Part Link: ${info.partLink}, Reciept: ${info.pictureLink}, Team Member: ${info.personName}, Address: ${info.mailingAddress}`,
   }
 
   try {
