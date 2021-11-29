@@ -17,7 +17,7 @@ export async function sendEmail (info: ReimbursementBody) {
     to: 'dnhsteam3749@gmail.com', 
     from: {
       name: 'Automatic Reimbursements',
-      email: 'dnhsteam3749@gmail.com'
+      email: 'team3749devs@gmail.com'
     },
     subject: 'Automatic Reimbursement Form',
     html: `part name: ${info.partName}, part link: ${info.partLink}, reciept: ${info.pictureLink}, person: ${info.personName}, address: ${info.mailingAddress}`,
