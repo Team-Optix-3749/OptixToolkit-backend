@@ -10,9 +10,9 @@ export default async function check_in(req: Request, res: Response) {
 		return
 	}
 
-  const userDoc = await users.findOne({ uid: user.uid })
   
   try {
+	 const userDoc = await users.findOne({ uid: user.uid })
     res.status(200).json({ seconds: userDoc.seconds, err: false })
   } catch (e) {
     res.status(400).json({ err: "Server Error" })
