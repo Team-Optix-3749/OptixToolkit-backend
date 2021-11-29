@@ -20,6 +20,7 @@ import reimbursement from './parts/reimbursement'
 import parts_webhook from './parts/parts-webhook'
 import check_in from './hours/check_in'
 import check_out from './hours/check_out'
+import get_seconds from './hours/get_seconds'
 import { PORT, WEBHOOK_SECRET } from './utils/config'
 
 const app = express()
@@ -86,6 +87,9 @@ app.all('/', (req: Request, res: Response) => {
     case 'check-out':
       check_out(req, res)
       break
+	 case 'get-seconds':
+		get_seconds(req,res)
+		break
     case 'check-in':
       check_in(req, res)
       break
