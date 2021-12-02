@@ -36,7 +36,7 @@ export default async function check_in(req: Request, res: Response) {
 	if (userDoc.lastCheckIn !== 0) {
 		res.status(400).json({ err: 'You are already checked in!' })
 		return
-	} else if (attendanceOverride) {
+	} else if (attendanceOverride === "true") {
 		userDoc.lastCheckIn = Date.now()
 	} else if (weekdays.includes(days[date.getDay()])) {
 		if (date.getHours() >= 15 && date.getHours() <= 18) {
