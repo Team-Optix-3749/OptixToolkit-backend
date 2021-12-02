@@ -26,12 +26,16 @@ export default async function check_out(req: Request, res: Response) {
     return
   }
 
-	const userDoc = await users.findOne({ uid: user.uid })
+	const attendanceStatus = await users.findOne({ key: 'attendanceStatus' })
 	const attendanceOverride = await settings.findOne({ key: 'attendanceOverride' })
+	const userDoc = await users.findOne({ uid: user.uid })
 
 	var date = new Date(Date.now() * 1000 - 1000 * 8 * 3600)
 
-  if (attendanceOverride) {
+  if (attendanceStatus != "logging") {
+			res.status(400).json({ err: 'You are not checked in!' })
+  }
+  else if (attendanceOverride) {
 		userDoc.lastCheckIn = Date.now()
   }
 	else if (weekdays.includes(days[date.getDay()])) {
