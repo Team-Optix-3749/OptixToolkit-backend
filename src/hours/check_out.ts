@@ -41,7 +41,7 @@ export default async function check_out(req: Request, res: Response) {
 		userDoc.lastCheckIn = 0
 		userDoc.meetingCount++
 	} else if (weekdays.includes(days[date.getDay()])) {
-		if (date.getHours() >= 15 && date.getHours() <= 18) {
+		if (date.getHours() >= 14 && date.getHours() <= 17) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
@@ -50,7 +50,7 @@ export default async function check_out(req: Request, res: Response) {
 			return
 		}
 	} else if (days[date.getDay()] === 'Saturday') {
-		if (date.getHours() >= 8 && date.getHours() <= 17) {
+		if (date.getHours() >= 7 && date.getHours() <= 16) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
