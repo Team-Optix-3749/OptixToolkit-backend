@@ -33,23 +33,23 @@ export default async function check_out(req: Request, res: Response) {
 
 	var date = new Date(Date.now() * 1000 - 1000 * 8 * 3600)
 
-	if (userDoc.attendanceStatus !== 'logging') {
+	if (userDoc.lastCheckIn === null) {
 		res.status(400).json({ err: 'You are not checked in!' })
 		return
 	} else if (attendanceOverride) {
-		userDoc.lastCheckIn = Date.now()
+    userDoc.seconds = Date.now() - userDoc.lastCheckIn
 	} else if (weekdays.includes(days[date.getDay()])) {
 		if (date.getHours() >= 15 && date.getHours() <= 18) {
-			userDoc.lastCheckIn = Date.now()
-			userDoc.attendanceStatus = 'notLogging'
+      userDoc.seconds = Date.now() - userDoc.lastCheckIn
+      userDoc.lastCheckIn = null
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })
 			return
 		}
 	} else if (days[date.getDay()] === 'Saturday') {
 		if (date.getHours() >= 8 && date.getHours() <= 17) {
-			userDoc.lastCheckIn = Date.now()
-			userDoc.attendanceStatus = 'notLogging'
+      userDoc.seconds = Date.now() - userDoc.lastCheckIn
+      userDoc.lastCheckIn = null
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })
 			return
@@ -58,15 +58,6 @@ export default async function check_out(req: Request, res: Response) {
 		res.status(400).json({ err: 'No meeting today!' })
 		return
 	}
-
-	if (userDoc.lastCheckIn === null) {
-		res.status(400).json({ err: "You haven't checked in" })
-		return
-	}
-
-	const timeElapsed = Date.now() - userDoc.lastCheckIn
-
-	userDoc.seconds += timeElapsed
 
 	await userDoc.save()
 
