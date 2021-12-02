@@ -26,6 +26,7 @@ export interface User {
   uid: string
   seconds: number
   lastCheckIn: number | null
+  meetingCount: number
 }
 
 interface UserDoc extends Document, User {}
@@ -33,7 +34,8 @@ interface UserDoc extends Document, User {}
 const UserSchema: Schema = new Schema({
   uid: { type: String, required: true },
   seconds: { type: Number, required: true },
-  lastCheckIn: { type: Number, required: true, nullable: true }
+  lastCheckIn: { type: Number, required: true, nullable: true },
+  meetingCount: { type: Number, required: true }
 })
 
 export const users = mongoose.model<UserDoc>('users', UserSchema)
