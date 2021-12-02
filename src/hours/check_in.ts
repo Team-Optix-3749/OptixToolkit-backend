@@ -38,7 +38,7 @@ export default async function check_in(req: Request, res: Response) {
 		return
 	} else if (attendanceOverride === "true") {
 		userDoc.lastCheckIn = Date.now()
-	} else if (date.getDay() === 2 || date.getDay() === 5) {
+	} else if (date.getDay() === 2 || date.getDay() === 4) {
 		if (date.getHours() >= 14 && date.getHours() <= 17) {
 			userDoc.lastCheckIn = Date.now()
 		} else {

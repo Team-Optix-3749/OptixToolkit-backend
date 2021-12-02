@@ -40,7 +40,7 @@ export default async function check_out(req: Request, res: Response) {
 		userDoc.seconds += Date.now() - userDoc.lastCheckIn
 		userDoc.lastCheckIn = 0
 		userDoc.meetingCount++
-	} else if (weekdays.includes(days[date.getDay()])) {
+	} else if (date.getDay() === 2 || date.getDay() === 4) {
 		if (date.getHours() >= 14 && date.getHours() <= 17) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
@@ -49,7 +49,7 @@ export default async function check_out(req: Request, res: Response) {
 			res.status(400).json({ err: 'Not in meeting time!' })
 			return
 		}
-	} else if (days[date.getDay()] === 'Saturday') {
+	} else if (date.getDay() === 6) {
 		if (date.getHours() >= 7 && date.getHours() <= 16) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
