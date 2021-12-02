@@ -39,14 +39,14 @@ export default async function check_in(req: Request, res: Response) {
 	} else if (attendanceOverride === "true") {
 		userDoc.lastCheckIn = Date.now()
 	} else if (date.getDay() === 2 || date.getDay() === 4) {
-		if (date.getHours() >= 14 && date.getHours() <= 17) {
+		if (date.getHours() >= 15 && date.getHours() <= 18) {
 			userDoc.lastCheckIn = Date.now()
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })
 			return
 		}
 	} else if (date.getDay() === 6) {
-		if (date.getHours() >= 7 && date.getHours() <= 16) {
+		if (date.getHours() >= 8 && date.getHours() <= 17) {
 			userDoc.lastCheckIn = Date.now()
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })
