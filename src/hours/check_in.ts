@@ -27,20 +27,21 @@ export default async function check_in(req: Request, res: Response) {
 	}
 
 	const userDoc = await users.findOne({ uid: user.uid })
-	const attendanceOverride = await settings.findOne({ key: 'attendanceOverride' })
+	const attendanceOverride = await settings.findOne({
+		key: 'attendanceOverride',
+	})
 
 	var date = new Date(Date.now() * 1000 - 1000 * 8 * 3600)
 
-  if (userDoc.attendanceStatus !== "notLogging") {
-	  res.status(400).json({ err: 'You are already checked in!' })
-  }
-  else if (attendanceOverride) {
+	if (userDoc.attendanceStatus != 'notLogging') {
+		res.status(400).json({ err: 'You are already checked in!' })
+		return
+	} else if (attendanceOverride) {
 		userDoc.lastCheckIn = Date.now()
-  }
-	else if (weekdays.includes(days[date.getDay()])) {
+	} else if (weekdays.includes(days[date.getDay()])) {
 		if (date.getHours() >= 15 && date.getHours() <= 18) {
 			userDoc.lastCheckIn = Date.now()
-      userDoc.attendanceStatus = "logging"
+			userDoc.attendanceStatus = 'logging'
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })
 			return
@@ -48,7 +49,7 @@ export default async function check_in(req: Request, res: Response) {
 	} else if (days[date.getDay()] === 'Saturday') {
 		if (date.getHours() >= 8 && date.getHours() <= 17) {
 			userDoc.lastCheckIn = Date.now()
-      userDoc.attendanceStatus = "logging"
+			userDoc.attendanceStatus = 'logging'
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })
 			return
