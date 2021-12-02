@@ -38,7 +38,7 @@ export default async function check_out(req: Request, res: Response) {
 		return
 	} else if (attendanceOverride) {
 		userDoc.seconds = Date.now() - userDoc.lastCheckIn
-		userDoc.lastCheckIn = null
+		userDoc.lastCheckIn = 0
 		userDoc.meetingCount++
 	} else if (weekdays.includes(days[date.getDay()])) {
 		if (date.getHours() >= 15 && date.getHours() <= 18) {
