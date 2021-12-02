@@ -33,7 +33,7 @@ export default async function check_out(req: Request, res: Response) {
 
 	var date = new Date(Date.now() * 1000 - 1000 * 8 * 3600)
 
-	if (userDoc.lastCheckIn === null) {
+	if (userDoc.lastCheckIn === 0) {
 		res.status(400).json({ err: 'You are not checked in!' })
 		return
 	} else if (attendanceOverride) {
@@ -43,7 +43,7 @@ export default async function check_out(req: Request, res: Response) {
 	} else if (weekdays.includes(days[date.getDay()])) {
 		if (date.getHours() >= 15 && date.getHours() <= 18) {
 			userDoc.seconds = Date.now() - userDoc.lastCheckIn
-			userDoc.lastCheckIn = ""
+			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })
@@ -52,7 +52,7 @@ export default async function check_out(req: Request, res: Response) {
 	} else if (days[date.getDay()] === 'Saturday') {
 		if (date.getHours() >= 8 && date.getHours() <= 17) {
 			userDoc.seconds = Date.now() - userDoc.lastCheckIn
-			userDoc.lastCheckIn = ""
+			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })

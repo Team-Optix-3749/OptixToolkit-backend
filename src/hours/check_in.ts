@@ -33,7 +33,7 @@ export default async function check_in(req: Request, res: Response) {
 
 	var date = new Date(Date.now() * 1000 - 1000 * 8 * 3600)
 
-	if (userDoc.lastCheckIn !== null) {
+	if (userDoc.lastCheckIn !== 0) {
 		res.status(400).json({ err: 'You are already checked in!' })
 		return
 	} else if (attendanceOverride) {
