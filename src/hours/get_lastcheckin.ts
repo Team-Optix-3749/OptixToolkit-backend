@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { authorize } from '../utils/firebase'
 import { users } from '../utils/models'
 
-export default async function get_meetings(req: Request, res: Response) {
+export default async function get_lastcheckin(req: Request, res: Response) {
   const user = await authorize(req.body.auth)
 
   if (!user) {
