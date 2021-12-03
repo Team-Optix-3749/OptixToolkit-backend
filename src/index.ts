@@ -22,6 +22,7 @@ import check_in from './hours/check_in'
 import check_out from './hours/check_out'
 import get_seconds from './hours/get_seconds'
 import get_meetings from './hours/get_meetings'
+import get_lastcheckin from './hours/get_lastcheckin'
 import { PORT, WEBHOOK_SECRET } from './utils/config'
 
 const app = express()
@@ -85,18 +86,21 @@ app.all('/', (req: Request, res: Response) => {
 		case 'certify-user':
 			certify_user(req, res)
 			break
-    case 'check-out':
-      check_out(req, res)
-      break
-	 case 'get-seconds':
-		get_seconds(req,res)
-		break
-	 case 'get-meetings':
-	   get_meetings(req,res)
-		break
-    case 'check-in':
-      check_in(req, res)
-      break
+		case 'check-out':
+			check_out(req, res)
+			break
+		case 'check-in':
+			check_in(req, res)
+			break
+		case 'get-seconds':
+			get_seconds(req, res)
+			break
+		case 'get-meetings':
+			get_meetings(req, res)
+			break
+		case 'get-lastcheckin':
+			get_lastcheckin(req, res)
+			break
 		default:
 			res.status(400).json({ err: 'endpoint doesnt exist!!' })
 	}
