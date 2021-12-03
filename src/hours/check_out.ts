@@ -46,8 +46,9 @@ export default async function check_out(req: Request, res: Response) {
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
 		} else {
+			userDoc.lastCheckIn = 0
 			res.status(400).json({ err: 'Not in meeting time!' })
-			return
+			return userDoc.save()
 		}
 	} else if (date.getDay() === 6) {
 		if (date.getHours() >= 8 && date.getHours() <= 17) {
@@ -55,12 +56,14 @@ export default async function check_out(req: Request, res: Response) {
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
 		} else {
+			userDoc.lastCheckIn = 0
 			res.status(400).json({ err: 'Not in meeting time!' })
-			return
+			return userDoc.save()
 		}
 	} else {
+		userDoc.lastCheckIn = 0
 		res.status(400).json({ err: 'No meeting today!' })
-		return
+		return userDoc.save()
 	}
 
 	await userDoc.save()
