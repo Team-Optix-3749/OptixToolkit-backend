@@ -13,7 +13,7 @@ export default async function get_seconds(req: Request, res: Response) {
   
   try {
 	 const userDoc = await users.findOne({ uid: user.uid })
-    res.status(200).json({ seconds: userDoc.seconds, err: false })
+    res.status(200).json({ seconds: userDoc.seconds, count: userDoc.meetingCount, err: false })
   } catch (e) {
     res.status(400).json({ err: "Server Error" })
   } 
