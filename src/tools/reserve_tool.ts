@@ -42,6 +42,6 @@ export default async function reserve_tool(req: Request, res: Response) {
 
 		res.status(200).json({ err: false })
 	} else {
-		res.status(400).json({ err: 'Unauthorized request!' })
+		res.status(400).json({ err: 'User not certified!' })
 	}
 }
