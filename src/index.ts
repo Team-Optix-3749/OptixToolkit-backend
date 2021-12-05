@@ -16,6 +16,7 @@ import remove_user from './users/remove_user'
 import list_users from './users/list_users'
 import create_user from './users/create_user'
 import certify_user from './users/certify_user'
+import user_db from './users/user_db'
 import uncertify_user from './users/uncertify_user'
 import reimbursement from './parts/reimbursement'
 import parts_webhook from './parts/parts-webhook'
@@ -98,6 +99,9 @@ app.all('/', (req: Request, res: Response) => {
 			break
 		case 'get-seconds':
 			get_seconds(req, res)
+			break
+		case 'user-db':
+			user_db(req,res)
 			break
 		case 'get-meetings':
 			get_meetings(req, res)
