@@ -16,6 +16,7 @@ import remove_user from './users/remove_user'
 import list_users from './users/list_users'
 import create_user from './users/create_user'
 import certify_user from './users/certify_user'
+import uncertify_user from './users/uncertify_user'
 import reimbursement from './parts/reimbursement'
 import parts_webhook from './parts/parts-webhook'
 import check_in from './hours/check_in'
@@ -85,6 +86,9 @@ app.all('/', (req: Request, res: Response) => {
 			break
 		case 'certify-user':
 			certify_user(req, res)
+			break
+		case 'uncertify-user':
+			uncertify_user(req, res)
 			break
 		case 'check-out':
 			check_out(req, res)

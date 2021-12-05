@@ -110,3 +110,9 @@ export async function certifyUser (uid: string) {
   const currentClaims = user.customClaims
   await admin.auth().setCustomUserClaims(uid, { ...currentClaims, certified: true })
 }
+
+export async function uncertifyUser (uid: string) {
+  const user = await admin.auth().getUser(uid)
+  const currentClaims = user.customClaims
+  await admin.auth().setCustomUserClaims(uid, { ...currentClaims, certified: false })
+}
