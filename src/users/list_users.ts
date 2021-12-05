@@ -15,7 +15,8 @@ export default async function list_users(req: Request, res: Response) {
       users: (await listUsers()).users.map(u => ({
         uid: u.uid,
         email: u.email,
-        displayName: u.displayName
+        displayName: u.displayName,
+				certified: u.customClaims.certified === true
       })) 
     })
 	} catch (e) {
