@@ -31,14 +31,12 @@ export default async function check_in(req: Request, res: Response) {
 		key: 'attendanceOverride',
 	})
 
-	console.log(attendanceOverride)
-
 	var date = new Date(Date.now() - 28800000)
 
 	if (userDoc.lastCheckIn !== 0) {
 		res.status(400).json({ err: 'You are already checked in!' })
 		return
-	} else if (attendanceOverride === "true") {
+	} else if (attendanceOverride.value === "true") {
 		userDoc.lastCheckIn = Date.now()
 	} else if (date.getDay() === 2 || date.getDay() === 4) {
 		if (date.getHours() >= 15 && date.getHours() <= 17) {
