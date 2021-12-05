@@ -31,6 +31,8 @@ export default async function check_in(req: Request, res: Response) {
 		key: 'attendanceOverride',
 	})
 
+	console.log(attendanceOverride)
+
 	var date = new Date(Date.now() - 28800000)
 
 	if (userDoc.lastCheckIn !== 0) {
