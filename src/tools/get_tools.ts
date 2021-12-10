@@ -33,8 +33,6 @@ export default async function get_tools(req: Request, res: Response) {
 			//}
 			let tool2: any = JSON.parse(JSON.stringify(tool))
 			tool2.reservations = cool;
-			console.log(cool)
-			console.log(tool2.reservations)
       	//tool.reservations_uid = res;
 			//tool.reservations = res2
 			newToolsRes.push(tool2)
