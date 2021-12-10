@@ -4,11 +4,6 @@ import { authorize } from '../utils/firebase'
 
 
 export default async function user_db(req: Request, res: Response) {
-	if (!(await authorize(req.body.auth, { type: 'admin' }))) {
-		res.status(400).json({ err: 'Unauthorized request!' })
-		return
-	}
-
 	try {
 		await users.create({
 			uid: req.body.uid,
