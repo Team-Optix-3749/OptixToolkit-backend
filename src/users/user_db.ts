@@ -1,9 +1,14 @@
 import { Request, Response } from 'express'
 import { users, User } from '../utils/models'
 import { authorize } from '../utils/firebase'
-
+import { USER_SECRET ) from '../utils/config'
 
 export default async function user_db(req: Request, res: Response) {
+	
+	if(req.body.secret != USER_SECRET) {
+		res.status(400).json({ err: 'Unauthorized request!' })
+		return
+	}
 	try {
 		await users.create({
 			uid: req.body.uid,
