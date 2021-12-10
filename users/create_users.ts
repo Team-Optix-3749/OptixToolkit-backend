@@ -4,6 +4,14 @@ import '@firebase/auth'
 import fs from 'fs'
 import path from 'path'
 const serviceAccount = require('./firebaseServiceKey.json')
+import fetch from 'node-fetch'
+import { config } from 'dotenv'
+config()
+
+let id_token = null
+const email2 = process.env.EMAIL
+const password2 = process.env.PASSWORD
+const secret = process.env.secret
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
@@ -39,6 +47,25 @@ async function createAdmin(email: string, name: string) {
 		.auth()
 		.setCustomUserClaims(user.uid, { admin: true, member: true })
 
+	const result = await fetch('https://toolkit.team3749.org', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json',
+			Accept: 'application/json',
+			'Accept-Charset': 'utf-8',
+		},
+		body: JSON.stringify({
+			endpoint: 'user-db',
+			auth: id_token,
+			uid: user.uid,
+			secret,
+		}),
+	})
+
+	console.log(await result.text())
+
+	//console.log(await result.json())
+
 	return firebase.auth().sendPasswordResetEmail(email)
 }
 
@@ -58,6 +85,23 @@ async function createMember(email: string, name: string) {
 	}
 
 	await admin.auth().setCustomUserClaims(user.uid, { member: true })
+
+	const result = await fetch('https://toolkit.team3749.org', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json',
+			Accept: 'application/json',
+			'Accept-Charset': 'utf-8',
+		},
+		body: JSON.stringify({
+			endpoint: 'user_db',
+			auth: id_token,
+			uid: user.uid,
+			secret,
+		}),
+	})
+
+	console.log(await result.json())
 
 	return firebase.auth().sendPasswordResetEmail(email)
 }
@@ -95,10 +139,20 @@ for (const row of csv) {
 	}
 }
 
-Promise.all(promises).finally(() => {
-	console.log('Completing program...')
-	process.exit(0)
-})
+async function login() {
+	const { user } = await firebase
+		.auth()
+		.signInWithEmailAndPassword(email2, password2)
+	id_token = user.getIdToken()
+}
+login()
+	.then(() => {
+		Promise.all(promises).finally(() => {
+			console.log('Completing program...')
+			process.exit(0)
+		})
+	})
+	.catch((e) => console.log(e))
 /*createAdmin('admin@team3749.org', 'Admin').then(() => {
 	console.log('job finished')
 	process.exit()
