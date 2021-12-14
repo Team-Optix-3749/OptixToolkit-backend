@@ -4,16 +4,6 @@ import { settings, users } from '../utils/models'
 
 export default async function check_in(req: Request, res: Response) {
 	const user = await authorize(req.body.auth)
-	const days = [
-		'Sunday',
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday',
-	]
-	const weekdays = ['Tuesday', 'Thursday']
 
 	if (!user) {
 		res.status(400).json({ err: 'Unauthorized request!' })
