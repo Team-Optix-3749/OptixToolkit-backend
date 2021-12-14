@@ -94,7 +94,7 @@ async function createMember(email: string, name: string) {
 			'Accept-Charset': 'utf-8',
 		},
 		body: JSON.stringify({
-			endpoint: 'user_db',
+			endpoint: 'user-db',
 			auth: id_token,
 			uid: user.uid,
 			secret,
