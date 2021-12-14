@@ -36,6 +36,10 @@ export default async function check_out(req: Request, res: Response) {
 	if (userDoc.lastCheckIn === 0) {
 		res.status(400).json({ err: 'You are not checked in!' })
 		return
+	}  else if (Date.now() - userDoc.lastCheckIn > 43200000) {
+		userDoc.lastCheckIn = 0
+		res.status(400).json({ err: 'You did not check out last meeting! Your hours will not be counted for that meeting.' })
+		return
 	} else if (attendanceOverride.value === "true") {
 		userDoc.seconds += Date.now() - userDoc.lastCheckIn
 		userDoc.lastCheckIn = 0
