@@ -14,7 +14,6 @@ firebase.initializeApp({
 	appId: '1:227710522821:web:8992302e340bb9c1b767ac',
 	measurementId: 'G-0M4XPGFFXM',
 })
-
 const email = process.env.EMAIL
 const password = process.env.PASSWORD
 
@@ -37,6 +36,7 @@ async function main() {
 			},
 			body: JSON.stringify({
 				endpoint: 'add-hours',
+				auth: id_token,
 				uid: 'INSERT USER UID',
 				seconds: HRS * 60 * 60,
 			}),
