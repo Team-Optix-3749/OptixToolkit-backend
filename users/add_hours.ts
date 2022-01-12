@@ -38,7 +38,7 @@ async function main() {
 				endpoint: 'add-hours',
 				auth: id_token,
 				uid: 'INSERT USER UID',
-				seconds: HRS * 60 * 60,
+				seconds: HRS * 60 * 60 * 1000,
 			}),
 		})
 		console.log(await res6.json())
