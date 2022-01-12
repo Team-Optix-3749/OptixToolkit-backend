@@ -21,6 +21,7 @@ import uncertify_user from './users/uncertify_user'
 import reimbursement from './parts/reimbursement'
 import parts_webhook from './parts/parts-webhook'
 import check_in from './hours/check_in'
+import add_hours from './hours/add_hours'
 import check_out from './hours/check_out'
 import get_seconds from './hours/get_seconds'
 import get_meetings from './hours/get_meetings'
@@ -101,13 +102,16 @@ app.all('/', (req: Request, res: Response) => {
 			get_seconds(req, res)
 			break
 		case 'user-db':
-			user_db(req,res)
+			user_db(req, res)
 			break
 		case 'get-meetings':
 			get_meetings(req, res)
 			break
 		case 'get-lastcheckin':
 			get_lastcheckin(req, res)
+			break
+		case 'add-hours':
+			add_hours(req, res)
 			break
 		default:
 			res.status(400).json({ err: 'endpoint doesnt exist!!' })
