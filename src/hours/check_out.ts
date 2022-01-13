@@ -34,8 +34,8 @@ export default async function check_out(req: Request, res: Response) {
 		userDoc.lastCheckIn = 0
 		res.status(400).json({ err: 'You did not check out last meeting! Your hours will not be counted.' })
 		return userDoc.save()
-	} else if (date.getDay() === 2 || date.getDay() === 4) {
-		if (date.getHours() >= 15 && date.getHours() <= 17) {
+	} else if (date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4) {
+		if (date.getHours() >= 15 && date.getHours() <= 19) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
