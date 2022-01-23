@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { authorize } from '../utils/firebase'
 import { users } from '../utils/models'
 
-export default async function get_seconds(req: Request, res: Response) {
+export default async function get_seconds_cli(req: Request, res: Response) {
   const user = await authorize(req.body.auth)
 
   if (!user) {
