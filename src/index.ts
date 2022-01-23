@@ -24,6 +24,7 @@ import check_in from './hours/check_in'
 import add_hours from './hours/add_hours'
 import check_out from './hours/check_out'
 import get_seconds from './hours/get_seconds'
+import get_seconds_cli from './hours/get_seconds_cli'
 import get_meetings from './hours/get_meetings'
 import get_lastcheckin from './hours/get_lastcheckin'
 import { PORT, WEBHOOK_SECRET } from './utils/config'
@@ -100,6 +101,9 @@ app.all('/', (req: Request, res: Response) => {
 			break
 		case 'get-seconds':
 			get_seconds(req, res)
+			break
+		case 'get-seconds-cli':
+			get_seconds_cli(req,res)
 			break
 		case 'user-db':
 			user_db(req, res)
