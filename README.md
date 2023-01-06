@@ -1,4 +1,4 @@
-# OptixToolkit-backend
+# OptixToolkit Backend
 
 🗄 A backend for FRC Team Optix 3749's OptixToolkit app
 
