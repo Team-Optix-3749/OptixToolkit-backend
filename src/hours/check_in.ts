@@ -29,13 +29,13 @@ export default async function check_in(req: Request, res: Response) {
 	} else if (attendanceOverride.value === "true") {
 		userDoc.lastCheckIn = Date.now()
 	} else if (date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4) {
-		if (date.getHours() >= 14 && date.getHours() <= 18) {
+		if (date.getHours() >= 14 && (date.getHours() <= 17 && date.getMinutes() <= 30)) {
 			userDoc.lastCheckIn = Date.now()
 		} else {
 			res.status(400).json({ err: 'Not in meeting time!' })
 			return
 		}
-	} else if (date.getDay() === 6) {
+	} else if (date.getDay() === 6 && false) {
 		if (date.getHours() >= 8 && date.getHours() <= 17) {
 			userDoc.lastCheckIn = Date.now()
 		} else {
