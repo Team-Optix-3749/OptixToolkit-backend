@@ -1,65 +1,56 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState, Dispatch } from "react";
+import Cookie from "js-cookie";
 
 import "./App.css";
-// import { type_dbDataSetState } from "./lib/types";
-import { getValidUsers, main } from "./lib/db/dbTools";
-import { validateLogin_string } from "./lib/auth/authTools";
-
-const SECRETS = import.meta.env;
+import * as SECRETS from "./lib/secrets";
+import { displayLoginModal } from "./lib/auth/authTools";
+import { getAdminUsers } from "./lib/db/dbTools";
 
 /* 
-  I dont yet know how the firebase authentication will work 
-  so I made validateLogin_string hoping that it will return a uid 
-  and I can compare that to the list of uids from firebase
+  validate user
 
   user will then be redirected from <Loading /> to <Main /> if they 
   have admin credentials otherwise to some error page.
 
-  <Main /> will contain ways to input a name, hours and an optional meeting count
+  <Homepage /> will contain ways to input a name, hours and an optional meeting count
   when submitted, meeting count will be incremented and everything else...
 
   this will also contain a way to add 'admin' role to more people
 */
 
 export default function App() {
+  const [validated, SETvalidated] = useState(false);
+
   useEffect(() => {
     //authenticating user
+    const authorized = Cookie.get("authorized") === "true" ? true : false;
 
-    (async () => {
-      try {
-        console.log(validateLogin_string("foo"));
-      } catch (e) {
-        console.warn(e);
-      }
-    })();
+    SETvalidated(authorized);
   }, []);
 
-  return <Loading />;
+  return validated ? <Homepage /> : <Login {...{ SETvalidated }} />;
 }
 
-function Loading() {
-  return <h2>loading</h2>;
+function Login({
+  SETvalidated
+}: {
+  SETvalidated: Dispatch<SetStateAction<boolean>>;
+}) {
+  const handleLogin = async function () {
+    const user = await displayLoginModal();
+    const admins = await getAdminUsers();
+
+    if (admins.includes(user?.uid as string)) {
+      Cookie.set("authenticated", "true", { expires: 1 });
+      SETvalidated(true);
+    }
+  };
+
+  return <button onClick={handleLogin}>Login</button>;
 }
 
-// function Homepage() {
-//   const [loading, SETloading] = useState(true);
-//   const [dbData, SETdbData] = useState({});
+function Homepage() {
+  //check if user is logged in ... if not remove auth cookie and redirect
 
-//   useEffect(() => {
-//     (async () => {
-//       await setTimeout(() => {
-//         SETdbData({
-//           uid: "rhgbeThIMBV86P15RgMkCHrxQgf1",
-//           lastCheckIn: 0,
-//           seconds: 14400000,
-//           meetingCount: 3,
-//           __v: 0
-//         });
-//       }, 200);
-//     })();
-
-//     SETloading(false);
-//   }, []);
-
-//   return <h1>hello</h1>;
-// }
+  return <h1>hello</h1>;
+}
