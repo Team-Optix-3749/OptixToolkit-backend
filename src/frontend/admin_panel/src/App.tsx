@@ -3,8 +3,8 @@ import Cookie from "js-cookie";
 
 import "./App.css";
 import * as SECRETS from "./lib/secrets";
-import { displayLoginModal } from "./lib/auth/authTools";
-import { getAdminUsers } from "./lib/db/dbTools";
+import { validateUser } from "./lib/auth/authTools";
+import { isValidated } from "./lib/types";
 
 /* 
   validate user
@@ -19,38 +19,57 @@ import { getAdminUsers } from "./lib/db/dbTools";
 */
 
 export default function App() {
-  const [validated, SETvalidated] = useState(false);
+  const [validated, SETvalidated] = useState<isValidated>("false");
 
   useEffect(() => {
     //authenticating user
-    const authorized = Cookie.get("authorized") === "true" ? true : false;
-
-    SETvalidated(authorized);
+    if (Cookie.get("authorized") === "true") {
+      SETvalidated("true");
+    }
   }, []);
 
-  return validated ? <Homepage /> : <Login {...{ SETvalidated }} />;
+  switch (validated) {
+    case "true":
+      return <HomePage />;
+    case "false":
+      return <LoginPage {...{ SETvalidated }} />;
+    case "notAuthorized":
+      return <NotAuthorizedPage />;
+    case "error":
+      return <ErrorPage />;
+  }
 }
 
-function Login({
+function LoginPage({
   SETvalidated
 }: {
-  SETvalidated: Dispatch<SetStateAction<boolean>>;
+  SETvalidated: Dispatch<SetStateAction<isValidated>>;
 }) {
   const handleLogin = async function () {
-    const user = await displayLoginModal();
-    const admins = await getAdminUsers();
-
-    if (admins.includes(user?.uid as string)) {
-      Cookie.set("authenticated", "true", { expires: 1 });
-      SETvalidated(true);
-    }
+    await validateUser().then((result) => {
+      if (result == true) {
+        SETvalidated("true");
+      } else if (result == false) {
+        SETvalidated("notAuthorized");
+      } else {
+        SETvalidated("error");
+      }
+    });
   };
 
   return <button onClick={handleLogin}>Login</button>;
 }
 
-function Homepage() {
-  //check if user is logged in ... if not remove auth cookie and redirect
+function HomePage() {
+  //check if user is logged in in the background... if not remove auth cookie and redirect
 
   return <h1>hello</h1>;
+}
+
+function ErrorPage() {
+  return <h1>Something went wrong ... refresh the page</h1>;
+}
+
+function NotAuthorizedPage() {
+  return <h1>you are not an admin</h1>;
 }

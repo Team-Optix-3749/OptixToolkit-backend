@@ -5,24 +5,33 @@ import { firebaseApp } from "../db/dbTools";
 import * as SECRETS from "../secrets";
 
 const authProvider = new GoogleAuthProvider();
-const auth = getAuth(firebaseApp);
+const firebaseAuth = getAuth(firebaseApp);
 
-auth.useDeviceLanguage();
+firebaseAuth.useDeviceLanguage();
 authProvider.setCustomParameters({
   login_hint: "user@example.com"
 });
 
-export async function displayLoginModal() {
+export async function validateUser() {
   try {
-    const user = await signInWithPopup(auth, authProvider).then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const user = result.user;
-      // getAdditionalUserInfo(result);
-    
-      return user;
-    });
+    const user = await signInWithPopup(firebaseAuth, authProvider).then(
+      async (result) => {
+        // GoogleAuthProvider.credentialFromResult(result);
+        const user = result.user;
+        const uid = user.uid;
 
-    return user
+        //use an API here to get if user is admin or not
+        const isAdmin = true;
+
+        if (isAdmin) {
+          Cookie.set("authenticated", "true", { expires: 1 });
+        }
+
+        return isAdmin;
+      }
+    );
+
+    return user;
   } catch (err: any) {
     const errorCode = err.code;
     const errorMessage = err.message;

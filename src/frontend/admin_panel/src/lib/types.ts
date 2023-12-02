@@ -12,3 +12,5 @@ export type firebaseConfig = {
   appId: string;
   measurementId: string;
 };
+
+export type isValidated = "true" | "false" | "notAuthorized" | "error"

@@ -24,19 +24,19 @@ export async function getUserData(userID: string) {
   return await users_collection.findOne({ uid: userID });
 }
 
-let adminUsers: string[];
-export async function getAdminUsers() {
-  //write code to get valid users from firebase
-  if (adminUsers) return adminUsers;
+// let adminUsers: string[];
+// export async function getAdminUsers() {
+//   //write code to get valid users from firebase
+//   if (adminUsers) return adminUsers;
 
-  const [value, , error] = useDocumentData(doc(firestore, "users/admins"));
+//   const [value, , error] = useDocumentData(doc(firestore, "users/admins"));
 
-  if (error) throw new Error(error as unknown as string);
+//   if (error) throw new Error(error as unknown as string);
 
-  console.log(value);
+//   console.log(value);
 
-  const fetchedValidUsers: string[] = [];
-  adminUsers = fetchedValidUsers;
+//   const fetchedValidUsers: string[] = [];
+//   adminUsers = fetchedValidUsers;
 
-  return adminUsers;
-}
+//   return adminUsers;
+// }
