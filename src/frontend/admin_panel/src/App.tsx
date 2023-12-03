@@ -2,10 +2,11 @@ import { SetStateAction, useEffect, useState, Dispatch } from "react";
 import Cookie from "js-cookie";
 
 import "./App.css";
-import * as SECRETS from "./lib/secrets";
-import { validateUser } from "./lib/auth/authTools";
+import { validateUser } from "./lib/utils/auth/authTools";
 import { isValidated } from "./lib/types";
+import { initializeApp } from "firebase/app";
 
+const SECRETS = import.meta.env;
 /* 
   validate user
 
@@ -23,9 +24,6 @@ export default function App() {
 
   useEffect(() => {
     //authenticating user
-    if (Cookie.get("authorized") === "true") {
-      SETvalidated("true");
-    }
   }, []);
 
   switch (validated) {
