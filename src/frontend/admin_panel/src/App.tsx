@@ -2,9 +2,9 @@ import { SetStateAction, useEffect, useState, Dispatch } from "react";
 import Cookie from "js-cookie";
 
 import "./App.css";
-import { validateUser } from "./lib/utils/auth/authTools";
 import { isValidated } from "./lib/types";
-import { initializeApp } from "firebase/app";
+import LoginPage from "./lib/components/LoginPage";
+import HomePage from "./lib/components/HomePage";
 
 const SECRETS = import.meta.env;
 /* 
@@ -20,48 +20,22 @@ const SECRETS = import.meta.env;
 */
 
 export default function App() {
-  const [validated, SETvalidated] = useState<isValidated>("false");
+  const [validated, SETvalidated] = useState<isValidated>(false);
 
   useEffect(() => {
     //authenticating user
   }, []);
 
   switch (validated) {
-    case "true":
+    case true:
       return <HomePage />;
-    case "false":
+    case false:
       return <LoginPage {...{ SETvalidated }} />;
     case "notAuthorized":
       return <NotAuthorizedPage />;
     case "error":
       return <ErrorPage />;
   }
-}
-
-function LoginPage({
-  SETvalidated
-}: {
-  SETvalidated: Dispatch<SetStateAction<isValidated>>;
-}) {
-  const handleLogin = async function () {
-    await validateUser().then((result) => {
-      if (result == true) {
-        SETvalidated("true");
-      } else if (result == false) {
-        SETvalidated("notAuthorized");
-      } else {
-        SETvalidated("error");
-      }
-    });
-  };
-
-  return <button onClick={handleLogin}>Login</button>;
-}
-
-function HomePage() {
-  //check if user is logged in in the background... if not remove auth cookie and redirect
-
-  return <h1>hello</h1>;
 }
 
 function ErrorPage() {

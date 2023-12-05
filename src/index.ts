@@ -1,4 +1,6 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
+
 import parts_add from "./parts/parts_add";
 import parts_get from "./parts/parts_get";
 import parts_remove from "./parts/parts_remove";
@@ -29,39 +31,48 @@ import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
-import { authorize } from "./utils/firebase";
+const { authorize } = require("./utils/firebase");
 
 const app = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,PUT,POST,DELETE"
+  })
+);
 
 app.post("/auth", async (req: Request, res: Response) => {
-  console.warn("UNSAFE!! no authorization");
+  //allow all cors
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Content-Type", "application/json");
+
+  console.warn("UNSAFE!! no api key yet");
 
   switch (req.body.endpoint) {
-    case "authorize":
+    case "authorize": {
       //maybe extrapolate function to new file
 
       await (async (req: Request, res: Response) => {
         const token = req.body.payload.token;
         const type = req.body.payload.type;
-        try {
-          await authorize(token, type);
-          res.status(200).send(true);
-        } catch (err) {
-          console.warn(err);
-          res.status(200).send(false);
-        }
+
+        const authorized = await authorize(token, { type });
+
+        authorized ? res.status(200).send(true) : res.status(400).send(false);
       })(req, res);
       break;
+    }
 
     default:
-      res.status(400).send("Invalid endpoint");
+      res.status(400).json({ err: "endpoint doesn't exist on '/auth'" });
   }
 });
 
 //potentially change to POST
-app.all("/", (req: Request, res: Response) => {
+app.all("/", async (req: Request, res: Response) => {
   switch (req.body.endpoint) {
     case "parts-get":
       parts_get(req, res);
@@ -145,11 +156,9 @@ app.all("/", (req: Request, res: Response) => {
       add_hours(req, res);
       break;
     default:
-      res.status(400).json({ err: "endpoint doesnt exist!!" });
+      res.status(400).json({ err: "endpoint doesn't exist on '/'" });
   }
 });
-
-app.get(`/${WEBHOOK_SECRET}`, parts_webhook);
 
 app.listen(PORT, () => {
   console.log("Server Started!!");

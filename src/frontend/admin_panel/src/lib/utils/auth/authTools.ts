@@ -3,12 +3,10 @@ import {
   GoogleAuthProvider,
   UserCredential,
   browserLocalPersistence,
-  browserSessionPersistence,
   getAuth,
   setPersistence,
   signInWithPopup
 } from "firebase/auth";
-import Cookie from "js-cookie";
 
 import { firebaseApp } from "../firebase";
 
@@ -24,24 +22,27 @@ let firebaseAuth: Auth;
 export async function validateUser() {
   if (!firebaseAuth) {
     firebaseAuth = getAuth(firebaseApp);
-    setPersistence(firebaseAuth, browserSessionPersistence);
+    setPersistence(firebaseAuth, browserLocalPersistence);
 
     firebaseAuth.useDeviceLanguage();
     authProvider.setCustomParameters({
       login_hint: "user@example.com"
     });
+
+    await firebaseAuth.authStateReady();
+    var userIdToken = firebaseAuth.currentUser?.getIdToken();
   }
 
-  const handleSignIn = async function (result: UserCredential) {
-    // GoogleAuthProvider.credentialFromResult(result);
-    const user = result.user;
-
-    const isAdmin = await fetch(`${SECRETS.VITE_BACKEND_URL}/auth`, {
+  const handleSignIn = async function (token: Promise<string>) {
+    const isAdmin = await fetch(`http://${SECRETS.VITE_BACKEND_URL}/auth`, {
+      headers: {
+        "Content-Type": "application/json"
+      },
       method: "POST",
       body: JSON.stringify({
         endpoint: "authorize",
         payload: {
-          token: user.getIdToken(),
+          token: await token,
           type: "admin"
         }
       })
@@ -49,20 +50,24 @@ export async function validateUser() {
       .then((res) => res.json())
       .then();
 
-    console.log("isAdmin", isAdmin);
-
     return isAdmin;
   };
 
-  try {
-    //signInWithPopup || signInWithRedirect
+  if (userIdToken) {
+    return [null, () => handleSignIn(userIdToken as any), null];
+  }
 
-    const user = await signInWithPopup(firebaseAuth, authProvider).then(
-      handleSignIn
+  try {
+    const isAdmin = await handleSignIn(
+      signInWithPopup(firebaseAuth, authProvider).then(
+        (userCred) => userCred.user?.getIdToken()
+      )
     );
 
-    return user;
+    return [isAdmin, null, null];
   } catch (err: any) {
     console.warn("AUTH ERROR:" + err);
+
+    return [, , err];
   }
 }
