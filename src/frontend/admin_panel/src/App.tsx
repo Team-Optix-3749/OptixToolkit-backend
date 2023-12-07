@@ -3,7 +3,7 @@ import React from "react";
 import "./App.css";
 import { isValidated } from "./lib/types";
 import LoginPage from "./lib/components/LoginPage";
-import HomePage from "./lib/components/HomePage";
+import HomePage from "./lib/components/DashboardPage";
 
 const SECRETS = import.meta.env;
 /* 

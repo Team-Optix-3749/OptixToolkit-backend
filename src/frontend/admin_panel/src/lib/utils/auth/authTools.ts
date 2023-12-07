@@ -8,7 +8,7 @@ import {
   signInWithPopup
 } from "firebase/auth";
 
-import { firebaseApp } from "../firebase";
+import { firebaseApp } from "../db/firebase";
 
 const SECRETS = import.meta.env;
 
@@ -34,7 +34,7 @@ export async function validateUser(email?: string, pass?: string) {
   }
 
   const handleSignIn = async function (token: Promise<string>) {
-    const isAdmin = await fetch(`http://${SECRETS.VITE_BACKEND_URL}/auth`, {
+    const isAdmin = await fetch(`http://${SECRETS.VITE_BACKEND_URL}/api/auth`, {
       headers: {
         "Content-Type": "application/json"
       },

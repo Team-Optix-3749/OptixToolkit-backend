@@ -43,7 +43,7 @@ app.use(
   })
 );
 
-app.post("/auth", async (req: Request, res: Response) => {
+app.post("/api/auth", async (req: Request, res: Response) => {
   //allow all cors
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -72,6 +72,10 @@ app.post("/auth", async (req: Request, res: Response) => {
       res.status(400).json({ err: "endpoint doesn't exist on '/auth'" });
   }
 });
+
+app.post("/api/db", async (req: Request, res: Response) => {
+
+})
 
 //potentially change to POST
 app.post("/", async (req: Request, res: Response) => {
