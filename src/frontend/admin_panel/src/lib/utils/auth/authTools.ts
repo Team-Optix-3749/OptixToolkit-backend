@@ -1,10 +1,10 @@
 import {
   Auth,
   GoogleAuthProvider,
-  UserCredential,
-  browserLocalPersistence,
+  browserSessionPersistence,
   getAuth,
   setPersistence,
+  signInWithEmailAndPassword,
   signInWithPopup
 } from "firebase/auth";
 
@@ -19,10 +19,10 @@ let firebaseAuth: Auth;
   If we want to save sign in state then change to browserLocalPersistence
 */
 
-export async function validateUser() {
+export async function validateUser(email?: string, pass?: string) {
   if (!firebaseAuth) {
     firebaseAuth = getAuth(firebaseApp);
-    setPersistence(firebaseAuth, browserLocalPersistence);
+    setPersistence(firebaseAuth, browserSessionPersistence);
 
     firebaseAuth.useDeviceLanguage();
     authProvider.setCustomParameters({
@@ -58,16 +58,35 @@ export async function validateUser() {
   }
 
   try {
-    const isAdmin = await handleSignIn(
-      signInWithPopup(firebaseAuth, authProvider).then(
+    if (email && pass) {
+      var token = signInWithEmailAndPassword(firebaseAuth, email, pass).then(
         (userCred) => userCred.user?.getIdToken()
-      )
-    );
+      );
+    } else {
+      var token = signInWithPopup(firebaseAuth, authProvider).then(
+        (userCred) => userCred.user?.getIdToken()
+      );
+    }
+
+    const isAdmin = await handleSignIn(token);
+
+    if(isAdmin != true) {
+      firebaseAuth.currentUser?.delete();
+    }
 
     return [isAdmin, null, null];
   } catch (err: any) {
     console.warn("AUTH ERROR:" + err);
 
-    return [, , err];
+    return [null, null, err];
+  }
+}
+
+export function signOut() {
+  try {
+    firebaseAuth.currentUser?.delete();
+    firebaseAuth.signOut();
+  } catch (error) {
+    console.warn(error);
   }
 }

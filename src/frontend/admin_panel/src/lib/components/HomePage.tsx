@@ -1,11 +1,26 @@
+import React from "react";
+import toast from "react-hot-toast";
+
+import { signOut } from "../utils/auth/authTools";
+
 export default function HomePage() {
-  //check if user is logged in in the background... if not remove auth cookie and redirect
+  React.useEffect(() => {
+    const background_validateTask = (globalThis as any).background_validate;
+    if (background_validateTask) {
+      background_validateTask().then((isValid: boolean) => {
+        if (!isValid) {
+          toast.error("You are not authorized. Please relogin");
+          signOut();
+          window.location.reload();
+        }
+      });
+    }
+  }, []);
 
-  return <main>
-    <button onClick={async () => {
-      const f = await (globalThis as any).background_validate();
-
-      console.log(f)
-    }}>hello</button>
-  </main>;
+  return (
+    <main>
+      <button>asdfiasdhoif</button>
+      
+    </main>
+  );
 }

@@ -31,7 +31,7 @@ import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
-const { authorize } = require("./utils/firebase");
+import { authorize } from "./utils/firebase";
 
 const app = express();
 
@@ -59,9 +59,11 @@ app.post("/auth", async (req: Request, res: Response) => {
         const token = req.body.payload.token;
         const type = req.body.payload.type;
 
-        const authorized = await authorize(token, { type });
-
-        authorized ? res.status(200).send(true) : res.status(400).send(false);
+        if ((await authorize(token, { type })) === false) {
+          res.status(200).json(false);
+        } else if (await authorize(token, { type })) {
+          res.status(200).json(true);
+        }
       })(req, res);
       break;
     }
@@ -72,7 +74,7 @@ app.post("/auth", async (req: Request, res: Response) => {
 });
 
 //potentially change to POST
-app.all("/", async (req: Request, res: Response) => {
+app.post("/", async (req: Request, res: Response) => {
   switch (req.body.endpoint) {
     case "parts-get":
       parts_get(req, res);

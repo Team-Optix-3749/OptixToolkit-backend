@@ -1,5 +1,4 @@
-import { SetStateAction, useEffect, useState, Dispatch } from "react";
-import Cookie from "js-cookie";
+import React from "react";
 
 import "./App.css";
 import { isValidated } from "./lib/types";
@@ -20,9 +19,9 @@ const SECRETS = import.meta.env;
 */
 
 export default function App() {
-  const [validated, SETvalidated] = useState<isValidated>(false);
+  const [validated, SETvalidated] = React.useState<isValidated>(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     //authenticating user
   }, []);
 

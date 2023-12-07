@@ -15,6 +15,11 @@ const firebaseConfig = {
   measurementId: "G-YSQX2FQCZX"
 };
 
+//house -> users
+//settings & keys -> settings
+//new one for parts barcodse
+
+
 export const firebaseApp: FirebaseApp = initializeApp(firebaseConfig);
 
 // const firestore = getFirestore(firebaseApp);

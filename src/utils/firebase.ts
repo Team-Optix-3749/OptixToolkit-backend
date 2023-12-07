@@ -47,6 +47,9 @@ export async function authorize(
   if (token == undefined) return false;
   try {
     const user = await admin.auth(adminApp).verifyIdToken(token);
+
+    console.log(user);
+
     if (!user.member) throw new Error("Invalid user!");
     if (!user.admin && options.type == "admin")
       throw new Error("User not Admin!");
