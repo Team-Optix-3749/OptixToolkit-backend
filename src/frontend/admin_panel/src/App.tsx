@@ -1,11 +1,10 @@
 import React from "react";
 
 import "./App.css";
-import { isValidated } from "./lib/types";
+import { validationState } from "./lib/types";
 import LoginPage from "./lib/components/LoginPage";
 import HomePage from "./lib/components/DashboardPage";
 
-const SECRETS = import.meta.env;
 /* 
   validate user
 
@@ -19,7 +18,7 @@ const SECRETS = import.meta.env;
 */
 
 export default function App() {
-  const [validated, SETvalidated] = React.useState<isValidated>(false);
+  const [validated, SETvalidated] = React.useState<validationState>(false);
 
   React.useEffect(() => {
     //authenticating user

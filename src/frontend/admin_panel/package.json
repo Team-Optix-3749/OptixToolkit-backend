@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@types/js-cookie": "^3.0.6",
-    "ag-grid-react": "^31.0.0",
+    "ag-grid-react": "^31.0.1",
     "firebase": "^10.7.0",
     "mongodb": "^6.3.0",
     "react": "^18.2.0",

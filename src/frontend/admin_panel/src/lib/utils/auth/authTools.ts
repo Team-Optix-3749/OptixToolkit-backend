@@ -8,9 +8,8 @@ import {
   signInWithPopup
 } from "firebase/auth";
 
+import SECRETS from "../../secrets";
 import { firebaseApp } from "../db/firebase";
-
-const SECRETS = import.meta.env;
 
 const authProvider = new GoogleAuthProvider();
 let firebaseAuth: Auth;
@@ -19,7 +18,7 @@ let firebaseAuth: Auth;
   If we want to save sign in state then change to browserLocalPersistence
 */
 
-export async function validateUser(email?: string, pass?: string) {
+export async function getIdToken() {
   if (!firebaseAuth) {
     firebaseAuth = getAuth(firebaseApp);
     setPersistence(firebaseAuth, browserSessionPersistence);
@@ -30,11 +29,18 @@ export async function validateUser(email?: string, pass?: string) {
     });
 
     await firebaseAuth.authStateReady();
-    var userIdToken = firebaseAuth.currentUser?.getIdToken();
   }
+  return firebaseAuth.currentUser?.getIdToken();
+}
+
+export async function validateUser(
+  email?: string,
+  pass?: string,
+) {
+  const userIdToken = await getIdToken();
 
   const handleSignIn = async function (token: Promise<string>) {
-    const isAdmin = await fetch(`http://${SECRETS.VITE_BACKEND_URL}/api/auth`, {
+    const isAdmin = await fetch(`${SECRETS.BACKEND_URL}/api/auth`, {
       headers: {
         "Content-Type": "application/json"
       },
@@ -48,7 +54,6 @@ export async function validateUser(email?: string, pass?: string) {
       })
     })
       .then((res) => res.json())
-      .then();
 
     return isAdmin;
   };
@@ -58,19 +63,21 @@ export async function validateUser(email?: string, pass?: string) {
   }
 
   try {
+    let token;
+
     if (email && pass) {
-      var token = signInWithEmailAndPassword(firebaseAuth, email, pass).then(
+      token = signInWithEmailAndPassword(firebaseAuth, email, pass).then(
         (userCred) => userCred.user?.getIdToken()
       );
     } else {
-      var token = signInWithPopup(firebaseAuth, authProvider).then(
+      token = signInWithPopup(firebaseAuth, authProvider).then(
         (userCred) => userCred.user?.getIdToken()
       );
     }
 
     const isAdmin = await handleSignIn(token);
 
-    if(isAdmin != true) {
+    if (isAdmin != true) {
       firebaseAuth.currentUser?.delete();
     }
 
@@ -80,6 +87,12 @@ export async function validateUser(email?: string, pass?: string) {
 
     return [null, null, err];
   }
+}
+
+export async function task_setBackgroundValidate() {}
+
+export async function isValidated() {
+  return !!(await getIdToken());
 }
 
 export function signOut() {

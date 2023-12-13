@@ -20,7 +20,7 @@ export const {
   FIREBASE_JSON
 } = {
   USER_SECRET: "gamers",
-  MONGO_URL: "mongodb://127.0.0.1:27017",
+  MONGO_URL: "mongodb://127.0.0.1:27017/toolkit",
   WEBHOOK_SECRET: "",
   SENDGRID_KEY: "",
   FIREBASE_PROJECT_ID: firebaseJson.project_id,

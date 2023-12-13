@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import subdomain from "express-subdomain";
 
 import parts_add from "./parts/parts_add";
 import parts_get from "./parts/parts_get";
@@ -32,6 +33,7 @@ import get_lastcheckin from "./hours/get_lastcheckin";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
 import { authorize } from "./utils/firebase";
+import { get_settingsCol, get_usersCol } from "./database/mongo";
 
 const app = express();
 
@@ -69,13 +71,26 @@ app.post("/api/auth", async (req: Request, res: Response) => {
     }
 
     default:
-      res.status(400).json({ err: "endpoint doesn't exist on '/auth'" });
+      res.status(400).json({ err: "endpoint doesn't exist on '/api/auth'" });
   }
 });
 
 app.post("/api/db", async (req: Request, res: Response) => {
+  switch (req.body.endpoint) {
+    case "get-settings": {
+      get_settingsCol(req, res);
+      break;
+    }
 
-})
+    case "get-users": {
+      get_usersCol(req, res);
+      break;
+    }
+
+    default:
+      res.status(400).json({ err: "endpoint doesn't exist on '/api/db'" });
+  }
+});
 
 //potentially change to POST
 app.post("/", async (req: Request, res: Response) => {

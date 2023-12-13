@@ -1,8 +1,4 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
-// import { DocumentReference, getFirestore, doc } from "firebase/firestore/lite";
-// import { useDocumentData } from "react-firebase-hooks/firestore";
-
-const SECRETS = import.meta.env;
 
 const firebaseConfig = {
   apiKey: "AIzaSyDI04e7u2jaeyjvjZTZCyits0KeMI6KKIk",
@@ -18,7 +14,6 @@ const firebaseConfig = {
 //house -> users
 //settings & keys -> settings
 //new one for parts barcodse
-
 
 export const firebaseApp: FirebaseApp = initializeApp(firebaseConfig);
 
