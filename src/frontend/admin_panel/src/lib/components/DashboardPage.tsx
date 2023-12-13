@@ -44,7 +44,7 @@ export default function DashboardPage() {
       <div
         className={"ag-theme-alpine-dark"}
         style={{ width: "100%", height: "100%", maxHeight: "40rem" }}>
-        <AgGridReact rowData={tbData} columnDefs={SECRETS.TABLE_DEFS as any} column/>
+        <AgGridReact rowData={tbData} columnDefs={SECRETS.TABLE_DEFS as any}/>
       </div>
     </section>
   );
