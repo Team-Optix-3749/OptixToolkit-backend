@@ -4,8 +4,9 @@ const SECRETS = {
   BACKEND_URL: VITE_ENV.VITE_BACKEND_URL,
   TABLE_DEFS: [
     { field: "userName", headerName: "Name" },
-    { headerName: "Seconds" },
+    { field: "hours", headerName: "Participation Hours" },
     { field: "meetingCount" },
+    { field: "seconds", headerName: "Participation Seconds" },
     { field: "lastCheckIn" },
     { field: "uid", headerName: "UserID" }
   ]
