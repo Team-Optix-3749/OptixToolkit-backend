@@ -40,8 +40,6 @@ export async function push_settingsCol(req: Request, res: Response) {
     return;
   }
 
-  console.log(req.body)
-
   if (await authorize(req.body.auth)) {
     const data = req.body.payload.data;
 
