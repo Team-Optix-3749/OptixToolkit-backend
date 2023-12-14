@@ -1,6 +1,9 @@
 import * as admin from "firebase-admin";
 import firebase from "@firebase/app";
 import "@firebase/auth";
+
+import { Request, Response } from "express";
+
 import {
   FIREBASE_PROJECT_ID,
   FIREBASE_CLIENT_EMAIL,
@@ -136,4 +139,15 @@ export async function uncertifyUser(uid: string) {
   await admin
     .auth()
     .setCustomUserClaims(uid, { ...currentClaims, certified: false });
+}
+
+export async function authenticateUser(req: Request, res: Response) {
+  const token = req.body.payload.token;
+  const type = req.body.payload.type;
+
+  if ((await authorize(token, { type })) === false) {
+    res.status(200).json(false);
+  } else if (await authorize(token, { type })) {
+    res.status(200).json(true);
+  }
 }

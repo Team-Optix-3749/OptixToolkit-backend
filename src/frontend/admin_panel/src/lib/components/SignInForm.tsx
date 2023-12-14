@@ -39,7 +39,7 @@ export function SignInForm({
 
   return (
     <main className="container_signIn">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="signInForm">
         <h1>Sign in</h1>
         <input
           className="email"
@@ -47,6 +47,8 @@ export function SignInForm({
           placeholder="EMAIL"
           value={loginState.email}
           onChange={handleEmailChange}
+
+          required
         />
         <input
           className="password"
@@ -54,6 +56,8 @@ export function SignInForm({
           placeholder="PASSWORD"
           value={loginState.password}
           onChange={handlePassChange}
+
+          required
         />
         <button className="submitBtn">Submit</button>
       </form>

@@ -2,7 +2,7 @@ import React from "react";
 import toast from "react-hot-toast";
 
 import "./LoginPage.css";
-import { isValidated, validateUser } from "../utils/auth/authTools";
+import { validateUser } from "../utils/auth/authTools";
 import { validationState } from "../types";
 import { SignInForm } from "./SignInForm";
 
@@ -16,18 +16,6 @@ export default function LoginPage({
     email: "",
     password: ""
   });
-
-  React.useEffect(() => {
-    isValidated().then((validated) => {
-      if (validated) {
-        validateUser().then((res) => {
-          (globalThis as any).background_validate = res[1];
-        });
-
-        SETvalidated(true);
-      }
-    });
-  }, []);
 
   const handleGoogleLogin = async function (email?: string, pass?: string) {
     SETvalidateReqAllowed(false);
@@ -102,7 +90,7 @@ export default function LoginPage({
         );
     };
 
-    if (!validateEmail(loginState.email) && loginState.email) {
+    if (!validateEmail(loginState.email)) {
       toast.error("Please enter a valid email address.");
       return;
     }

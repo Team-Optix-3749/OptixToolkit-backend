@@ -1,19 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300&display=swap");
 
 :root {
---text: #ffffff;
---background: #181a1e;
---primary: #850000;
---compl: #202528;
---accent: #0079c9;
+  --text: #ffffff;
+  --background: #181a1e;
+  --primary: #850000;
+  --compl: #202528;
+  --accent: #0079c9;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   color: var(--text);
+
+  overflow: hidden;
 }
 
 html {
@@ -28,4 +30,14 @@ select {
 
 body {
   background-color: var(--dark);
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
 }

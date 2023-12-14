@@ -32,8 +32,12 @@ import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
-import { authorize } from "./utils/firebase";
-import { get_settingsCol, get_usersCol } from "./database/mongo";
+import { authenticateUser, authorize } from "./utils/firebase";
+import {
+  get_settingsCol,
+  get_usersCol,
+  push_settingsCol
+} from "./database/mongo";
 
 const app = express();
 
@@ -46,29 +50,13 @@ app.use(
 );
 
 app.post("/api/auth", async (req: Request, res: Response) => {
-  //allow all cors
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Content-Type", "application/json");
 
-  console.warn("UNSAFE!! no api key yet");
-
   switch (req.body.endpoint) {
-    case "authorize": {
-      //maybe extrapolate function to new file
-
-      await (async (req: Request, res: Response) => {
-        const token = req.body.payload.token;
-        const type = req.body.payload.type;
-
-        if ((await authorize(token, { type })) === false) {
-          res.status(200).json(false);
-        } else if (await authorize(token, { type })) {
-          res.status(200).json(true);
-        }
-      })(req, res);
+    case "authorize":
+      await authenticateUser(req, res);
       break;
-    }
 
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/api/auth'" });
@@ -76,16 +64,21 @@ app.post("/api/auth", async (req: Request, res: Response) => {
 });
 
 app.post("/api/db", async (req: Request, res: Response) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "application/json");
+
   switch (req.body.endpoint) {
-    case "get-settings": {
+    case "get-settings":
       get_settingsCol(req, res);
       break;
-    }
 
-    case "get-users": {
+    case "get-users":
       get_usersCol(req, res);
       break;
-    }
+
+    case "push-settings":
+      push_settingsCol(req, res);
+      break;
 
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/api/db'" });
@@ -94,6 +87,9 @@ app.post("/api/db", async (req: Request, res: Response) => {
 
 //potentially change to POST
 app.post("/", async (req: Request, res: Response) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "application/json");
+
   switch (req.body.endpoint) {
     case "parts-get":
       parts_get(req, res);

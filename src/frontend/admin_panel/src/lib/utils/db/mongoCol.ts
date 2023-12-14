@@ -13,24 +13,42 @@ export class MongoDBCollection {
 
   async collection() {
     if (this._collection) return this._collection;
-  
+
+    const idToken = await getIdToken();
+    const { collection } = await fetch(`${SECRETS.BACKEND_URL}/api/db`, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({
+        auth: idToken,
+        endpoint: `get-${this._collectionName}`
+      })
+    }).then((res) => res.json());
+
+    this._collection = collection;
+    return collection;
+  }
+
+  async pushData(setObj: {}) {
+    const idToken = await getIdToken();
+
     try {
-      const idToken = await getIdToken();
-      const { collection } = await fetch(`${SECRETS.BACKEND_URL}/api/db`, {
+      const res = await fetch(`${SECRETS.BACKEND_URL}/api/db`, {
         headers: {
           "Content-Type": "application/json"
         },
         method: "POST",
         body: JSON.stringify({
           auth: idToken,
-          endpoint: `get-${this._collectionName}`
+          endpoint: `push-${this._collectionName}`,
+          payload: {
+            data: setObj
+          }
         })
       }).then((res) => res.json());
-
-      this._collection = collection;
-      return collection;
     } catch (err) {
-      console.warn(err);
+      throw new Error("error");
     }
   }
 }

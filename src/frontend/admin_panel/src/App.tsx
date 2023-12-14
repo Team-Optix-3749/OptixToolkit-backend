@@ -1,9 +1,9 @@
 import React from "react";
 
-import "./App.css";
 import { validationState } from "./lib/types";
 import LoginPage from "./lib/components/LoginPage";
 import HomePage from "./lib/components/DashboardPage";
+import { isValidated, validateUser } from "./lib/utils/auth/authTools";
 
 /* 
   validate user
@@ -21,7 +21,14 @@ export default function App() {
   const [validated, SETvalidated] = React.useState<validationState>(false);
 
   React.useEffect(() => {
-    //authenticating user
+    isValidated().then((validated) => {
+      if (validated) {
+        validateUser().then((res) => {
+          (globalThis as any).background_validate = res[1];
+        });
+        SETvalidated(true);
+      }
+    });
   }, []);
 
   switch (validated) {

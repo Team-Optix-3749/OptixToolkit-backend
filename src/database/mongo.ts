@@ -33,3 +33,22 @@ export async function get_usersCol(req: Request, res: Response) {
     res.status(400).json({ err: "Unauthorized request!" });
   }
 }
+
+export async function push_settingsCol(req: Request, res: Response) {
+  if (req.body === undefined) {
+    res.status(400).json({ err: "No Body!" });
+    return;
+  }
+
+  console.log(req.body)
+
+  if (await authorize(req.body.auth)) {
+    const data = req.body.payload.data;
+
+    if (!data.key || !!data.value)  res.status(400).json({ err: "Unauthorized request!" });
+
+    settings.collection.insertOne(data);
+  } else {
+    res.status(400).json({ err: "Unauthorized request!" });
+  }
+}
