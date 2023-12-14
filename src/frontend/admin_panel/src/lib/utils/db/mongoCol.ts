@@ -34,7 +34,7 @@ export class MongoDBCollection {
     const idToken = await getIdToken();
 
     try {
-      const res = await fetch(`${SECRETS.BACKEND_URL}/api/db`, {
+      await fetch(`${SECRETS.BACKEND_URL}/api/db`, {
         headers: {
           "Content-Type": "application/json"
         },
@@ -46,7 +46,7 @@ export class MongoDBCollection {
             data: setObj
           }
         })
-      }).then((res) => res.json());
+      })
     } catch (err) {
       throw new Error("error");
     }
