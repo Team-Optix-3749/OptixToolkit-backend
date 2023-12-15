@@ -49,6 +49,8 @@ app.use(
   })
 );
 
+app.use(express.static(__dirname + "/dist"));
+
 app.post("/api/auth", async (req: Request, res: Response) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json");
