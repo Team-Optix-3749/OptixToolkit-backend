@@ -84,7 +84,6 @@ backend_endpoint/.env
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/

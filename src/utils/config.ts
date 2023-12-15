@@ -18,7 +18,7 @@ export const {
   FIREBASE_PROJECT_ID,
   FIREBASE_CLIENT_EMAIL,
   FIREBASE_PRIVATE_KEY,
-  FIREBASE_JSON
+  // FIREBASE_JSON
 } = process.env
 
 // sample
