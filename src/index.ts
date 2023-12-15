@@ -32,7 +32,7 @@ import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
-import { authenticateUser, authorize } from "./utils/firebase";
+import { authenticateUser } from "./utils/firebase";
 import {
   get_settingsCol,
   get_usersCol,
@@ -85,7 +85,6 @@ app.post("/api/db", async (req: Request, res: Response) => {
   }
 });
 
-//potentially change to POST
 app.post("/", async (req: Request, res: Response) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json");
@@ -176,6 +175,8 @@ app.post("/", async (req: Request, res: Response) => {
       res.status(400).json({ err: "endpoint doesn't exist on '/'" });
   }
 });
+
+app.get(`/${WEBHOOK_SECRET}`, parts_webhook);
 
 app.listen(PORT, () => {
   console.log("Server Started!!");
