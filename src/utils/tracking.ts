@@ -1,7 +1,7 @@
 import Easypost from '@easypost/api'
 
 const key = process.env.KEY
-const api = new Easypost(key)
+const api = new Easypost('ejiaugsfduwiqj')
 
 export async function trackPackage(
 	trackingId: string,
