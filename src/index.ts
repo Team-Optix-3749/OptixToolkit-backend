@@ -49,7 +49,7 @@ app.use(
   })
 );
 
-app.use(express.static(__dirname + "/dist"));
+app.use(express.static(__dirname + "/frontend/admin_panel/dist"));
 
 app.post("/api/auth", async (req: Request, res: Response) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
