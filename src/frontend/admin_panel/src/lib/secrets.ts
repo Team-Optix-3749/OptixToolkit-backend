@@ -1,5 +1,5 @@
 const SECRETS = {
-  BACKEND_URL: "http://localhost:4000",
+  BACKEND_URL: "",
   TABLE_DEFS: [
     { field: "displayName", headerName: "Name" },
     { field: "email", headerName: "Email" },
