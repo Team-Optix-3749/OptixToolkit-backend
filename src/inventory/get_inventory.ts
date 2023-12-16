@@ -8,7 +8,7 @@ export default async function get_inventory(req: Request, res: Response) {
 			res.status(400).json({ err: 'Bad Params!' })
 			return
 		}
-		console.log(barcodeId)
+		console.log(req.body.barcodeId)
 		const inventoryRes = await inventory.findOne({ barcodeId: req.body.barcodeId })
 				console.log(inventoryRes)
 		console.log(inventory.collection.collectionName)
