@@ -177,10 +177,13 @@ app.post("/", async (req: Request, res: Response) => {
       break;
     case "get-inventory":
       get_inventory(req, res);
+		break;
     case "add-inventory":
       add_inventory(req, res);
+		break;
     case "modify-inventory":
       modify_inventory(req, res);
+		break;
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/'" });
   }
