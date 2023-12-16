@@ -1,13 +1,15 @@
 const SECRETS = {
   BACKEND_URL: window.location.protocol + "//" + window.location.host,
   TABLE_DEFS: [
-    { field: "userName", headerName: "Name" },
+    { field: "displayName", headerName: "Name" },
+    { field: "email", headerName: "Email" },
     { field: "hours", headerName: "Participation Hours" },
+    { field: "certified" },
     { field: "meetingCount" },
-    { field: "seconds", headerName: "Participation Seconds" },
     { field: "lastCheckIn" },
     { field: "uid", headerName: "UserID" }
   ],
+
   FIREBASECFG: {
     apiKey: "AIzaSyBywkBF8HlaLDTgvPM2bxCGXaBuhs8__7I",
     authDomain: "optixtoolkit.firebaseapp.com",
