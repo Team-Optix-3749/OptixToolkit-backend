@@ -5,7 +5,7 @@ import { inventory } from '../utils/models'
 export default async function modify_inventory(req: Request, res: Response) {
 	const user = await authorize(req.body.auth)
 	if (user && req.body.barcodeId && req.body.count) {
-		const inventoryTool = await inventory.findOne({ barcodeId: req.body.barcodeId })
+		const inventoryTool = await inventory.findOne({ barcodeId: req.body.barcodeId }).exec()
 
 		if (inventoryTool) {
             if (inventoryTool.count + req.body.count < 0) {
