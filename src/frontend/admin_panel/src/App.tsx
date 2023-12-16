@@ -44,9 +44,13 @@ export default function App() {
 }
 
 function ErrorPage() {
-  return <h1>Something went wrong ... refresh the page</h1>;
+  return (
+    <h1 style={{ color: "white" }}>
+      Something went wrong ... refresh the page
+    </h1>
+  );
 }
 
 function NotAuthorizedPage() {
-  return <h1>you are not an admin</h1>;
+  return <h1 style={{ color: "white" }}>you are not an admin</h1>;
 }

@@ -33,10 +33,7 @@ export async function getIdToken() {
   return firebaseAuth.currentUser?.getIdToken();
 }
 
-export async function validateUser(
-  email?: string,
-  pass?: string,
-) {
+export async function validateUser(email?: string, pass?: string) {
   const userIdToken = await getIdToken();
 
   const handleSignIn = async function (token: Promise<string>) {
@@ -52,8 +49,7 @@ export async function validateUser(
           type: "admin"
         }
       })
-    })
-      .then((res) => res.json())
+    }).then((res) => res.json());
 
     return isAdmin;
   };
@@ -62,9 +58,9 @@ export async function validateUser(
     return [null, () => handleSignIn(userIdToken as any), null];
   }
 
-  try {
-    let token;
+  let token;
 
+  try {
     if (email && pass) {
       token = signInWithEmailAndPassword(firebaseAuth, email, pass).then(
         (userCred) => userCred.user?.getIdToken()
@@ -83,7 +79,9 @@ export async function validateUser(
 
     return [isAdmin, null, null];
   } catch (err: any) {
-    console.warn("AUTH ERROR:" + err);
+    console.warn("AUTH ERROR: " + err);
+
+    if (err.code == "auth/user-not-found") return ["notAuthorized", null, null];
 
     return [null, null, err];
   }

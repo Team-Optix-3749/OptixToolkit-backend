@@ -3,7 +3,11 @@ const SECRETS = {
   TABLE_DEFS: [
     { field: "displayName", headerName: "Name" },
     { field: "email", headerName: "Email" },
-    { field: "hours", headerName: "Participation Hours" },
+    {
+      field: "hours",
+      headerName: "Participation Hours",
+      comparator: (valueA: any, valueB: any) => Number(valueA) - Number(valueB)
+    },
     { field: "certified" },
     { field: "meetingCount" },
     { field: "lastCheckIn" },
