@@ -116,4 +116,4 @@ const InventorySchema: Schema = new Schema({
 	barcodeId: { type: Number, required: true },
 })
 
-export const inventory = mongoose.model<InventoryDoc>('inventory', ToolSchema)
+export const inventory = mongoose.model<InventoryDoc>('inventory', InventorySchema)
