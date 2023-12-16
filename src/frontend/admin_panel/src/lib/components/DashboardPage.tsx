@@ -6,7 +6,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Theme
 
 import "./dashboardPage.css";
 import SECRETS from "../secrets";
-import { signOut } from "../utils/auth/authTools";
+import { getIdToken, signOut } from "../utils/auth/authTools";
 import { MongoDBCollection } from "../utils/db/mongoCol";
 
 export default function DashboardPage() {
@@ -16,6 +16,34 @@ export default function DashboardPage() {
 
   const usersCol = new MongoDBCollection("users");
   const settingsCol = new MongoDBCollection("settings");
+
+  const updateTbData = function () {
+    usersCol.collection().then(async (res) => {
+      res.forEach((userObj: any) => {
+        userObj.hours = (userObj.seconds / 1000 / 60 / 60).toPrecision(3);
+      });
+
+      const { users } = await fetch(`${SECRETS.BACKEND_URL}/`, {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+          auth: await getIdToken(),
+          endpoint: `list-users`
+        })
+      }).then((apiRes) => apiRes.json());
+
+      const mergedArr = res.map((resItem: any) => {
+        const foundItem = users.find((item: any) => item.uid === resItem.uid);
+        return { ...resItem, ...foundItem };
+      });
+
+      console.log(mergedArr);
+
+      SETtbData(mergedArr);
+    });
+  };
 
   React.useEffect(() => {
     const background_validateTask = (globalThis as any).background_validate;
@@ -30,25 +58,13 @@ export default function DashboardPage() {
     }
 
     try {
-      usersCol.collection().then((res) => {
-        res.forEach((userObj: any) => {
-          userObj.hours = (userObj.seconds / 1000 / 60 / 60).toPrecision(3);
-        });
-
-        SETtbData(res);
-      });
+      updateTbData();
     } catch (err) {
       console.warn(err);
     }
 
     setInterval(() => {
-      usersCol.collection().then((res) => {
-        res.forEach((userObj: any) => {
-          userObj.hours = (userObj.seconds / 1000 / 60 / 60).toPrecision(3);
-        });
-
-        SETtbData(res);
-      });
+      updateTbData();
     }, 120000);
   }, []);
 
@@ -139,6 +155,7 @@ export default function DashboardPage() {
           Generate Random
         </button>
       </section>
+      <button>hello</button>
     </section>
   );
 }
