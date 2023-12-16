@@ -1,5 +1,5 @@
 const SECRETS = {
-  BACKEND_URL: window.location.host,
+  BACKEND_URL: "",
   TABLE_DEFS: [
     { field: "userName", headerName: "Name" },
     { field: "hours", headerName: "Participation Hours" },

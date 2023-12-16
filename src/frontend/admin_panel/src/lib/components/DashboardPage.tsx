@@ -32,7 +32,7 @@ export default function DashboardPage() {
     try {
       usersCol.collection().then((res) => {
         res.forEach((userObj: any) => {
-          userObj.hours = (userObj.seconds / 60 / 60).toPrecision(3);
+          userObj.hours = (userObj.seconds / 1000 / 60 / 60).toPrecision(3);
         });
 
         SETtbData(res);
@@ -44,7 +44,7 @@ export default function DashboardPage() {
     setInterval(() => {
       usersCol.collection().then((res) => {
         res.forEach((userObj: any) => {
-          userObj.hours = (userObj.seconds / 60 / 60).toPrecision(3);
+          userObj.hours = (userObj.seconds / 1000 / 60 / 60).toPrecision(3);
         });
 
         SETtbData(res);
