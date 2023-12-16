@@ -8,8 +8,8 @@ export default async function get_inventory(req: Request, res: Response) {
 			res.status(400).json({ err: 'Bad Params!' })
 			return
 		}
-		const toolRes = await inventory.findOne({ barcodeId: req.body.barcodeId })
-		res.status(200).json({ tool: toolRes, err: false })
+		const inventoryRes = await inventory.findOne({ barcodeId: req.body.barcodeId })
+		res.status(200).json({ inventory: inventoryRes, err: false })
 	} else {
 		res.status(400).json({ err: 'Unauthorized request!' })
 	}

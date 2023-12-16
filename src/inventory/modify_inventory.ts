@@ -1,19 +1,19 @@
 import { Request, Response } from 'express'
 import { authorize } from '../utils/firebase'
-import { tools } from '../utils/models'
+import { inventory } from '../utils/models'
 
 export default async function modify_inventory(req: Request, res: Response) {
 	const user = await authorize(req.body.auth)
 	if (user && req.body.barcodeId && req.body.count) {
-		const inventory = await tools.findOne({ barcodeId: req.body.barcodeId })
+		const inventoryTool = await inventory.findOne({ barcodeId: req.body.barcodeId })
 
-		if (inventory) {
-            if (inventory.count + req.body.count < 0) {
+		if (inventoryTool) {
+            if (inventoryTool.count + req.body.count < 0) {
                 res.status(400).json({ err: 'Cannot have negative inventory' })
                 return
             }
             else {
-                await tools.updateOne(
+                await inventory.updateOne(
                     { barcodeId: req.body.barcodeId },
                     { $inc: { count: req.body.count } }
                 )
