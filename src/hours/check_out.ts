@@ -35,7 +35,7 @@ export default async function check_out(req: Request, res: Response) {
 		userDoc.lastCheckIn = 0
 		userDoc.meetingCount++
 	} else if (date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4) {
-		if (date.getHours() >= 14 && date.getHours() <= 17) {
+		if (date.getHours() >= 15 && date.getHours() <= 18) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
@@ -45,7 +45,7 @@ export default async function check_out(req: Request, res: Response) {
 			return userDoc.save()
 		}
 	} else if (date.getDay() === 6) {
-		if (date.getHours() >= 8 && date.getHours() <= 17) {
+		if (date.getHours() >= 9 && date.getHours() <= 18) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
