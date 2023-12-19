@@ -10,12 +10,14 @@ export default async function user_db(req: Request, res: Response) {
 		return
 	}
 	try {
-		await users.create({
-			uid: req.body.uid,
-			lastCheckIn: 0,
-			seconds: 0,
-			meetingCount: 0,
-		})
+		if (!(await users.findOne({ uid: req.body.uid }))) {
+			await users.create({
+				uid: req.body.uid,
+				lastCheckIn: 0,
+				seconds: 0,
+				meetingCount: 0,
+			})
+		}
 		res.status(200).json({ err: false })
 	} catch (e) {
 		console.log(e)
