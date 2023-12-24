@@ -34,6 +34,7 @@ import get_lastcheckin from "./hours/get_lastcheckin";
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
 import { authenticateUser } from "./utils/firebase";
 import {
+  delete_settingsCol,
   get_settingsCol,
   get_usersCol,
   push_settingsCol
@@ -80,6 +81,10 @@ app.post("/api/db", async (req: Request, res: Response) => {
 
     case "push-settings":
       push_settingsCol(req, res);
+      break;
+
+    case "delete-settings":
+      delete_settingsCol(req, res);
       break;
 
     default:

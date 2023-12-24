@@ -1,5 +1,7 @@
 // sample
-// const firebaseJson = require("./FIREBASE_JSON.json");
+const firebaseJson = require("./FIREBASE_JSON.json");
+
+const DEVELOPMENT = true;
 
 if (
   process.env.VERCEL_ENV !== "production" &&
@@ -18,16 +20,15 @@ export const {
   FIREBASE_PROJECT_ID,
   FIREBASE_CLIENT_EMAIL,
   FIREBASE_PRIVATE_KEY,
-} = process.env
+} = DEVELOPMENT ? {
+  USER_SECRET: "gamers",
+  MONGO_URL: "mongodb://127.0.0.1:27017/toolkit",
+  WEBHOOK_SECRET: "",
+  SENDGRID_KEY: "",
+  FIREBASE_PROJECT_ID: firebaseJson.project_id,
+  FIREBASE_CLIENT_EMAIL: firebaseJson.client_email,
+  FIREBASE_PRIVATE_KEY: firebaseJson.private_key,
+} : process.env
 
-// sample
-// {
-//   USER_SECRET: "gamers",
-//   MONGO_URL: "mongodb://127.0.0.1:27017/toolkit",
-//   WEBHOOK_SECRET: "",
-//   SENDGRID_KEY: "",
-//   FIREBASE_PROJECT_ID: firebaseJson.project_id,
-//   FIREBASE_CLIENT_EMAIL: firebaseJson.client_email,
-//   FIREBASE_PRIVATE_KEY: firebaseJson.private_key,
-// };
+
 export const PORT = process.env.PORT ?? 4000;

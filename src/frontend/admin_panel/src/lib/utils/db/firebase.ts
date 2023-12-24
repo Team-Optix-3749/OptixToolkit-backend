@@ -1,6 +1,6 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 
-import SECRETS from "../../secrets";
+import SECRETS from "../../config";
 
 const firebaseConfig = SECRETS.FIREBASECFG;
 

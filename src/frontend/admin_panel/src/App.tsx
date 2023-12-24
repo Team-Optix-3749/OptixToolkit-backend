@@ -1,8 +1,8 @@
 import React from "react";
 
 import { validationState } from "./lib/types";
-import LoginPage from "./lib/components/LoginPage";
-import HomePage from "./lib/components/DashboardPage";
+import LoginPage from "./components/LoginPage";
+import HomePage from "./components/DashboardPage";
 import { isValidated, validateUser } from "./lib/utils/auth/authTools";
 
 /* 

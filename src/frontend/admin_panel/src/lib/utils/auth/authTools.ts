@@ -8,7 +8,7 @@ import {
   signInWithPopup
 } from "firebase/auth";
 
-import SECRETS from "../../secrets";
+import SECRETS from "../../config";
 import { firebaseApp } from "../db/firebase";
 
 const authProvider = new GoogleAuthProvider();
@@ -87,7 +87,7 @@ export async function validateUser(email?: string, pass?: string) {
   }
 }
 
-export async function task_setBackgroundValidate() {}
+export async function task_setBackgroundValidate() { }
 
 export async function isValidated() {
   return !!(await getIdToken());

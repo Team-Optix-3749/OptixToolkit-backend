@@ -2,8 +2,8 @@ import React from "react";
 import toast from "react-hot-toast";
 
 import "./LoginPage.css";
-import { validateUser } from "../utils/auth/authTools";
-import { validationState } from "../types";
+import { validateUser } from "../lib/utils/auth/authTools";
+import { validationState } from "../lib/types";
 import { SignInForm } from "./SignInForm";
 
 export default function LoginPage({
