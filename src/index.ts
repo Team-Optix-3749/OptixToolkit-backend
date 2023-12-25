@@ -37,7 +37,8 @@ import {
   delete_settingsCol,
   get_settingsCol,
   get_usersCol,
-  push_settingsCol
+  push_settingsCol,
+  update_settingsCol
 } from "./database/mongo";
 
 const app = express();
@@ -81,6 +82,10 @@ app.post("/api/db", async (req: Request, res: Response) => {
 
     case "push-settings":
       push_settingsCol(req, res);
+      break;
+
+    case "update-settings":
+      update_settingsCol(req, res);
       break;
 
     case "delete-settings":

@@ -15,7 +15,7 @@
   font-family: "Lexend", sans-serif;
   color: var(--text);
 
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 html {

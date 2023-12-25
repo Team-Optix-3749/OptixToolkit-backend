@@ -7,15 +7,13 @@ export async function get_settingsCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
+  if (!(await authorize(req.body.auth)))
+    return res.status(401).json({ err: "Unauthorized request!" });
 
-  if (await authorize(req.body.auth)) {
-    const settingsCol = await settings.find({}).lean();
-    res.status(200).json({
-      collection: settingsCol
-    });
-  } else {
-    res.status(401).json({ err: "Unauthorized request!" });
-  }
+  const settingsCol = await settings.find({}).lean();
+  res.status(200).json({
+    collection: settingsCol
+  });
 }
 
 export async function get_usersCol(req: Request, res: Response) {
@@ -23,15 +21,13 @@ export async function get_usersCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
+  if (!(await authorize(req.body.auth)))
+    return res.status(401).json({ err: "Unauthorized request!" });
 
-  if (await authorize(req.body.auth)) {
-    const usersCol = await users.find({}).lean();
-    res.status(200).json({
-      collection: usersCol
-    });
-  } else {
-    res.status(401).json({ err: "Unauthorized request!" });
-  }
+  const usersCol = await users.find({}).lean();
+  res.status(200).json({
+    collection: usersCol
+  });
 }
 
 export async function push_settingsCol(req: Request, res: Response) {
@@ -39,16 +35,27 @@ export async function push_settingsCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
+  if (!(await authorize(req.body.auth)))
+    return res.status(401).json({ err: "Unauthorized request!" });
 
-  if (await authorize(req.body.auth)) {
-    const data = req.body.payload.data;
+  const data = req.body.payload.data;
 
-    if (!data.key || !data.value) res.status(400);
+  if (!data.key || !data.value) res.status(400);
 
-    settings.collection.insertOne(data);
-  } else {
-    res.status(401).json({ err: "Unauthorized request!" });
+  settings.collection.insertOne(data);
+}
+
+export async function update_settingsCol(req: Request, res: Response) {
+  if (req.body === undefined) {
+    res.status(400).json({ err: "No Body!" });
+    return;
   }
+  if (!(await authorize(req.body.auth)))
+    return res.status(401).json({ err: "Unauthorized request!" });
+
+  const data = req.body.payload;
+  console.log(data.filter, { $set: data.update });
+  settings.collection.updateOne(data.filter, { $set: data.update });
 }
 
 export async function delete_settingsCol(req: Request, res: Response) {
@@ -56,19 +63,16 @@ export async function delete_settingsCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
+  if (!(await authorize(req.body.auth)))
+    return res.status(401).json({ err: "Unauthorized request!" });
 
-  if (await authorize(req.body.auth)) {
-    const data = req.body.payload;
+  const data = req.body.payload;
 
-    if (!data.filter) res.status(400);
+  if (!data.filter) res.status(400);
 
-    if (data.many) {
-      settings.collection.deleteMany(data.filter);
-    } else {
-      settings.collection.deleteOne(data.filter);
-    }
-    
+  if (data.many) {
+    settings.collection.deleteMany(data.filter);
   } else {
-    res.status(401).json({ err: "Unauthorized request!" });
+    settings.collection.deleteOne(data.filter);
   }
 }

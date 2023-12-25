@@ -8,14 +8,16 @@ import "./dashboardPage.css";
 import SECRETS from "../lib/config";
 import { getIdToken, signOut } from "../lib/utils/auth/authTools";
 import { MongoTools } from "../lib/utils/db/mongoTools";
+import { type_codeData } from "../lib/types";
 
 export default function DashboardPage() {
   const [userTbData, SETuserTbData] = React.useState([{}]);
-  const [codeTbData, SETcodeTbData] = React.useState([{}]);
+  const [codeTbData, SETcodeTbData] = React.useState<type_codeData[]>();
   const [formValue, SETformValue] = React.useState("");
-  const [formKey, SETformKey] = React.useState("");
-  const [codeFormVal, SETcodeFormVal] = React.useState("");
   const [deleteAll, SETdeleteAll] = React.useState(false);
+
+  const [codesDropdown, SETcodesDropdown] = React.useState([""]);
+  const [codesNewVal, SETcodesNewVal] = React.useState("");
 
   const mongoTools = new MongoTools();
 
@@ -25,7 +27,7 @@ export default function DashboardPage() {
     window.location.reload();
   };
 
-  const updateUserTbData = function (doRerender = false) {
+  const updateUserTbData = function (doRerender?: boolean | undefined) {
     mongoTools.collection("users").then(async (res) => {
       res.forEach((userObj: any) => {
         userObj.hours = (userObj.seconds / 1000 / 60 / 60).toPrecision(3);
@@ -53,10 +55,16 @@ export default function DashboardPage() {
     });
   };
 
-  const updateCodeTbData = function (doRerender = false) {
+  const updateCodeTbData = function (doRerender?: boolean | undefined) {
     mongoTools.collection("settings").then((res) => {
       console.log(res);
       SETcodeTbData(res);
+
+      const allCodes = res.map((item: type_codeData) => {
+        return item.value;
+      });
+
+      SETcodesDropdown(allCodes);
 
       doRerender ? rerender() : null;
     });
@@ -96,23 +104,12 @@ export default function DashboardPage() {
   const handleSubmit = function (e: React.FormEvent) {
     e.preventDefault();
 
-    if (
-      !["checkInPassword", "checkOutPassword", "attendanceOverride"].includes(
-        formKey
-      )
-    ) {
-      SETformKey("");
-      toast.error("Invalid Key, use:");
-
-      toast("checkInPassword");
-      toast("checkOutPassword");
-      toast("attendanceOverride");
-
-      return;
-    }
     try {
       mongoTools
-        .pushData({ key: formKey, value: formValue }, "settings")
+        .pushData(
+          { key: (e.target as any)["key"].value, value: formValue },
+          "settings"
+        )
         .then(() => {
           updateCodeTbData(true);
         });
@@ -121,16 +118,13 @@ export default function DashboardPage() {
 
       toast.error("Something went wrong.");
       toast("Please refresh page and try again");
-
-      return;
     }
 
-    toast.success(`Created ${formKey} key: ${formValue}`);
+    toast.success(
+      `Created ${(e.target as any)["key"].value} key: ${formValue}`
+    );
 
-    SETformKey("");
     SETformValue("");
-
-    return;
   };
 
   const handleCodeDelete = function (e: React.FormEvent) {
@@ -140,11 +134,31 @@ export default function DashboardPage() {
       mongoTools.delete({}, true, "settings");
       toast.success("Deleted all codes");
     } else {
-      mongoTools.delete({ value: codeFormVal }, false, "settings");
-      toast.success(`Deleted ${codeFormVal}`);
+      mongoTools.delete(
+        { value: (e.target as any)["code"].value },
+        false,
+        "settings"
+      );
+      toast.success(`Deleted ${(e.target as any)["code"].value}`);
     }
 
     updateCodeTbData(true);
+  };
+
+  const handleSetNewCodeValue = function (e: React.FormEvent) {
+    e.preventDefault();
+
+    mongoTools.updateData(
+      { value: codesNewVal },
+      { value: (e.target as any)["code"].value },
+      "settings"
+    );
+
+    toast.success(
+      `Updated ${(e.target as any)["code"].value} to ${codesNewVal}`
+    );
+
+    rerender();
   };
 
   return (
@@ -173,16 +187,13 @@ export default function DashboardPage() {
         </div>
       </section>
       <section className="container_actions">
-        <section className="container_keyGen">
+        <section className="container">
           <form onSubmit={handleSubmit} data-keyGen>
-            <input
-              type="text"
-              placeholder="KEY"
-              className="formInput"
-              value={formKey}
-              onChange={(e) => SETformKey(e.target.value)}
-              required
-            />
+            <select name="key" className="formInput">
+              {SECRETS.CODES_OPTIONS.map((code) => (
+                <option>{code}</option>
+              ))}
+            </select>
             <input
               type="text"
               placeholder="VALUE"
@@ -201,16 +212,31 @@ export default function DashboardPage() {
             Generate Random
           </button>
         </section>
-        <section className="container_keyGen">
-          <form onSubmit={handleCodeDelete} data-codeEdit>
+        <section className="container">
+          <form onSubmit={handleSetNewCodeValue} data-keyGen>
+            <select name="code" className="formInput">
+              {codesDropdown.map((code) => (
+                <option>{code}</option>
+              ))}
+            </select>
             <input
               type="text"
-              placeholder="VALUE"
+              placeholder="NEW VALUE"
               className="formInput"
-              value={codeFormVal}
-              onChange={(e) => SETcodeFormVal(e.target.value)}
+              value={codesNewVal}
+              onChange={(e) => SETcodesNewVal(e.target.value)}
               required
             />
+            <button data-submit>Change Code</button>
+          </form>
+        </section>
+        <section className="container">
+          <form onSubmit={handleCodeDelete} data-codeEdit>
+            <select name="code" className="formInput">
+              {codesDropdown.map((code) => (
+                <option>{code}</option>
+              ))}
+            </select>
             <p>Delete All?</p>
             <input
               type="checkbox"

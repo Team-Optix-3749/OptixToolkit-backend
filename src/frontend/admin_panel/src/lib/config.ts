@@ -18,6 +18,8 @@ const SECRETS = {
     { field: "value", headerName: "Value" }
   ],
 
+  CODES_OPTIONS: ['checkInPassword', 'checkOutPassword', 'attendanceOverride'],
+
   FIREBASECFG: {
     apiKey: "AIzaSyDI04e7u2jaeyjvjZTZCyits0KeMI6KKIk",
     authDomain: "garageopener-27000.firebaseapp.com",
