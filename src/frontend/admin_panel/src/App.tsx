@@ -1,24 +1,12 @@
 import React from "react";
 
-import { validationState } from "./lib/types";
+import { type_userAuth } from "./lib/types";
 import LoginPage from "./components/LoginPage";
 import HomePage from "./components/DashboardPage";
 import { isValidated, validateUser } from "./lib/utils/auth/authTools";
 
-/* 
-  validate user
-
-  user will then be redirected from <Loading /> to <Main /> if they 
-  have admin credentials otherwise to some error page.
-
-  <Homepage /> will contain ways to input a name, hours and an optional meeting count
-  when submitted, meeting count will be incremented and everything else...
-
-  this will also contain a way to add 'admin' role to more people
-*/
-
 export default function App() {
-  const [validated, SETvalidated] = React.useState<validationState>(false);
+  const [validated, SETvalidated] = React.useState<type_userAuth>(false);
 
   React.useEffect(() => {
     isValidated().then((validated) => {

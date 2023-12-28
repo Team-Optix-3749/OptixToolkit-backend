@@ -7,10 +7,11 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup
 } from "firebase/auth";
+import { FirebaseApp, initializeApp } from "firebase/app";
 
 import SECRETS from "../../config";
-import { firebaseApp } from "../db/firebase";
 
+const firebaseApp: FirebaseApp = initializeApp(SECRETS.FIREBASECFG);
 const authProvider = new GoogleAuthProvider();
 let firebaseAuth: Auth;
 
@@ -18,7 +19,7 @@ let firebaseAuth: Auth;
   If we want to save sign in state then change to browserLocalPersistence
 */
 
-export async function getIdToken() {
+export async function getUserIdToken() {
   if (!firebaseAuth) {
     firebaseAuth = getAuth(firebaseApp);
     setPersistence(firebaseAuth, browserSessionPersistence);
@@ -34,7 +35,7 @@ export async function getIdToken() {
 }
 
 export async function validateUser(email?: string, pass?: string) {
-  const userIdToken = await getIdToken();
+  const userIdToken = await getUserIdToken();
 
   const handleSignIn = async function (token: Promise<string>) {
     const isAdmin = await fetch(`${SECRETS.BACKEND_URL}/api/auth`, {
@@ -87,10 +88,8 @@ export async function validateUser(email?: string, pass?: string) {
   }
 }
 
-export async function task_setBackgroundValidate() { }
-
 export async function isValidated() {
-  return !!(await getIdToken());
+  return !!(await getUserIdToken());
 }
 
 export function signOut() {

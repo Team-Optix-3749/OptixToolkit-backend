@@ -191,5 +191,5 @@ app.post("/", async (req: Request, res: Response) => {
 app.get(`/${WEBHOOK_SECRET}`, parts_webhook);
 
 app.listen(PORT, () => {
-  console.log("Server Started!!");
+  console.log(`Server Started on port ${PORT}!!`);
 });

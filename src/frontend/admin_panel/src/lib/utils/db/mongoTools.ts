@@ -1,13 +1,12 @@
 import SECRETS from "../../config";
-import { getIdToken } from "../auth/authTools";
-
-type collection = "users" | "settings";
+import { type_dbCollection } from "../../types";
+import { getUserIdToken } from "../auth/authTools";
 
 export class MongoTools {
   private async request(url: string, body: {}, callback?: (any: any) => {}) {
-    let res:any;
+    let res: any;
     try {
-      const idToken = await getIdToken();
+      const idToken = await getUserIdToken();
       res = await fetch(`${SECRETS.BACKEND_URL}${url}`, {
         headers: {
           "Content-Type": "application/json"
@@ -27,7 +26,7 @@ export class MongoTools {
     return res;
   }
 
-  async collection(collectionName: collection) {
+  async collection(collectionName: type_dbCollection) {
     return this.request(
       `/api/db`,
       { endpoint: `get-${collectionName}` },
@@ -35,21 +34,21 @@ export class MongoTools {
     );
   }
 
-  async pushData(setObj: {}, collectionName: collection) {
+  async pushData(setObj: {}, collectionName: type_dbCollection) {
     this.request(`/api/db`, {
       endpoint: `push-${collectionName}`,
       payload: { data: setObj }
     });
   }
 
-  async updateData(setObj: {}, filter: {}, collectionName: collection) {
+  async updateData(setObj: {}, filter: {}, collectionName: type_dbCollection) {
     this.request(`/api/db`, {
       endpoint: `update-${collectionName}`,
       payload: { update: setObj, filter }
     });
   }
 
-  async delete(filter: {}, many: boolean, collectionName: collection) {
+  async delete(filter: {}, many: boolean, collectionName: type_dbCollection) {
     this.request(`/api/db`, {
       endpoint: `delete-${collectionName}`,
       payload: {
