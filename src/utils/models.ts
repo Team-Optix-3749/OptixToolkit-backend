@@ -105,6 +105,8 @@ export interface Inventory {
 	description: string
 	count: number
    barcodeId: string
+	status: string
+	location: string
 }
 
 interface InventoryDoc extends Document, Inventory {}
@@ -114,6 +116,8 @@ const InventorySchema: Schema = new Schema({
 	description: { type: String, required: false },
 	count: { type: Number, required: true },
 	barcodeId: { type: String, required: true },
+	status: { type: String, required: true },
+	location: { type: String, required: true }
 })
 
 export const inventory = mongoose.model<InventoryDoc>('inventory', InventorySchema)
