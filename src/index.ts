@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import subdomain from "express-subdomain";
 
 import parts_add from "./parts/parts_add";
 import parts_get from "./parts/parts_get";
@@ -183,6 +182,15 @@ app.post("/", async (req: Request, res: Response) => {
     case "add-hours":
       add_hours(req, res);
       break;
+    case "get-inventory":
+      get_inventory(req, res);
+		break;
+    case "add-inventory":
+      add_inventory(req, res);
+		break;
+    case "modify-inventory":
+      modify_inventory(req, res);
+		break;
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/'" });
   }
