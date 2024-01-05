@@ -173,7 +173,7 @@ function CreateAttendanceCode({ mongoTools, updateCodeTbData }: type_CACProps) {
       <form onSubmit={handleSubmit} data-keyGen>
         <select name="key" className="formInput">
           {SECRETS.CODES_OPTIONS.map((code) => (
-            <option>{code}</option>
+            <option key={code}>{code}</option>
           ))}
         </select>
         <input
@@ -228,7 +228,7 @@ function EditAttendanceCode({
       <form onSubmit={handleSubmit} data-keyGen>
         <select name="code" className="formInput">
           {codesDropdown.map((code) => (
-            <option>{code}</option>
+            <option key={code}>{code}</option>
           ))}
         </select>
         <input
@@ -280,7 +280,7 @@ function DeleteAttendanceCode({
       <form onSubmit={handleSubmit_deleteCode} data-codeEdit>
         <select name="code" className="formInput">
           {codesDropdown.map((code) => (
-            <option>{code}</option>
+            <option key={code}>{code}</option>
           ))}
         </select>
         <p>Delete All?</p>

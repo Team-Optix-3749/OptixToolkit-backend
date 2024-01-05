@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { settings, users } from "../utils/models";
-import { authorize } from "../utils/firebase";
+import { settings, users } from "./models";
+import { authorize } from "./firebase";
 
 export async function get_settingsCol(req: Request, res: Response) {
   if (req.body === undefined) {
@@ -54,7 +54,6 @@ export async function update_settingsCol(req: Request, res: Response) {
     return res.status(401).json({ err: "Unauthorized request!" });
 
   const data = req.body.payload;
-  console.log(data.filter, { $set: data.update });
   settings.collection.updateOne(data.filter, { $set: data.update });
 }
 

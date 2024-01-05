@@ -39,7 +39,7 @@ import {
   get_usersCol,
   push_settingsCol,
   update_settingsCol
-} from "./database/mongo";
+} from "./utils/mongo";
 
 const app = express();
 
