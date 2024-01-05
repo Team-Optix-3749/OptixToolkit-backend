@@ -1,9 +1,11 @@
-import firebaseJson from "./FIREBASE_JSON.json";
+const isDEVELOPMENT = false;
 
-const DEVELOPMENT = !!firebaseJson;
+if (!isDEVELOPMENT) {
+  var firebaseJson = require("./FIREBASE_JSON.json");
+}
 
 const SECRETS = {
-  BACKEND_URL: DEVELOPMENT ? "http://localhost:4000" : "",
+  BACKEND_URL: isDEVELOPMENT ? "http://localhost:4000" : "",
   USER_TABLE_DEFS: [
     { field: "displayName", headerName: "Name" },
     { field: "email", headerName: "Email" },
@@ -24,7 +26,7 @@ const SECRETS = {
 
   CODES_OPTIONS: ["checkInPassword", "checkOutPassword", "attendanceOverride"],
 
-  FIREBASECFG: DEVELOPMENT
+  FIREBASECFG: isDEVELOPMENT
     ? firebaseJson
     : {
         apiKey: "AIzaSyBywkBF8HlaLDTgvPM2bxCGXaBuhs8__7I",

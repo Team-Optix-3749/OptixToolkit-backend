@@ -1,7 +1,10 @@
-// sample
-const firebaseJson = require("./FIREBASE_JSON.json");
+const fs = require("fs");
 
-const isDEVELOPMENT = !!firebaseJson;
+let firebaseJson: any = null;
+
+if (fs.existsSync("./FIREBASE_JSON.json")) {
+  firebaseJson = require("./FIREBASE_JSON.json");
+}
 
 if (
   process.env.VERCEL_ENV !== "production" &&
@@ -11,6 +14,8 @@ if (
 }
 
 console.log(process.env.MONGO_URL, process.env.WEBHOOK_SECRET);
+
+const isDEVELOPMENT = !!firebaseJson;
 
 export const {
   USER_SECRET,
