@@ -29,6 +29,9 @@ import get_seconds from "./hours/get_seconds";
 import get_seconds_cli from "./hours/get_seconds_cli";
 import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
+import get_inventory from "./inventory/get_inventory";
+import add_inventory from "./inventory/add_inventory";
+import modify_inventory from "./inventory/modify_inventory";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
 import { authenticateUser } from "./utils/firebase";
@@ -184,23 +187,23 @@ app.post("/", async (req: Request, res: Response) => {
       break;
     case "get-inventory":
       get_inventory(req, res);
-		break;
+      break;
     case "add-inventory":
       add_inventory(req, res);
-		break;
+      break;
     case "modify-inventory":
       modify_inventory(req, res);
-		break;
+      break;
       break;
     case "get-inventory":
       get_inventory(req, res);
-		break;
+      break;
     case "add-inventory":
       add_inventory(req, res);
-		break;
+      break;
     case "modify-inventory":
       modify_inventory(req, res);
-		break;
+      break;
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/'" });
   }
