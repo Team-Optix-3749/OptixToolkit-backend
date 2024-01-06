@@ -113,9 +113,9 @@ export default function DashboardPage() {
       </section>
       <section className="container_actions">
         <CreateAttendanceCode {...{ mongoTools, updateCodeTbData }} />
-        <EditAttendanceCode
+        {/* <EditAttendanceCode
           {...{ mongoTools, codesDropdown, updateCodeTbData }}
-        />
+        /> */}
         <DeleteAttendanceCode
           {...{ mongoTools, codesDropdown, updateCodeTbData }}
         />
@@ -147,8 +147,9 @@ function CreateAttendanceCode({ mongoTools, updateCodeTbData }: type_CACProps) {
 
     try {
       mongoTools
-        .pushData(
-          { key: (e.target as any)["key"].value, value: formValue },
+        .updateData(
+          { key: (e.target as any)["key"].value},
+          { value: formValue },
           "settings"
         )
         .then(() => {
@@ -197,53 +198,53 @@ function CreateAttendanceCode({ mongoTools, updateCodeTbData }: type_CACProps) {
   );
 }
 
-type type_EACProps = {
-  mongoTools: MongoTools;
-  codesDropdown: string[];
-  updateCodeTbData: (rerender?: boolean) => void;
-};
-function EditAttendanceCode({
-  mongoTools,
-  codesDropdown,
-  updateCodeTbData
-}: type_EACProps) {
-  const [formValue, SETformValue] = React.useState("");
+// type type_EACProps = {
+//   mongoTools: MongoTools;
+//   codesDropdown: string[];
+//   updateCodeTbData: (rerender?: boolean) => void;
+// };
+// function EditAttendanceCode({
+//   mongoTools,
+//   codesDropdown,
+//   updateCodeTbData
+// }: type_EACProps) {
+//   const [formValue, SETformValue] = React.useState("");
 
-  const handleSubmit = function (e: React.FormEvent) {
-    e.preventDefault();
+//   const handleSubmit = function (e: React.FormEvent) {
+//     e.preventDefault();
 
-    mongoTools.updateData(
-      { value: formValue },
-      { value: (e.target as any)["code"].value },
-      "settings"
-    );
+//     mongoTools.updateData(
+//       { value: formValue },
+//       { value: (e.target as any)["code"].value },
+//       "settings"
+//     );
 
-    toast.success(`Updated ${(e.target as any)["code"].value} to ${formValue}`);
+//     toast.success(`Updated ${(e.target as any)["code"].value} to ${formValue}`);
 
-    updateCodeTbData(true);
-  };
+//     updateCodeTbData(true);
+//   };
 
-  return (
-    <section className="container">
-      <form onSubmit={handleSubmit} data-keyGen>
-        <select name="code" className="formInput">
-          {codesDropdown.map((code) => (
-            <option key={code}>{code}</option>
-          ))}
-        </select>
-        <input
-          type="text"
-          placeholder="NEW VALUE"
-          className="formInput"
-          value={formValue}
-          onChange={(e) => SETformValue(e.target.value)}
-          required
-        />
-        <button data-submit>Change Code</button>
-      </form>
-    </section>
-  );
-}
+//   return (
+//     <section className="container">
+//       <form onSubmit={handleSubmit} data-keyGen>
+//         <select name="code" className="formInput">
+//           {codesDropdown.map((code) => (
+//             <option key={code}>{code}</option>
+//           ))}
+//         </select>
+//         <input
+//           type="text"
+//           placeholder="NEW VALUE"
+//           className="formInput"
+//           value={formValue}
+//           onChange={(e) => SETformValue(e.target.value)}
+//           required
+//         />
+//         <button data-submit>Change Code</button>
+//       </form>
+//     </section>
+//   );
+// }
 
 type type_DACProps = {
   mongoTools: MongoTools;
