@@ -148,8 +148,8 @@ function CreateAttendanceCode({ mongoTools, updateCodeTbData }: type_CACProps) {
     try {
       mongoTools
         .updateData(
-          { key: (e.target as any)["key"].value},
           { value: formValue },
+          { key: (e.target as any)["key"].value },
           "settings"
         )
         .then(() => {
