@@ -29,17 +29,19 @@ import get_seconds from "./hours/get_seconds";
 import get_seconds_cli from "./hours/get_seconds_cli";
 import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
+import get_inventory from "./inventory/get_inventory";
+import add_inventory from "./inventory/add_inventory";
+import modify_inventory from "./inventory/modify_inventory";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
 import { authenticateUser } from "./utils/firebase";
 import {
+  delete_settingsCol,
   get_settingsCol,
   get_usersCol,
-  push_settingsCol
-} from "./database/mongo";
-import get_inventory from "./inventory/get_inventory";
-import add_inventory from "./inventory/add_inventory";
-import modify_inventory from "./inventory/modify_inventory";
+  push_settingsCol,
+  update_settingsCol
+} from "./utils/mongo";
 
 const app = express();
 
@@ -82,6 +84,14 @@ app.post("/api/db", async (req: Request, res: Response) => {
 
     case "push-settings":
       push_settingsCol(req, res);
+      break;
+
+    case "update-settings":
+      update_settingsCol(req, res);
+      break;
+
+    case "delete-settings":
+      delete_settingsCol(req, res);
       break;
 
     default:
@@ -177,13 +187,23 @@ app.post("/", async (req: Request, res: Response) => {
       break;
     case "get-inventory":
       get_inventory(req, res);
-		break;
+      break;
     case "add-inventory":
       add_inventory(req, res);
-		break;
+      break;
     case "modify-inventory":
       modify_inventory(req, res);
-		break;
+      break;
+      break;
+    case "get-inventory":
+      get_inventory(req, res);
+      break;
+    case "add-inventory":
+      add_inventory(req, res);
+      break;
+    case "modify-inventory":
+      modify_inventory(req, res);
+      break;
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/'" });
   }
@@ -192,5 +212,5 @@ app.post("/", async (req: Request, res: Response) => {
 app.get(`/${WEBHOOK_SECRET}`, parts_webhook);
 
 app.listen(PORT, () => {
-  console.log("Server Started!!");
+  console.log(`Server Started on port ${PORT}!!`);
 });

@@ -7,10 +7,11 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup
 } from "firebase/auth";
+import { FirebaseApp, initializeApp } from "firebase/app";
 
-import SECRETS from "../../secrets";
-import { firebaseApp } from "../db/firebase";
+import SECRETS from "../../config";
 
+const firebaseApp: FirebaseApp = initializeApp(SECRETS.FIREBASECFG);
 const authProvider = new GoogleAuthProvider();
 let firebaseAuth: Auth;
 
@@ -18,7 +19,7 @@ let firebaseAuth: Auth;
   If we want to save sign in state then change to browserLocalPersistence
 */
 
-export async function getIdToken() {
+export async function getUserIdToken() {
   if (!firebaseAuth) {
     firebaseAuth = getAuth(firebaseApp);
     setPersistence(firebaseAuth, browserSessionPersistence);
@@ -33,11 +34,8 @@ export async function getIdToken() {
   return firebaseAuth.currentUser?.getIdToken();
 }
 
-export async function validateUser(
-  email?: string,
-  pass?: string,
-) {
-  const userIdToken = await getIdToken();
+export async function validateUser(email?: string, pass?: string) {
+  const userIdToken = await getUserIdToken();
 
   const handleSignIn = async function (token: Promise<string>) {
     const isAdmin = await fetch(`${SECRETS.BACKEND_URL}/api/auth`, {
@@ -52,8 +50,7 @@ export async function validateUser(
           type: "admin"
         }
       })
-    })
-      .then((res) => res.json())
+    }).then((res) => res.json());
 
     return isAdmin;
   };
@@ -62,9 +59,9 @@ export async function validateUser(
     return [null, () => handleSignIn(userIdToken as any), null];
   }
 
-  try {
-    let token;
+  let token;
 
+  try {
     if (email && pass) {
       token = signInWithEmailAndPassword(firebaseAuth, email, pass).then(
         (userCred) => userCred.user?.getIdToken()
@@ -83,16 +80,16 @@ export async function validateUser(
 
     return [isAdmin, null, null];
   } catch (err: any) {
-    console.warn("AUTH ERROR:" + err);
+    console.warn("AUTH ERROR: " + err);
+
+    if (err.code == "auth/user-not-found") return ["notAuthorized", null, null];
 
     return [null, null, err];
   }
 }
 
-export async function task_setBackgroundValidate() {}
-
 export async function isValidated() {
-  return !!(await getIdToken());
+  return !!(await getUserIdToken());
 }
 
 export function signOut() {

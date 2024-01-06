@@ -2,14 +2,14 @@ import React from "react";
 import toast from "react-hot-toast";
 
 import "./LoginPage.css";
-import { validateUser } from "../utils/auth/authTools";
-import { validationState } from "../types";
+import { validateUser } from "../lib/utils/auth/authTools";
+import { type_userAuth } from "../lib/types";
 import { SignInForm } from "./SignInForm";
 
 export default function LoginPage({
   SETvalidated
 }: {
-  SETvalidated: React.Dispatch<React.SetStateAction<validationState>>;
+  SETvalidated: React.Dispatch<React.SetStateAction<type_userAuth>>;
 }) {
   const [validateReqAllowed, SETvalidateReqAllowed] = React.useState(true);
   const [loginState, SETloginState] = React.useState({

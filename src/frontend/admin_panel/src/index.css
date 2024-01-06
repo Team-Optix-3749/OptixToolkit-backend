@@ -8,9 +8,7 @@
   --accent: #0079c9;
 }
 
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
   font-family: "Lexend", sans-serif;
   color: var(--text);
@@ -20,6 +18,7 @@
 
 html {
   color-scheme: dark;
+  font-size: 16px;
 }
 input,
 textarea,

@@ -9,6 +9,9 @@
 .main {
   width: 100%;
   height: 100%;
+
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 .table_data {
@@ -31,7 +34,7 @@
   border: none;
 }
 
-.container_keyGen {
+.container {
   position: relative;
   top: 1rem;
 
@@ -84,4 +87,49 @@ form[data-keyGen] button {
 
 .randomValueGen {
   grid-row: 5;
+}
+
+.container_actions {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  
+  justify-content: space-evenly;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+}
+
+form[data-codeEdit] {
+  width: 100%;
+  height: 9rem;
+
+  display: grid;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  justify-content: left;
+  align-items: top;
+
+  row-gap: 0px;
+}
+
+form[data-codeEdit] button {
+  grid-row: 3;
+  position: relative;
+  left: 11rem;
+  transform: translateX(-50%);
+}
+
+form[data-codeEdit] input[data-checkbox] {
+  grid-row: 2;
+
+  position: relative;
+  right: 15rem;
+
+  width: 2rem;
+  transform: translateY(-5%);
+}
+form[data-codeEdit] p {
+  grid-row: 2;
 }
