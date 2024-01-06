@@ -1,6 +1,6 @@
 const isDEVELOPMENT = false;
 
-if (!isDEVELOPMENT) {
+if (isDEVELOPMENT) {
   var firebaseJson = require("./FIREBASE_JSON.json");
 }
 
