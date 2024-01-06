@@ -7,7 +7,7 @@ export async function get_settingsCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
-  if (!(await authorize(req.body.auth)))
+  if (!(await authorize(req.body.auth, { type: "admin" })))
     return res.status(401).json({ err: "Unauthorized request!" });
 
   const settingsCol = await settings.find({}).lean();
@@ -21,7 +21,7 @@ export async function get_usersCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
-  if (!(await authorize(req.body.auth)))
+  if (!(await authorize(req.body.auth, { type: "admin" })))
     return res.status(401).json({ err: "Unauthorized request!" });
 
   const usersCol = await users.find({}).lean();
@@ -35,7 +35,7 @@ export async function push_settingsCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
-  if (!(await authorize(req.body.auth)))
+  if (!(await authorize(req.body.auth, { type: "admin" })))
     return res.status(401).json({ err: "Unauthorized request!" });
 
   const data = req.body.payload.data;
@@ -50,7 +50,7 @@ export async function update_settingsCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
-  if (!(await authorize(req.body.auth)))
+  if (!(await authorize(req.body.auth, { type: "admin" })))
     return res.status(401).json({ err: "Unauthorized request!" });
 
   const data = req.body.payload;
@@ -62,7 +62,7 @@ export async function delete_settingsCol(req: Request, res: Response) {
     res.status(400).json({ err: "No Body!" });
     return;
   }
-  if (!(await authorize(req.body.auth)))
+  if (!(await authorize(req.body.auth, { type: "admin" })))
     return res.status(401).json({ err: "Unauthorized request!" });
 
   const data = req.body.payload;
