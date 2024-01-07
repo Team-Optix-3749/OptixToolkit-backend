@@ -12,9 +12,19 @@ export default async function add_hours(req: Request, res: Response) {
 
 	const userDoc = await users.findOne({ uid: req.body.uid })
 
-	userDoc.seconds += req.body.seconds
+   if (userDoc == null) {
+		await users.create({
+				uid: user.uid,
+				lastCheckIn: 0,
+				seconds: req.body.seconds,
+				meetingCount: 0,
+			})
+	}
 
-	await userDoc.save()
+	else {
+		userDoc.seconds += req.body.seconds
+		await userDoc.save()
+	}
 
 	try {
 		res.status(200).json({ err: false })
