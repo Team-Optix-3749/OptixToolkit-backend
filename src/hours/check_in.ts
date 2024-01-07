@@ -35,7 +35,7 @@ export default async function check_in(req: Request, res: Response) {
 			res.status(400).json({ err: 'Not in meeting time!' })
 			return
 		}
-	} else if (date.getDay() === 6 && false) {
+	} else if (date.getDay() === 6) {
 		if (date.getHours() >= 9 && date.getHours() <= 18) {
 			userDoc.lastCheckIn = Date.now()
 		} else {
