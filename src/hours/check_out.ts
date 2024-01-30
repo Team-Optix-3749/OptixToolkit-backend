@@ -17,6 +17,7 @@ export default async function check_out(req: Request, res: Response) {
 	}
 
 	const userDoc = await users.findOne({ uid: user.uid })
+	console.log(user.uid, userDoc, userDoc.lastCheckIn)
 	const attendanceOverride = await settings.findOne({
 		key: 'attendanceOverride',
 	})
