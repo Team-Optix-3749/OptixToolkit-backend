@@ -53,8 +53,6 @@ app.use(
   })
 );
 
-app.use(express.static(__dirname + "/frontend/admin_panel/dist"));
-
 app.post("/api/auth", async (req: Request, res: Response) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json");
@@ -65,7 +63,9 @@ app.post("/api/auth", async (req: Request, res: Response) => {
       break;
 
     default:
-      res.status(400).json({ err: "endpoint doesn't exist on '/api/auth'" });
+      res.status(400).json({
+        err: `endpoint ${req.body.endpoint} doesn't exist on '/api/auth'`
+      });
   }
 });
 
