@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 
 import { AuthStates, getCurrentUser, signIn_emailPass } from "@/lib/firebase";
-import { removeSession, validateSession } from "@/lib/session";
+import { validateSession } from "@/lib/session";
 // import ThirdPartyLogins from "./thirdparty";
 
 export default async function LoginForm() {
@@ -47,8 +47,13 @@ export default async function LoginForm() {
   };
 
   return (
-    <main className="w-full h-[99vh] flex justify-center items-center">
+    <main className="w-full h-[99vh] flex justify-center items-center ">
+      <img
+        src="./starryNight.svg"
+        className=" absolute bg-cover bg-center bg-no-repeat"
+      />
       {/* <Shennanigans /> */}
+      <div className="absolute translate-x-1/2 translate-y-1/2 bottom-1/2 right-1/2 z-0 rounded-lg backdrop-blur-sm w-[26rem] h-[22rem]"></div>
       <Card className="w-full max-w-sm z-10">
         <form action={onFormSubmit}>
           <CardHeader>
@@ -90,6 +95,8 @@ export default async function LoginForm() {
     </main>
   );
 }
+
+function something() {}
 
 // function Shennanigans() {
 //   const DVD_SPEED = 2;

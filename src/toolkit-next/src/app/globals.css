@@ -54,6 +54,10 @@
   transition: all 200ms;
 }
 
+body {
+  overflow: hidden;
+}
+
 
 @layer base {
   * {
