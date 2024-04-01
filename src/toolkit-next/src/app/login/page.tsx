@@ -1,18 +1,13 @@
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
 
 import { AuthStates, getCurrentUser, signIn_emailPass } from "@/lib/firebase";
 import { validateSession } from "@/lib/session";
+import Link from "next/link";
 // import ThirdPartyLogins from "./thirdparty";
 
 export default async function LoginForm() {
@@ -47,56 +42,65 @@ export default async function LoginForm() {
   };
 
   return (
-    <main className="w-full h-[99vh] flex justify-center items-center ">
-      <img
-        src="./starryNight.svg"
-        className=" absolute bg-cover bg-center bg-no-repeat"
-      />
-      {/* <Shennanigans /> */}
-      <div className="absolute translate-x-1/2 translate-y-1/2 bottom-1/2 right-1/2 z-0 rounded-lg backdrop-blur-sm w-[26rem] h-[22rem]"></div>
-      <Card className="w-full max-w-sm z-10">
-        <form action={onFormSubmit}>
-          <CardHeader>
-            <CardTitle className="text-2xl text-center">Login</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-4">
+    <main className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-5 xl:min-h-[800px]">
+      <section className="flex items-center justify-center py-12 col-span-2">
+        <div className="mx-auto grid w-[350px] gap-5 sm:translate-y-1/2 lg:translate-y-[-10%] xl:translate-y-[-30%]">
+          <div className="grid gap-2 text-center">
+            <h1 className="text-3xl font-bold">Login</h1>
+            <p className="text-balance text-muted-foreground">
+              Login with admin account
+            </p>
+          </div>
+          <form className="grid gap-4" action={onFormSubmit}>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 name="email"
                 type="email"
-                placeholder="email@gmail.com"
+                placeholder="m@example.com"
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                name="password"
-                type="password"
-                placeholder="password"
-                required
-              />
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                <Link
+                  href="/forgot-password"
+                  className="ml-auto inline-block text-sm underline">
+                  Forgot your password?
+                </Link>
+              </div>
+              <Input name="password" type="password" required />
             </div>
-            <div>
-              {/* This has to be a client component and reveals config.ts. 
-                  Possibly fix it in the future?  */}
-
-              {/* <ThirdPartyLogins {...{toast}}/> */}
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button className="w-full" type="submit">
-              Sign in
+            <Button type="submit" className="w-full">
+              Login
             </Button>
-          </CardFooter>
-        </form>
-      </Card>
+            <Button
+              variant="outline"
+              className="w-full p-0 flex justify-between">
+              <img
+                src="./googleLogo.svg"
+                alt="google logo"
+                className="h-full p-1"
+              />
+              <p className="mr-8">Login with Google</p>
+              <div></div>
+            </Button>
+          </form>
+        </div>
+      </section>
+      <section className="hidden bg-muted lg:block col-span-3">
+        <Image
+          src="/starryNight.svg"
+          alt="Image"
+          width="1920"
+          height="1080"
+          className="h-full w-full object-cover"
+        />
+      </section>
     </main>
   );
 }
-
-function something() {}
 
 // function Shennanigans() {
 //   const DVD_SPEED = 2;
