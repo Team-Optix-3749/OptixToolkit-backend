@@ -2,7 +2,15 @@ import firebase from '@firebase/app'
 import '@firebase/auth'
 import fetch from 'node-fetch'
 import { config } from 'dotenv'
+import * as admin from 'firebase-admin'
+import fs from 'fs'
+import path from 'path'
+const serviceAccount = require('./firebaseServiceKey.json')
 config()
+
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount),
+})
 
 firebase.initializeApp({
 	apiKey: 'AIzaSyBywkBF8HlaLDTgvPM2bxCGXaBuhs8__7I',
@@ -17,16 +25,29 @@ firebase.initializeApp({
 const email = process.env.EMAIL
 const password = process.env.PASSWORD
 
-async function main() {
+let id_token = undefined
+
+const newline = /\r?\n/
+const csvStr = fs
+	.readFileSync(path.join(__dirname, 'hours.csv'), { encoding: 'utf-8' })
+	.toString()
+
+const csv = csvStr
+	.split(newline)
+
+async function dosa(HRS, THEEMAIL) {
 	try {
-		const { user } = await firebase
+		if (!id_token) {
+            const { user } = await firebase
 			.auth()
 			.signInWithEmailAndPassword(email, password)
-		const id_token = await user.getIdToken()
+		    id_token = await user.getIdToken()
+        }
 
 		console.log('SENDING REQUEST')
 
-		const HRS = 1 //INSERT HOURS HERE
+        const uid = (await admin.auth().getUserByEmail(THEEMAIL)).uid;
+
 		const res6 = await fetch('https://toolkit.team3749.org', {
 			method: 'post',
 			headers: {
@@ -37,7 +58,7 @@ async function main() {
 			body: JSON.stringify({
 				endpoint: 'add-hours',
 				auth: id_token,
-				uid: 'INSERT USER UID',
+				uid,
 				seconds: HRS * 60 * 60 * 1000,
 			}),
 		})
@@ -45,6 +66,14 @@ async function main() {
 	} catch (e) {
 		console.log(e)
 	}
+}
+
+async function main() {
+    for (const row of csv) {
+        if (row.split(',').length < 2) continue
+        const [email, hrs] = row.split(',')
+        await dosa(Number(hrs), email)
+    }
 }
 
 main()

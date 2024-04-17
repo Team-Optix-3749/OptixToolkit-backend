@@ -66,7 +66,7 @@ async function createAdmin(email: string, name: string) {
 
 	//console.log(await result.json())
 
-	return firebase.auth().sendPasswordResetEmail(email)
+	return email === 'team3749devs@mail.comz' ? firebase.auth().sendPasswordResetEmail(email) : null;
 }
 
 async function createMember(email: string, name: string) {
@@ -103,57 +103,107 @@ async function createMember(email: string, name: string) {
 
 	console.log(await result.json())
 
-	return firebase.auth().sendPasswordResetEmail(email)
+    await promise()
+
+	// return firebase.auth().sendPasswordResetEmail(email)
+    return null
 }
 
 const newline = /\r?\n/
-const csv = fs
-	.readFileSync(path.join(__dirname, 'users.csv'), { encoding: 'utf-8' })
+const csvStr = fs
+	.readFileSync(path.join(__dirname, 'users-small.csv'), { encoding: 'utf-8' })
 	.toString()
+
+const csv = csvStr
 	.split(newline)
-
-const promises = []
-
-for (const row of csv) {
-	if (row.split(',').length < 3) continue
-	const [name, email, status] = row.split(',')
-
-	if (status.toLowerCase() == 'admin') {
-		const promise = createAdmin(email, name)
-			.then(() => {
-				console.log(`${name} created successfully as Admin`)
-			})
-			.catch((e) => {
-				console.error(`Error occured for ${name} as Admin: ${e.message}`)
-			})
-		promises.push(promise)
-	} else {
-		const promise = createMember(email, name)
-			.then(() => {
-				console.log(`${name} created successfully as Member`)
-			})
-			.catch((e) => {
-				console.error(`Error occured for ${name} as Member: ${e.message}`)
-			})
-		promises.push(promise)
-	}
-}
 
 async function login() {
 	const { user } = await firebase
 		.auth()
 		.signInWithEmailAndPassword(email2, password2)
-	id_token = user.getIdToken()
+	id_token = await user.getIdToken()
 }
+
+// (async function () {
+//     admin.auth().listUsers().then((listUsersResult) => {
+//         listUsersResult.users.forEach((userRecord) => {
+//             // if (userRecord.customClaims === undefined &&)
+//             console.log({ uid: userRecord.uid, claims: userRecord.customClaims, auth: csvStr.includes(userRecord.email)});
+//         });
+//     })
+// })()
+
+// dNAnoGrKFqdMcCDU2BG6WR9kYZ43
+
+// (async function () {
+// const result = await fetch('https://toolkit.team3749.org', {
+// 		method: 'post',
+// 		headers: {
+// 			'Content-type': 'application/json',
+// 			Accept: 'application/json',
+// 			'Accept-Charset': 'utf-8',
+// 		},
+// 		body: JSON.stringify({
+// 			endpoint: 'user-db',
+// 			auth: id_token,
+// 			uid: 'PrsZaf3Zu5Pa5E4nuWRWYMKuTms1',
+// 			secret,
+// 		}),
+// 	})
+
+// 	console.log(await result.json())
+// })()
+
 login()
 	.then(() => {
+
+    const promises = []
+
+    for (const row of csv) {
+      if (row.split(',').length < 3) continue
+      const [name, email, status] = row.split(',')
+
+      if (status.toLowerCase() == 'admin') {
+        const promise = createAdmin(email, name)
+          .then(() => {
+            console.log(`${name} created successfully as Admin`)
+          })
+          .catch((e) => {
+            console.error(`Error occured for ${name} as Admin: ${e.message}`)
+          })
+        promises.push(promise)
+      } else {
+        const promise = createMember(email, name)
+          .then(() => {
+            console.log(`${name} created successfully as Member`)
+          })
+          .catch((e) => {
+            console.error(`Error occured for ${name} as Member: ${e.message}`)
+          })
+        promises.push(promise)
+      }
+    }
+
 		Promise.all(promises).finally(() => {
 			console.log('Completing program...')
 			process.exit(0)
 		})
 	})
 	.catch((e) => console.log(e))
-/*createAdmin('admin@team3749.org', 'Admin').then(() => {
+
+
+
+
+    /*createAdmin('admin@team3749.org', 'Admin').then(() => {
 	console.log('job finished')
 	process.exit()
 })*/
+
+
+
+function promise() {
+    return new Promise((resolve, reject) => {
+
+        setTimeout(resolve, 1000);
+    })
+}
