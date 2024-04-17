@@ -17,6 +17,7 @@ export default async function check_out(req: Request, res: Response) {
 	}
 
 	const userDoc = await users.findOne({ uid: user.uid })
+	console.log(user.uid, userDoc, userDoc.lastCheckIn)
 	const attendanceOverride = await settings.findOne({
 		key: 'attendanceOverride',
 	})
@@ -34,8 +35,18 @@ export default async function check_out(req: Request, res: Response) {
 		userDoc.seconds += Date.now() - userDoc.lastCheckIn
 		userDoc.lastCheckIn = 0
 		userDoc.meetingCount++
-	} else if (date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4) {
-		if (date.getHours() >= 15 && date.getHours() <= 18) {
+	} else if (date.getDay() === 1 || date.getDay() === 3) {
+		if (date.getHours() >= 15 && date.getHours() <= 20) {
+			userDoc.seconds += Date.now() - userDoc.lastCheckIn
+			userDoc.lastCheckIn = 0
+			userDoc.meetingCount++
+		} else {
+			userDoc.lastCheckIn = 0
+			res.status(400).json({ err: 'Not in meeting time!' })
+			return userDoc.save()
+		}
+	} else if (date.getDay() === 2 || date.getDay() === 4) {
+		if (date.getHours() >= 15 && date.getHours() <= 19) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
@@ -45,7 +56,7 @@ export default async function check_out(req: Request, res: Response) {
 			return userDoc.save()
 		}
 	} else if (date.getDay() === 6) {
-		if (date.getHours() >= 9 && date.getHours() <= 18) {
+		if (date.getHours() >= 9 && date.getHours() <= 17) {
 			userDoc.seconds += Date.now() - userDoc.lastCheckIn
 			userDoc.lastCheckIn = 0
 			userDoc.meetingCount++
