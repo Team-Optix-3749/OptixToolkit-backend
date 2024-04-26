@@ -34,13 +34,9 @@ import add_inventory from "./inventory/add_inventory";
 import modify_inventory from "./inventory/modify_inventory";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
-import { authenticateUser } from "./utils/firebase";
+import { authenticateUser, get_user_data } from "./utils/firebase";
 import {
-  delete_settingsCol,
-  get_settingsCol,
-  get_usersCol,
-  push_settingsCol,
-  update_settingsCol
+  get_databaseUrl,
 } from "./utils/mongo";
 
 const app = express();
@@ -74,24 +70,12 @@ app.post("/api/db", async (req: Request, res: Response) => {
   res.setHeader("Content-Type", "application/json");
 
   switch (req.body.endpoint) {
-    case "get-settings":
-      get_settingsCol(req, res);
+    case "get-database-url":
+      get_databaseUrl(req, res);
       break;
 
-    case "get-users":
-      get_usersCol(req, res);
-      break;
-
-    case "push-settings":
-      push_settingsCol(req, res);
-      break;
-
-    case "update-settings":
-      update_settingsCol(req, res);
-      break;
-
-    case "delete-settings":
-      delete_settingsCol(req, res);
+    case "get-user-data":
+      get_user_data(req, res);
       break;
 
     default:

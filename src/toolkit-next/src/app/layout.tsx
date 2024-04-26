@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import { Lexend } from "next/font/google";
 
 import "./globals.css";
-import { ToastContainer } from "react-toastify";
+import Loading from "./Loading";
+import Toaster from "@/components/toast";
 
 const lexend = Lexend({
   weight: "400",
@@ -22,8 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={lexend.className + "bg-background w-full h-[100vh]"}>
-        <ToastContainer position="bottom-right" />
-        {children}
+        {Toaster[0]}
+        <Suspense fallback={<Loading />}>{children}</Suspense>
       </body>
     </html>
   );

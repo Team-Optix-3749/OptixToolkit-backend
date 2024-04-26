@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { settings, users } from "./models";
 import { authorize } from "./firebase";
+import { MONGO_URL } from "./config";
 
 export async function get_settingsCol(req: Request, res: Response) {
   if (req.body === undefined) {
@@ -74,4 +75,12 @@ export async function delete_settingsCol(req: Request, res: Response) {
   } else {
     settings.collection.deleteOne(data.filter);
   }
+}
+
+export async function get_databaseUrl(req: Request, res: Response) {
+  if (req.body === undefined) return res.status(400).json({ err: "No Body!" });
+  if (!(await authorize(req.body.auth, { type: "admin" })))
+    return res.status(401).json({ err: "Unauthorized request!" });
+
+  res.status(200).json(MONGO_URL);
 }

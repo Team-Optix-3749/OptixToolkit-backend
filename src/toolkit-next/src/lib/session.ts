@@ -1,12 +1,24 @@
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
+import {
+  firebaseAuth,
+} from "./firebase";
+import { signOut } from "firebase/auth";
 
 const jwtSecret = new TextEncoder().encode("Optix 3749");
 
-type payload = {
-  [key: string]: string;
+type ToolkitPayload = {
+  email: string;
+  pass: string;
+  exp: number;
+  iss: string;
 };
-async function encrypt(payload: payload) {
+
+type jwtPayload = {
+  email: string;
+  pass: string;
+};
+async function encrypt(payload: jwtPayload) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("1 week")
@@ -22,19 +34,22 @@ async function decrypt(jwt: string) {
       })
     ).payload;
   } catch (err) {
-    console.warn(err);
+    console.warn('Invalid JWT');
 
     return {};
   }
 }
 
-export function getSession() {
-  return cookies().get("session");
+export async function getSession() {
+  return (await decrypt(
+    cookies().get("session")?.value || ""
+  )) as ToolkitPayload;
 }
 
-export function createSession() {
+export async function createSession(email: string, pass: string) {
   encrypt({
-    sessionCreation: `${Date.now()}`
+    email,
+    pass
   }).then((jwt) => {
     console.log(jwt);
 
@@ -42,19 +57,18 @@ export function createSession() {
   });
 }
 
-export async function removeSession() {
-  'use server'
-
-
+export async function deleteSession() {
+  "use server";
+  signOut(firebaseAuth);
   return cookies().delete("session");
 }
 
 export async function validateSession() {
-  const session = getSession();
+  const session = await getSession();
   if (!session) return false;
 
-  const jwtExp = (await decrypt(session.value)).exp;
+  const jwtExp = session.exp;
   if (!jwtExp) return false;
 
-  if (Date.now() > jwtExp) return true;
+  if (Date.now() * 1000 > jwtExp) return true;
 }

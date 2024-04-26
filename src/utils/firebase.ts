@@ -130,3 +130,33 @@ export async function authenticateUser(req: Request, res: Response) {
     res.status(200).json(true);
   }
 }
+
+export async function get_user_data(req, res) {
+  const userUID = req.body.uid;
+
+  if (!userUID) res.status(400);
+
+  try {
+    const {
+      uid,
+      email,
+      emailVerified,
+      phoneNumber,
+      photoURL,
+      customClaims,
+      displayName
+    } = await admin.auth().getUser(userUID);
+
+    res.json({
+      uid,
+      email,
+      emailVerified,
+      phoneNumber,
+      photoURL,
+      customClaims,
+      displayName
+    });
+  } catch {
+    res.status(500).json("Error");
+  }
+}
