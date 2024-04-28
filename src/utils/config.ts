@@ -17,7 +17,7 @@ export const {
   FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
   FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
   FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY,
-  FIREBASE_CONFIG: JSON.parse(process.env.F)
+  FIREBASE_CONFIG: JSON.parse(process.env.FIREBASE_CONFIG)
 };
 
 export const PORT = process.env.PORT ?? 4000;

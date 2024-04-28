@@ -34,7 +34,7 @@ import add_inventory from "./inventory/add_inventory";
 import modify_inventory from "./inventory/modify_inventory";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
-import { addUser, authenticateUser, get_user_data } from "./utils/firebase";
+import { authenticateUser, get_user_data } from "./utils/firebase";
 import { get_databaseUrl } from "./utils/mongo";
 
 const app = express();
@@ -50,8 +50,6 @@ app.use(
 app.post("/api/auth", async (req: Request, res: Response) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json");
-
-  addUser("Neel Adem", "neeladem0@gmail.com", true);
 
   switch (req.body.endpoint) {
     case "authorize":

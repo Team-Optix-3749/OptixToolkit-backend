@@ -7,7 +7,8 @@ import { Request, Response } from "express";
 import {
   FIREBASE_PROJECT_ID,
   FIREBASE_CLIENT_EMAIL,
-  FIREBASE_PRIVATE_KEY
+  FIREBASE_PRIVATE_KEY,
+  FIREBASE_CONFIG
 } from "./config";
 
 const adminApp = admin.initializeApp({
@@ -17,8 +18,7 @@ const adminApp = admin.initializeApp({
     privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")
   })
 });
-firebase.initializeApp()
-
+firebase.initializeApp(FIREBASE_CONFIG);
 
 interface options {
   type: "admin" | "certified" | "user";
@@ -44,7 +44,7 @@ export async function authorize(
 }
 
 export async function removeUser(uid: string) {
-  return admin.auth().deleteUser(uid);
+  return admin.auth().deleteUser((await admin.auth().getUserByEmail(uid)).uid);
 }
 
 export async function listUsers() {
@@ -93,6 +93,8 @@ export async function addUser(name: string, email: string, isAdmin: boolean) {
       email: user.email,
       displayName: name
     });
+
+    console.log(e);
   }
 
   if (isAdmin) {
@@ -103,7 +105,8 @@ export async function addUser(name: string, email: string, isAdmin: boolean) {
     await admin.auth().setCustomUserClaims(user.uid, { member: true });
   }
 
-  return ;
+  console.log("Create User ", user.email);
+  return await firebase.auth().sendPasswordResetEmail(user.email);
 }
 
 export async function certifyUser(uid: string) {
