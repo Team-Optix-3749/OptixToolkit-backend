@@ -17,6 +17,8 @@ const adminApp = admin.initializeApp({
     privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")
   })
 });
+firebase.initializeApp()
+
 
 interface options {
   type: "admin" | "certified" | "user";
@@ -101,7 +103,7 @@ export async function addUser(name: string, email: string, isAdmin: boolean) {
     await admin.auth().setCustomUserClaims(user.uid, { member: true });
   }
 
-  return firebase.auth().sendPasswordResetEmail(email);
+  return ;
 }
 
 export async function certifyUser(uid: string) {
