@@ -51,7 +51,7 @@ export async function listUsers() {
   return admin.auth().listUsers();
 }
 
-export async function appendDisplayName(uid: string, object: any) {
+export async function appendDisplayName(uid: string, object: Object) {
   if (uid === undefined) {
     return {
       ...object,
