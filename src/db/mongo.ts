@@ -7,8 +7,8 @@ export async function init_mongo() {
   mongoClient = mongoClient || new MongoClient(MONGO_URL || "");
 }
 
-type mongoFunction = (db: Db) => any;
-export async function request(mongoFunction: mongoFunction) {
+type mongoFunction<T> = (db: Db) => T;
+export async function mongoReq<T>(mongoFunction: mongoFunction<T>) {
   await init_mongo();
   const db = (await mongoClient.connect()).db();
 
@@ -33,19 +33,19 @@ export async function cursorToJSON(cursor: FindCursor<WithId<Document>>) {
 }
 
 export async function settingsCol() {
-  using data = await request(async (db) => {
+  using data = await mongoReq(async (db) => {
     const cursor = db.collection("settings").find({});
     return await cursorToJSON(cursor);
   });
 
-  return data.ret as t_Settings;
+  return data.ret as t_Settings[];
 }
 
 export async function usersCol() {
-  using data = await request(async (db) => {
+  using data = await mongoReq(async (db) => {
     const cursor = db.collection("users").find({});
     return await cursorToJSON(cursor);
   });
 
-  return data.ret as t_Users;
+  return data.ret as t_Users[];
 }

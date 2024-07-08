@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { authorize } from "../utils/firebase";
 import { MONGO_URL } from "../utils/config";
-import { settingsCol, usersCol, request } from "../db/mongo";
+import { settingsCol, usersCol, mongoReq } from "../db/mongo";
 
 export async function get_SettingsCol(req: Request, res: Response) {
   if (req.body === undefined) {
@@ -41,7 +41,7 @@ export async function push_SettingsCol(req: Request, res: Response) {
 
   if (!data.key || !data.value) res.status(400);
 
-  request((db) => {
+  mongoReq((db) => {
     db.collection("settings").insertOne(data);
   });
 }
@@ -55,7 +55,7 @@ export async function update_SettingsCol(req: Request, res: Response) {
     return res.status(401).json({ err: "Unauthorized request!" });
 
   const data = req.body.payload;
-  request((db) => {
+  mongoReq((db) => {
     db.collection("settings").updateOne(data.filter, { $set: data.update });
   });
 }
@@ -73,11 +73,11 @@ export async function delete_SettingsCol(req: Request, res: Response) {
   if (!data.filter) res.status(400);
 
   if (data.many) {
-    request((db) => {
+    mongoReq((db) => {
       db.collection("settings").deleteMany(data.filter);
     });
   } else {
-    request((db) => {
+    mongoReq((db) => {
       db.collection("settings").deleteOne(data.filter);
     });
   }

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { authorize } from "../../utils/firebase";
-import { settings, users } from "../utils/models";
+import { mongoReq } from "../../db/mongo";
 
 export default async function check_in(req: Request, res: Response) {
   const user = await authorize(req.body.auth);
@@ -10,23 +10,29 @@ export default async function check_in(req: Request, res: Response) {
     return;
   }
 
-  const setting = await settings.findOne({ key: "checkInPassword" });
-  if (req.body.password !== setting.value) {
+  using setting = await mongoReq((db) => {
+    return db.collection("settings").findOne({ key: "checkOutPassword" });
+  });
+  if (req.body.password !== setting.ret.value) {
     res.status(400).json({ err: "Check In Password Wrong! " });
     return;
   }
 
-  const userDoc = await users.findOne({ uid: user.uid });
-  const attendanceOverride = await settings.findOne({
-    key: "attendanceOverride"
+  using usingUserDoc = await mongoReq(async (db) => {
+    return db.collection("users").findOne({ uid: user.uid });
+  });
+  const userDoc = usingUserDoc.ret;
+  const attendanceOverride = await mongoReq((db) => {
+    return db.collection("settings").findOne({
+      key: "attendanceOverride"
+    });
   });
 
-  var date = new Date(Date.now() - 28800000);
+  let date = new Date(Date.now() - 28800000);
 
   if (userDoc.lastCheckIn !== 0) {
-    res.status(400).json({ err: "You are already checked in!" });
-    return;
-  } else if (attendanceOverride.value === "true") {
+    return res.status(400).json({ err: "You are already checked in!" });
+  } else if (attendanceOverride.ret.value === "true") {
     userDoc.lastCheckIn = Date.now();
   } else if (
     date.getDay() === 2 ||

@@ -1,5 +1,5 @@
 type t_Users = {
-  _oid: string;
+  _id: string;
   uid: string;
   lastCheckIn: number;
   seconds: number;
@@ -7,7 +7,7 @@ type t_Users = {
 };
 
 type t_Settings = {
-  _oid: string;
+  _id: string;
   key: "checkInPassword" | "checkOutPassword" | "attendanceOverride";
   value: string;
 };
