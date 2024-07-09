@@ -47,7 +47,10 @@ app.use(
   })
 );
 
-app.use(express.static(__dirname + "/frontend/admin_panel/dist"));
+app.get('/', (req, res) => {
+  res.send('Welcome to the Optix Toolkit API!');
+});
+// app.use(express.static(__dirname + "/frontend/admin_panel/dist"));
 
 app.post("/api/auth", async (req: Request, res: Response) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
