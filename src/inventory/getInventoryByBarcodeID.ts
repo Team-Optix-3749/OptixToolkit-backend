@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { authorize } from '../utils/firebase'
 import { inventory } from '../utils/models'
 
-export default async function get_inventory(req: Request, res: Response) {
+export default async function getInventoryByBarcodeID(req: Request, res: Response) {
 	if (await authorize(req.body.auth)) {
 		if (typeof req.body.barcodeId !== 'string') {
 			res.status(400).json({ err: 'Bad Params!' })

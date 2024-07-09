@@ -4,16 +4,9 @@ import cors from "cors";
 import parts_add from "./parts/parts_add";
 import parts_get from "./parts/parts_get";
 import parts_remove from "./parts/parts_remove";
-import add_tool from "./tools/add_tool";
-import remove_tool from "./tools/remove_tool";
-import change_tool_status from "./tools/change_tool_status";
-import checkout_tool from "./tools/checkout_tool";
-import get_category from "./tools/get_category";
-import get_tool from "./tools/get_tool";
-import get_tools from "./tools/get_tools";
-import reserve_tool from "./tools/reserve_tool";
-import remove_reservation from "./tools/remove_reservation";
-import return_tool from "./tools/return_tool";
+import postTool from './tools/postTool'
+import getToolsByReserverID from './tools/getToolsByReserverID'
+import deleteToolByReserverID from './tools/deleteToolByReserverID'
 import remove_user from "./users/remove_user";
 import list_users from "./users/list_users";
 import create_user from "./users/create_user";
@@ -29,9 +22,10 @@ import get_seconds from "./hours/get_seconds";
 import get_seconds_cli from "./hours/get_seconds_cli";
 import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
-import get_inventory from "./inventory/get_inventory";
-import add_inventory from "./inventory/add_inventory";
-import modify_inventory from "./inventory/modify_inventory";
+import getInventoryByBarcodeID from "./inventory/getInventoryByBarcodeID";
+import addInventory from "./inventory/addInventory";
+import postInventoryDecreaseCountByName from './inventory/postInventoryDecreaseCountByName'
+import postInventoryIncreaseCountByName from './inventory/postInventoryIncreaseCountByName'
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
 import { authenticateUser } from "./utils/firebase";
@@ -104,6 +98,33 @@ app.post("/", async (req: Request, res: Response) => {
   res.setHeader("Content-Type", "application/json");
 
   switch (req.body.endpoint) {
+    case "post-tool":
+        postTool(req, res);
+        break;
+
+    case "get-tools-by-reserver-id":
+        getToolsByReserverID(req, res);
+        break;
+
+    case "delete-tool-by-reserver-id":
+        deleteToolByReserverID(req, res);
+        break;
+
+    case "get-inventory-by-barcode-id":
+        getInventoryByBarcodeID(req, res);
+        break;
+
+    case "add-inventory":
+        addInventory(req, res);
+        break;
+
+    case "post-inventory-decrease-count-by-name":
+        postInventoryDecreaseCountByName(req, res);
+        break;
+
+    case "post-inventory-increase-count-by-name":
+        postInventoryIncreaseCountByName(req, res);
+        break;
     case "parts-get":
       parts_get(req, res);
       break;
@@ -113,15 +134,6 @@ app.post("/", async (req: Request, res: Response) => {
     case "parts-remove":
       parts_remove(req, res);
       break;
-    case "add-tool":
-      add_tool(req, res);
-      break;
-    case "remove-tool":
-      remove_tool(req, res);
-      break;
-    case "remove-reservation":
-      remove_reservation(req, res);
-      break;
     case "remove-user":
       remove_user(req, res);
       break;
@@ -130,27 +142,6 @@ app.post("/", async (req: Request, res: Response) => {
       break;
     case "create-user":
       create_user(req, res);
-      break;
-    case "change-tool-status":
-      change_tool_status(req, res);
-      break;
-    case "checkout-tool":
-      checkout_tool(req, res);
-      break;
-    case "get-category":
-      get_category(req, res);
-      break;
-    case "get-tool":
-      get_tool(req, res);
-      break;
-    case "get-tools":
-      get_tools(req, res);
-      break;
-    case "reserve-tool":
-      reserve_tool(req, res);
-      break;
-    case "return-tool":
-      return_tool(req, res);
       break;
     case "reimbursement":
       reimbursement(req, res);
@@ -185,24 +176,8 @@ app.post("/", async (req: Request, res: Response) => {
     case "add-hours":
       add_hours(req, res);
       break;
-    case "get-inventory":
-      get_inventory(req, res);
-      break;
-    case "add-inventory":
-      add_inventory(req, res);
-      break;
-    case "modify-inventory":
-      modify_inventory(req, res);
-      break;
-      break;
-    case "get-inventory":
-      get_inventory(req, res);
-      break;
-    case "add-inventory":
-      add_inventory(req, res);
-      break;
-    case "modify-inventory":
-      modify_inventory(req, res);
+    case "getInventoryByBarcodeID":
+      getInventoryByBarcodeID(req, res);
       break;
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/'" });
