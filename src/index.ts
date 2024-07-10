@@ -26,6 +26,9 @@ import getInventoryByBarcodeID from "./inventory/getInventoryByBarcodeID";
 import addInventory from "./inventory/addInventory";
 import postInventoryDecreaseCountByName from './inventory/postInventoryDecreaseCountByName'
 import postInventoryIncreaseCountByName from './inventory/postInventoryIncreaseCountByName'
+import getAllInventory from "./inventory/getAllInventory";
+import getAllTools from './tools/getAllToolsPrivateMethod';
+
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
 import { authenticateUser } from "./utils/firebase";
@@ -186,6 +189,15 @@ app.post("/", async (req: Request, res: Response) => {
       res.status(400).json({ err: "endpoint doesn't exist on '/'" });
   }
 });
+
+// New GET routes for the methods
+app.get('/inventory/:barcodeId', getInventoryByBarcodeID);
+app.get('/inventory', getAllInventory);
+app.get('/tools/:reserverID', getToolsByReserverID);
+app.get('/tools', getAllTools);
+
+// New DELETE route for deleting tool by reserver ID
+app.delete('/tools/:reserverID/:name', deleteToolByReserverID);
 
 app.get(`/${WEBHOOK_SECRET}`, parts_webhook);
 
