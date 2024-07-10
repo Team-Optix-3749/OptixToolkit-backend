@@ -29,6 +29,7 @@
     "express-subdomain": "^1.0.5",
     "firebase-admin": "^9.1.1",
     "mongodb": "^6.8.0",
+    "mongoose": "^8.5.0",
     "node-fetch": "^2.6.1",
     "ts-node": "^9.0.0",
     "typescript": "^5.4.5"

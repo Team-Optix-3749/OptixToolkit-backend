@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { tools } from "../utils/models";
+import { tools } from "../../db/models";
 import { authorize } from "../../utils/firebase";
-import { trackPackage } from "../../utils/tracking";
 
 export default async function remove_tool(req: Request, res: Response) {
   if (req.body === undefined) {

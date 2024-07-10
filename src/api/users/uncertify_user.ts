@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { authorize, uncertifyUser, listUsers } from "../../utils/firebase";
+import { authorize, uncertifyUser } from "../../utils/firebase";
 
 export default async function list_users(req: Request, res: Response) {
   if (!(await authorize(req.body.auth, { type: "admin" }))) {

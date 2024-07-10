@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import { users } from "../../db/models";
 import { authorize } from "../../utils/firebase";
-import { mongoReq } from "../../db/mongo";
 
 export default async function add_hours(req: Request, res: Response) {
   const user = await authorize(req.body.auth, { type: "admin" });
@@ -10,13 +10,11 @@ export default async function add_hours(req: Request, res: Response) {
     return;
   }
 
-  using userDoc = await mongoReq(async (db) => {
-    return db.collection("users").findOne({ uid: user.uid });
-  });
+  const userDoc = await users.findOne({ uid: req.body.uid });
 
-  userDoc.ret.seconds += req.body.seconds;
+  userDoc.seconds += req.body.seconds;
 
-  await userDoc.ret.save();
+  await userDoc.save();
 
   try {
     res.status(200).json({ err: false });

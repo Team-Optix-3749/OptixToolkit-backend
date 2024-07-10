@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import { tools } from "../../db/models";
 import { authorize } from "../../utils/firebase";
-import { tools } from "../utils/models";
 
 export default async function checkout_tool(req: Request, res: Response) {
   const user = await authorize(req.body.auth);

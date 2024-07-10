@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { authorize, removeUser } from "../../utils/firebase";
-import { parts, tools } from "../utils/models";
+import { parts, tools } from "../../db/models";
 
 export default async function remove_user(req: Request, res: Response) {
   if (!(await authorize(req.body.auth, { type: "admin" }))) {

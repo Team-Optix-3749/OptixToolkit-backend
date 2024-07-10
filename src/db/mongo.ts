@@ -1,4 +1,3 @@
-import { query } from "express";
 import { Db, FindCursor, MongoClient, WithId, Document } from "mongodb";
 import { MONGO_URL } from "../utils/config";
 

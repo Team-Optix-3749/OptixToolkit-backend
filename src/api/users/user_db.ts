@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { users, User } from "../utils/models";
-import { authorize } from "../../utils/firebase";
+import { users } from "../../db/models";
 import { USER_SECRET } from "../../utils/config";
+
 
 export default async function user_db(req: Request, res: Response) {
   if (req.body.secret != USER_SECRET) {

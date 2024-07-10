@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Tool, tools } from "../utils/models";
-import { getDisplayName, authorize } from "../../utils/firebase";
+import { tools } from "../../db/models";
+import { authorize, getDisplayName } from "../../utils/firebase";
 
 function genPromise(uid: string, dNamePro: Promise<any>) {
   return dNamePro.then((dName) => ({ uid, dName }));

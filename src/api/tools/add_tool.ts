@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { tools, Tool } from "../utils/models";
+import { Tool, tools } from "../../db/models";
 import { authorize } from "../../utils/firebase";
 
 function validateTool(body: any): body is Tool {

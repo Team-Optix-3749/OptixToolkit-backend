@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import { tools } from "../../db/models";
 import { authorize } from "../../utils/firebase";
-import { tools } from "../utils/models";
 
 export default async function reserve_tool(req: Request, res: Response) {
   let user;
@@ -20,12 +20,12 @@ export default async function reserve_tool(req: Request, res: Response) {
 
     if (tool.reservations.includes(uid)) {
       if (tool.reservations.length <= 1) {
-        await tools.update(
+        await tools.updateMany(
           { name: req.body.toolname },
           { $pull: { reservations: uid }, status: "notInUse" }
         );
       } else {
-        await tools.update(
+        await tools.updateMany(
           { name: req.body.toolname },
           { $pull: { reservations: uid } }
         );
@@ -34,7 +34,7 @@ export default async function reserve_tool(req: Request, res: Response) {
       return;
     }
 
-    await tools.update(
+    await tools.updateMany(
       { name: req.body.toolname },
       { $push: { reservations: uid }, status: "reserved" }
     );

@@ -11,3 +11,13 @@ type t_Settings = {
   key: "checkInPassword" | "checkOutPassword" | "attendanceOverride";
   value: string;
 };
+
+type t_Tools = {
+  _id: string;
+  reservations: string[];
+};
+
+type t_UsingReq<t> = {
+  ret: t;
+  [Symbol.dispose]: () => void;
+};
