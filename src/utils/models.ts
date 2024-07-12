@@ -109,7 +109,7 @@ const InventorySchema: Schema = new Schema({
 	name: { type: String, required: true },
 	count: { type: Number, required: true },
 	barcodeId: { type: String, required: true },
-	location: { type: String, required: true }
+	category: { type: String, required: true }
 })
 
 export const inventory = mongoose.model<InventoryDoc>('inventory', InventorySchema)
