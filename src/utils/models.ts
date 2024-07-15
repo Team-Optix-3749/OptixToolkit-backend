@@ -40,28 +40,6 @@ const UserSchema: Schema = new Schema({
 
 export const users = mongoose.model<UserDoc>('users', UserSchema)
 
-/* Tools */
-
-export interface Tool {
-	name: string
-	category: string
-	status: string
-	reservations: string[]
-	user: String
-}
-
-interface ToolDoc extends Document, Tool {}
-
-const ToolSchema: Schema = new Schema({
-	name: { type: String, required: true },
-	category: { type: String, required: true },
-	reservations: { type: [String], required: true },
-	status: { type: String, required: true },
-	user: { type: String, required: true },
-})
-
-export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)
-
 /* Parts */
 
 export interface Part {
@@ -98,26 +76,40 @@ const PartSchema: Schema = new Schema({
 
 export const parts = mongoose.model<PartDoc>('parts', PartSchema)
 
+/* Tools */
+
+export interface Tool {
+	name: string
+	category: string
+	reserverID: string
+}
+
+interface ToolDoc extends Document, Tool {}
+
+const ToolSchema: Schema = new Schema({
+	name: { type: String, required: true },
+	category: { type: String, required: true },
+	reserverID: {type: String, required: true}
+})
+
+export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)
+
 /* Inventory */
 
 export interface Inventory {
 	name: string
-	description: string
 	count: number
-   barcodeId: string
-	status: string
-	location: string
+   	barcodeId: string
+	category: string
 }
 
 interface InventoryDoc extends Document, Inventory {}
 
 const InventorySchema: Schema = new Schema({
 	name: { type: String, required: true },
-	description: { type: String, required: false },
 	count: { type: Number, required: true },
 	barcodeId: { type: String, required: true },
-	status: { type: String, required: true },
-	location: { type: String, required: true }
+	category: { type: String, required: true }
 })
 
 export const inventory = mongoose.model<InventoryDoc>('inventory', InventorySchema)

@@ -6,7 +6,7 @@ function validateInventory(body: any): body is Inventory {
 	return typeof body.name === 'string' && typeof body.barcodeId === 'string' && typeof body.count === 'number'
 }
 
-export default async function add_inventory(req: Request, res: Response) {
+export default async function addInventory(req: Request, res: Response) {
 	if (!(await authorize(req.body.auth, { type: 'admin' }))) {
 		res.status(400).json({ err: 'Unauthorized request!' })
 		return
@@ -18,7 +18,7 @@ export default async function add_inventory(req: Request, res: Response) {
 			name: req.body.name,
 			count: req.body.count,
             barcodeId: req.body.barcodeId,
-            description: req.body.description,
+            description: req.body.category,
 		})
 		res.status(200).json({ err: false })
 	} catch (e) {
