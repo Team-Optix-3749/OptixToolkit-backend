@@ -4,9 +4,9 @@ import cors from "cors";
 import parts_add from "./parts/parts_add";
 import parts_get from "./parts/parts_get";
 import parts_remove from "./parts/parts_remove";
-import postTool from './tools/postTool'
-import getToolsByReserverID from './tools/getToolsByReserverID'
-import deleteToolByReserverID from './tools/deleteToolByReserverID'
+import postTool from "./tools/postTool";
+import getToolsByReserverID from "./tools/getToolsByReserverID";
+import deleteToolByReserverID from "./tools/deleteToolByReserverID";
 import remove_user from "./users/remove_user";
 import list_users from "./users/list_users";
 import create_user from "./users/create_user";
@@ -24,21 +24,13 @@ import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
 import getInventoryByBarcodeID from "./inventory/getInventoryByBarcodeID";
 import addInventory from "./inventory/addInventory";
-import postInventoryDecreaseCountByName from './inventory/postInventoryDecreaseCountByName'
-import postInventoryIncreaseCountByName from './inventory/postInventoryIncreaseCountByName'
+import postInventoryDecreaseCountByName from "./inventory/postInventoryDecreaseCountByName";
+import postInventoryIncreaseCountByName from "./inventory/postInventoryIncreaseCountByName";
 import getAllInventory from "./inventory/getAllInventory";
-import getAllTools from './tools/getAllToolsPrivateMethod';
-
+import getAllTools from "./tools/getAllToolsPrivateMethod";
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
-import { authenticateUser } from "./utils/firebase";
-import {
-  delete_settingsCol,
-  get_settingsCol,
-  get_usersCol,
-  push_settingsCol,
-  update_settingsCol
-} from "./utils/mongo";
+import { authenticateUser, getUserByUid } from "./utils/firebase";
 
 const app = express();
 
@@ -50,8 +42,8 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
-  res.send('Welcome to the Optix Toolkit API!');
+app.get("/", (req, res) => {
+  res.send("Welcome to the Optix Toolkit API!");
 });
 // app.use(express.static(__dirname + "/frontend/admin_panel/dist"));
 
@@ -64,38 +56,12 @@ app.post("/api/auth", async (req: Request, res: Response) => {
       await authenticateUser(req, res);
       break;
 
+    case "get-user":
+      await getUserByUid(req, res);
+      break;
+
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/api/auth'" });
-  }
-});
-
-app.post("/api/db", async (req: Request, res: Response) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Content-Type", "application/json");
-
-  switch (req.body.endpoint) {
-    case "get-settings":
-      get_settingsCol(req, res);
-      break;
-
-    case "get-users":
-      get_usersCol(req, res);
-      break;
-
-    case "push-settings":
-      push_settingsCol(req, res);
-      break;
-
-    case "update-settings":
-      update_settingsCol(req, res);
-      break;
-
-    case "delete-settings":
-      delete_settingsCol(req, res);
-      break;
-
-    default:
-      res.status(400).json({ err: "endpoint doesn't exist on '/api/db'" });
   }
 });
 
@@ -105,32 +71,32 @@ app.post("/", async (req: Request, res: Response) => {
 
   switch (req.body.endpoint) {
     case "post-tool":
-        postTool(req, res);
-        break;
+      postTool(req, res);
+      break;
 
     case "get-tools-by-reserver-id":
-        getToolsByReserverID(req, res);
-        break;
+      getToolsByReserverID(req, res);
+      break;
 
     case "delete-tool-by-reserver-id":
-        deleteToolByReserverID(req, res);
-        break;
+      deleteToolByReserverID(req, res);
+      break;
 
     case "get-inventory-by-barcode-id":
-        getInventoryByBarcodeID(req, res);
-        break;
+      getInventoryByBarcodeID(req, res);
+      break;
 
     case "add-inventory":
-        addInventory(req, res);
-        break;
+      addInventory(req, res);
+      break;
 
     case "post-inventory-decrease-count-by-name":
-        postInventoryDecreaseCountByName(req, res);
-        break;
+      postInventoryDecreaseCountByName(req, res);
+      break;
 
     case "post-inventory-increase-count-by-name":
-        postInventoryIncreaseCountByName(req, res);
-        break;
+      postInventoryIncreaseCountByName(req, res);
+      break;
     case "parts-get":
       parts_get(req, res);
       break;
@@ -191,13 +157,13 @@ app.post("/", async (req: Request, res: Response) => {
 });
 
 // New GET routes for the methods
-app.get('/inventory/:barcodeId', getInventoryByBarcodeID);
-app.get('/inventory', getAllInventory);
-app.get('/tools/:reserverID', getToolsByReserverID);
-app.get('/tools', getAllTools);
+app.get("/inventory/:barcodeId", getInventoryByBarcodeID);
+app.get("/inventory", getAllInventory);
+app.get("/tools/:reserverID", getToolsByReserverID);
+app.get("/tools", getAllTools);
 
 // New DELETE route for deleting tool by reserver ID
-app.delete('/tools/:reserverID/:name', deleteToolByReserverID);
+app.delete("/tools/:reserverID/:name", deleteToolByReserverID);
 
 app.get(`/${WEBHOOK_SECRET}`, parts_webhook);
 
