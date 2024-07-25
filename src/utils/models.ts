@@ -98,18 +98,18 @@ export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)
 
 export interface Inventory {
 	name: string
-	count: number
-   	barcodeId: string
+	barcodeId: string
 	category: string
+	count: number
 }
 
 interface InventoryDoc extends Document, Inventory {}
 
 const InventorySchema: Schema = new Schema({
 	name: { type: String, required: true },
-	count: { type: Number, required: true },
 	barcodeId: { type: String, required: true },
-	category: { type: String, required: true }
+	category: { type: String, required: true },
+	count: { type: Number, required: true }
 })
 
 export const inventory = mongoose.model<InventoryDoc>('inventory', InventorySchema)
