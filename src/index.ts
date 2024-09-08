@@ -39,6 +39,7 @@ import {
   push_settingsCol,
   update_settingsCol
 } from "./utils/mongo";
+import postInventoryCheckTool from "./inventory/postInventoryCheckTool";
 
 const app = express();
 
@@ -107,6 +108,10 @@ app.post("/", async (req: Request, res: Response) => {
     case "post-tool":
         postTool(req, res);
         break;
+
+    case "post-inventory-check-tool":
+      postInventoryCheckTool(req, res);
+      break;
 
     case "get-tools-by-reserver-id":
         getToolsByReserverID(req, res);
