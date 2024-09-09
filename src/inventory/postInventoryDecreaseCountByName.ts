@@ -8,7 +8,7 @@ export default async function postInventoryDecreaseCountByName(req: Request, res
         return
     }
 
-    const inventoryRes = await inventory.findOne({ name: req.body.name }).exec()
+    const inventoryRes = await inventory.findOne({ name: req.body.name });
     
     if (inventoryRes) {
         if (inventoryRes.count > 0) {

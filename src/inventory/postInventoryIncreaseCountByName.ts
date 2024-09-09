@@ -11,7 +11,7 @@ export default async function postInventoryIncreaseCountByName(req: Request, res
     }
 
     try {
-        const inventoryRes = await inventory.findOne({ name }).exec()
+        const inventoryRes = await inventory.findOne({ name })
 
         if (inventoryRes) {
             inventoryRes.count += 1

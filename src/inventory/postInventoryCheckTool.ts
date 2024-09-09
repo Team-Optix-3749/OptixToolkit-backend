@@ -13,7 +13,7 @@ export default async function postInventoryCheckTool(req: Request, res: Response
         }
 
         // Query the inventory for a matching barcodeId
-        const existingItem = await inventory.findOne({ where: { barcodeId } });
+        const existingItem = await inventory.findOne({ barcodeId: req.body.barcodeId });
 
         // If the item doesn't exist, return a 404
         if (!existingItem) {
