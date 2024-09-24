@@ -90,6 +90,14 @@ export async function appendDisplayName(uid: string, object: any) {
   }
 }
 
+export async function getUserByUid(req: Request, res: Response) {
+  const uid = req.body.payload.uid;
+
+  const user = await admin.auth().getUser(uid);
+
+  res.json(user);
+}
+
 export async function getDisplayName(uid: string) {
   if (uid === undefined) return "None";
   try {
