@@ -24,13 +24,21 @@ import get_meetings from "./hours/get_meetings";
 import get_lastcheckin from "./hours/get_lastcheckin";
 import getInventoryByBarcodeID from "./inventory/getInventoryByBarcodeID";
 import addInventory from "./inventory/addInventory";
-import postInventoryDecreaseCountByName from "./inventory/postInventoryDecreaseCountByName";
-import postInventoryIncreaseCountByName from "./inventory/postInventoryIncreaseCountByName";
+import postInventoryDecreaseCountByName from './inventory/postInventoryDecreaseCountByName'
+import postInventoryIncreaseCountByName from './inventory/postInventoryIncreaseCountByName'
 import getAllInventory from "./inventory/getAllInventory";
-import getAllTools from "./tools/getAllToolsPrivateMethod";
+import getAllTools from './tools/getAllToolsPrivateMethod';
 
 import { PORT, WEBHOOK_SECRET } from "./utils/config";
-import { authenticateUser, getUserByUid } from "./utils/firebase";
+import { authenticateUser } from "./utils/firebase";
+import {
+  delete_settingsCol,
+  get_settingsCol,
+  get_usersCol,
+  push_settingsCol,
+  update_settingsCol
+} from "./utils/mongo";
+import postInventoryCheckTool from "./inventory/postInventoryCheckTool";
 
 const app = express();
 
@@ -42,8 +50,8 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.send("Welcome to the Optix Toolkit API!");
+app.get('/', (req, res) => {
+  res.send('Welcome to the Optix Toolkit API!');
 });
 // app.use(express.static(__dirname + "/frontend/admin_panel/dist"));
 
@@ -71,32 +79,37 @@ app.post("/", async (req: Request, res: Response) => {
 
   switch (req.body.endpoint) {
     case "post-tool":
-      postTool(req, res);
+        postTool(req, res);
+        break;
+
+    case "post-inventory-check-tool":
+      postInventoryCheckTool(req, res);
       break;
 
     case "get-tools-by-reserver-id":
-      getToolsByReserverID(req, res);
-      break;
+        getToolsByReserverID(req, res);
+        break;
 
     case "delete-tool-by-reserver-id":
-      deleteToolByReserverID(req, res);
-      break;
+        deleteToolByReserverID(req, res);
+        break;
 
     case "get-inventory-by-barcode-id":
-      getInventoryByBarcodeID(req, res);
-      break;
+        getInventoryByBarcodeID(req, res);
+        break;
 
     case "add-inventory":
-      addInventory(req, res);
-      break;
+        addInventory(req, res);
+        break;
 
     case "post-inventory-decrease-count-by-name":
-      postInventoryDecreaseCountByName(req, res);
-      break;
+        postInventoryDecreaseCountByName(req, res);
+        break;
 
     case "post-inventory-increase-count-by-name":
-      postInventoryIncreaseCountByName(req, res);
-      break;
+        postInventoryIncreaseCountByName(req, res);
+        break;
+      
     case "parts-get":
       parts_get(req, res);
       break;

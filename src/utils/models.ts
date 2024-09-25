@@ -35,7 +35,7 @@ const UserSchema: Schema = new Schema({
   meetingCount: { type: Number, required: true }
 });
 
-export const users = mongoose.model<UserDoc>("users", UserSchema);
+export const users = mongoose.model<UserDoc>('users', UserSchema)
 
 /* Parts */
 
@@ -91,23 +91,41 @@ const ToolSchema: Schema = new Schema({
 
 export const tools = mongoose.model<ToolDoc>("tools", ToolSchema);
 
+/* Tools */
+
+export interface Tool {
+	name: string
+	category: string
+	reserverID: string
+}
+
+interface ToolDoc extends Document, Tool {}
+
+const ToolSchema: Schema = new Schema({
+	name: { type: String, required: true },
+	category: { type: String, required: true },
+	reserverID: {type: String, required: true}
+})
+
+export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)
+
 /* Inventory */
 
 export interface Inventory {
-  name: string;
-  count: number;
-  barcodeId: string;
-  category: string;
+	name: string
+	barcodeId: string
+	category: string
+	count: number
 }
 
 interface InventoryDoc extends Document, Inventory {}
 
 const InventorySchema: Schema = new Schema({
-  name: { type: String, required: true },
-  count: { type: Number, required: true },
-  barcodeId: { type: String, required: true },
-  category: { type: String, required: true }
-});
+	name: { type: String, required: true },
+	barcodeId: { type: String, required: true },
+	category: { type: String, required: true },
+	count: { type: Number, required: true }
+})
 
 export const inventory = mongoose.model<InventoryDoc>(
   "inventory",
