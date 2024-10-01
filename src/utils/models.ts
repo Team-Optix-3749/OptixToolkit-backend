@@ -91,24 +91,6 @@ const ToolSchema: Schema = new Schema({
 
 export const tools = mongoose.model<ToolDoc>("tools", ToolSchema);
 
-/* Tools */
-
-export interface Tool {
-	name: string
-	category: string
-	reserverID: string
-}
-
-interface ToolDoc extends Document, Tool {}
-
-const ToolSchema: Schema = new Schema({
-	name: { type: String, required: true },
-	category: { type: String, required: true },
-	reserverID: {type: String, required: true}
-})
-
-export const tools = mongoose.model<ToolDoc>('tools', ToolSchema)
-
 /* Inventory */
 
 export interface Inventory {
