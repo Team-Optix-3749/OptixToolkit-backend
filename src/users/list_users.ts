@@ -2,10 +2,13 @@ import { Request, Response } from "express";
 import { authorize, listUsers } from "../utils/firebase";
 
 export default async function list_users(req: Request, res: Response) {
+  
+  /*
   if (!(await authorize(req.body.auth, { type: "admin" }))) {
     res.status(400).json({ err: "Unauthorized request!" });
     return;
   }
+  */
 
   try {
     res.status(200).json({

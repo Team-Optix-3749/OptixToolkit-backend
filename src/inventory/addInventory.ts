@@ -18,7 +18,7 @@ export default async function addInventory(req: Request, res: Response) {
 			name: req.body.name,
 			count: req.body.count,
             barcodeId: req.body.barcodeId,
-            description: req.body.category,
+            category: req.body.category,
 		})
 		res.status(200).json({ err: false })
 	} catch (e) {
