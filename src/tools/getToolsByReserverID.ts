@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { authorize } from '../utils/firebase'
 import { tools } from '../utils/models'
 
 export default async function getToolsByReserverID(req: Request, res: Response) {

@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { authorize } from '../utils/firebase'
 import { inventory } from '../utils/models'
 
 export default async function getInventoryByBarcodeID(req: Request, res: Response) {

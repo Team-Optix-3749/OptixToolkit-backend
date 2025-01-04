@@ -96,10 +96,6 @@ app.post("/", async (req: Request, res: Response) => {
         deleteToolByReserverID(req, res);
         break;
 
-    case "get-inventory-by-barcode-id":
-        getInventoryByBarcodeID(req, res);
-        break;
-
     case "add-inventory":
         addInventory(req, res);
         break;
@@ -162,9 +158,6 @@ app.post("/", async (req: Request, res: Response) => {
       break;
     case "add-hours":
       add_hours(req, res);
-      break;
-    case "getInventoryByBarcodeID":
-      getInventoryByBarcodeID(req, res);
       break;
     default:
       res.status(400).json({ err: "endpoint doesn't exist on '/'" });
